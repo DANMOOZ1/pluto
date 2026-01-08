@@ -1,0 +1,1 @@
+public enum RaceTag { Atlantis, Zerg, Steampunk, Plutonian, AI }
