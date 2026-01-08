@@ -15,41 +15,21 @@ public class TileMapManager : MonoBehaviour
     //셀 위치에 타일 정보를 저장할 행렬
 
     void Start(){
-        //유닛의 시작 위치 초기화
-        selectedUnit.GetComponent<UnitManager>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<UnitManager>().tileY = (int)selectedUnit.transform.position.y;
+        //유닛의 시작 위치 초기화(디버깅 용)
+        Vector3Int currPos = tilemap.WorldToCell(selectedUnit.transform.position);
+        selectedUnit.GetComponent<UnitManager>().tileX = currPos[0];
+        selectedUnit.GetComponent<UnitManager>().tileY = currPos[1];
         selectedUnit.GetComponent<UnitManager>().map = this;
 
         GenerateTileData();
-    }
-    public int GetAxisRange(List<Vector3Int> keys, string axis)
-    {
-        int max = int.MinValue;
-        int min = int.MaxValue;
-
-        foreach (Vector3Int key in keys)
-        {
-            int value = axis.ToLower() switch
-            {
-                "x" => key.x,
-                "y" => key.y,
-                "z" => key.z,
-                _ => key.x
-            };
-
-            if (value > max) max = value;
-            if (value < min) min = value;
-        }
-
-        return max - min;
     }
 
     public Vector3  CellCoordToWorldCoord(int x, int y){
         return new Vector3(x - y , x/2f + y/2f + 0.5f,-1);
     }
 
-    public Dictionary<Vector3Int, TileType> dataOnTiles = new Dictionary<Vector3Int, TileType>();// key : cell pos , value : TileType
-    public Dictionary<Vector3Int, Node> cellPosGraph = new Dictionary<Vector3Int, Node>();// key : cell pos , value : Node
+    public Dictionary<Vector2Int, TileType> dataOnTiles = new Dictionary<Vector2Int, TileType>();// key : cell pos , value : TileType
+    public Dictionary<Vector2Int, Node> cellPosGraph = new Dictionary<Vector2Int, Node>();// key : cell pos , value : Node
 
     void GenerateTileData(){
         // 타일 맵 생성(2차원 배열)
@@ -64,34 +44,36 @@ public class TileMapManager : MonoBehaviour
             var tile = tilemap.GetTile<TileBase>(pos);
 
             // 정보 초기화, 타일 이름이 종류를 분간함, 인스펙터에서 설정한 데이터는 tileTypes에서 이름 넣어서 불러오면 됨
-            dataOnTiles[pos] = new TileType();
-            dataOnTiles[pos].name = tile.name;
-            dataOnTiles[pos].tileX = pos[0];
-            dataOnTiles[pos].tileY = pos[1];
-            dataOnTiles[pos].movementCost = tileTypes[tile.name].movementCost;
+            Vector2Int pos2 = new Vector2Int(pos[0],pos[1]);
+            dataOnTiles[pos2] = new TileType();
+            dataOnTiles[pos2].name = tile.name;
+            dataOnTiles[pos2].tileX = pos2[0];
+            dataOnTiles[pos2].tileY = pos2[1];
+            dataOnTiles[pos2].movementCost = tileTypes[tile.name].movementCost;
+            // print(pos2);
         }
 
         //cellPosGraph 작성 및 neighbours 추가
         // 1. 모든 노드 생성
-        foreach(Vector3Int v in dataOnTiles.Keys)
+        foreach(Vector2Int v in dataOnTiles.Keys)
         {
             cellPosGraph[v] = new Node { x = v[0], y = v[1] }; // 객체 초기화 구문
         }
         
         // 2. 이웃 노드 연결 (4방향)
-        Vector3Int[] directions = new Vector3Int[]
+        Vector2Int[] directions = new Vector2Int[]
         {
-            new Vector3Int(-1, 0, 0),  // 왼쪽
-            new Vector3Int(1, 0, 0),   // 오른쪽
-            new Vector3Int(0, -1, 0),  // 아래
-            new Vector3Int(0, 1, 0)    // 위
+            new Vector2Int(-1, 0),  // 왼쪽
+            new Vector2Int(1, 0),   // 오른쪽
+            new Vector2Int(0, -1),  // 아래
+            new Vector2Int(0, 1)    // 위
         };
         
-        foreach(Vector3Int v in dataOnTiles.Keys)
+        foreach(Vector2Int v in dataOnTiles.Keys)
         {            
-            foreach(Vector3Int dir in directions)
+            foreach(Vector2Int dir in directions)
             {
-                Vector3Int newV = v + dir;
+                Vector2Int newV = v + dir;
                 
                 // 범위 체크 및 노드 존재 확인
                 if (cellPosGraph.ContainsKey(newV))
@@ -99,26 +81,12 @@ public class TileMapManager : MonoBehaviour
                     cellPosGraph[v].neighbours.Add(cellPosGraph[newV]);
                 }
             }
-        }
-        
-        // foreach(Node t in graph){
-        //     if (t != null){
-        //         int i = 0;
-        //         print(t.x+","+t.y);
-        //         foreach(Node j in t.neighbours){
-        //             i++;
-        //         }
-        //         print(i);
-        //     }
-            
-        // }
-        
-        
+        }  
     }
 
     //입력 : cell 좌표계 기반으로 해당 타일의 이동 코스트를 출력
     private float CostToEnterTile(int x, int y){
-        Vector3Int pos = new Vector3Int(x, y ,0);       
+        Vector2Int pos = new Vector2Int(x, y);       
         return dataOnTiles[pos].movementCost; 
     }
 
@@ -129,7 +97,7 @@ public class TileMapManager : MonoBehaviour
 
         int x = tileX;
         int y = tileY;
-        Vector3Int pos = new Vector3Int(x,y,0);
+        Vector2Int pos = new Vector2Int(x,y);
         // print(pos);
 
         //선택된 유닛의 기존 경로 초기화
@@ -141,7 +109,7 @@ public class TileMapManager : MonoBehaviour
         // 아직 방문하지 않은 노드의 리스트
         List<Node> unvisited = new List<Node>();
         //시작점, 도착점(selected unit을 이용)
-        Node source = cellPosGraph[new Vector3Int(selectedUnit.GetComponent<UnitManager>().tileX, selectedUnit.GetComponent<UnitManager>().tileY, 0)];
+        Node source = cellPosGraph[new Vector2Int(selectedUnit.GetComponent<UnitManager>().tileX, selectedUnit.GetComponent<UnitManager>().tileY)];
         Node target = cellPosGraph[pos];
         //시작점에서의 초기값 설정, dist는 시작점에서 목표점 까지의 거리, prev는 현재 까지 진행된 경로의 체인
         dist[source] = 0;

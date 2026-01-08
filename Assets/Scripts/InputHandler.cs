@@ -17,7 +17,7 @@ public class InputHandler : MonoBehaviour
         
         var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int mousePosTranslated = tilemap.WorldToCell(mousePos);
-        map.GeneratePathTo(mousePosTranslated[0],mousePosTranslated[1]);
+        map.GeneratePathTo(mousePosTranslated[0]-5,mousePosTranslated[1]-5); // 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
         // var rayHit = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
         // if (!rayHit.collider) return;
 
