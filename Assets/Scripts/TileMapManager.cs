@@ -14,9 +14,6 @@ public class TileMapManager : MonoBehaviour
     public GameObject selectedUnit;
     //셀 위치에 타일 정보를 저장할 행렬
 
-    int width;
-    int height;
-
     void Start(){
         //유닛의 시작 위치 초기화
         selectedUnit.GetComponent<UnitManager>().tileX = (int)selectedUnit.transform.position.x;
@@ -48,7 +45,7 @@ public class TileMapManager : MonoBehaviour
     }
 
     public Vector3  CellCoordToWorldCoord(int x, int y){
-        return new Vector3(x + 0.5f, y + 0.5f,-1);
+        return new Vector3(x - y , x/2f + y/2f + 0.5f,-1);
     }
 
     public Dictionary<Vector3Int, TileType> dataOnTiles = new Dictionary<Vector3Int, TileType>();// key : cell pos , value : TileType
@@ -58,6 +55,7 @@ public class TileMapManager : MonoBehaviour
         // 타일 맵 생성(2차원 배열)
         // 타일맵 내의 셀 좌표들에 대해서 타일이 있다면 딕셔너리에 초기 정보를 추가한다. pos는 셀 좌표
         //출처: https://upbo.tistory.com/111 [메모장:티스토리]
+
         foreach(Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
         {
             // 해당 좌표에 타일이 없으면 넘어간다.
@@ -72,10 +70,6 @@ public class TileMapManager : MonoBehaviour
             dataOnTiles[pos].tileY = pos[1];
             dataOnTiles[pos].movementCost = tileTypes[tile.name].movementCost;
         }
-        
-        //셀 좌표를 이용해서 graph에 쓸 width와 height 구하기 
-        width = GetAxisRange(dataOnTiles.Keys.ToList(), "x");
-        height = GetAxisRange(dataOnTiles.Keys.ToList(), "y");
 
         //cellPosGraph 작성 및 neighbours 추가
         // 1. 모든 노드 생성
@@ -136,10 +130,8 @@ public class TileMapManager : MonoBehaviour
         int x = tileX;
         int y = tileY;
         Vector3Int pos = new Vector3Int(x,y,0);
+        // print(pos);
 
-        //타겟이 타일 맵 밖일때
-        if (x < 0 || x >= width) return;
-        if (y < 0 || y >= height) return;
         //선택된 유닛의 기존 경로 초기화
         selectedUnit.GetComponent<UnitManager>().currentPath = null;
         
@@ -206,10 +198,10 @@ public class TileMapManager : MonoBehaviour
         }
         
         currentPath.Reverse();
-        Debug.Log(dist[target]);
+        // Debug.Log(dist[target]);
 
         selectedUnit.GetComponent<UnitManager>().currentPath = currentPath;
-
+        selectedUnit.GetComponent<UnitManager>().StartMoving();
     }
 
 }
