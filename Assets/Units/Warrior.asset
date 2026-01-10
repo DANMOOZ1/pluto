@@ -16,4 +16,11 @@ MonoBehaviour:
   race: Human
   hp: 5
   atk: 2
-  sprite: {fileID: 0}
+  def: 0
+  wil: 0
+  mnt: 0
+  spd: 0
+  foc: 0
+  rng: 0
+  hta: 0
+  sprite: {fileID: 4860706158013367198, guid: 05d99dfe7736db149b3ab798eb160d42, type: 3}

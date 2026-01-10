@@ -23,13 +23,23 @@ public class GameManager : MonoBehaviour
         GameObject unitObject = new GameObject(unitData.unitName);
         
         Unit unit = unitObject.AddComponent<Unit>();
-        
-        unit.atk =  unitData.atk;
+        SpriteRenderer renderer = unitObject.AddComponent<SpriteRenderer>();
+
         unit.hp = unitData.hp;
+        unit.atk = unitData.atk;
+        unit.def = unitData.def;
+        unit.wil =  unitData.wil;
+        unit.mnt = unitData.mnt;
+        unit.spd = unitData.spd;
+        unit.foc = unitData.foc;
+        unit.rng = unitData.rng;
+        unit.hta = unitData.hta;
         unit.race = unitData.race;
         unit.unitName = unitData.unitName;
         unit.sprite = unitData.sprite;
         
         AccessibleUnits.Add(unitObject);
+
+        renderer.sprite = unit.sprite;
     }
 }
