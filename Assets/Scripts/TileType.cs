@@ -3,8 +3,9 @@ using UnityEngine;
 [System.Serializable]
 public class TileType
 {
-    public int tileX,tileY;
+    public Vector3Int cellPosition;
 
     public string name; 
     public float movementCost = 1;
+    public bool escalator =  false;
 }

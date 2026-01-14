@@ -4,158 +4,141 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 
-public class TileMapManager : MonoBehaviour
+//isometric 맵 제작하는 법!
+// 1. grid에 Layer (number) 로 isometric tilemap을 생성한다.
+// 2. tilemap의 transform.y 를 (number)로 설정한다.
+// 3. order in layer을 (number)로 설정한다.
+// 4. TileMapManager의 tilemap 리스트에 만든 tilemap 게임오브젝트를 추가한다.(순서 중요!!!)
+
+public class TileMapManager : Singleton<TileMapManager>
 {
     //타일맵을 불러옴
-    public Tilemap tilemap; 
+    public Tilemap[] tilemaps; 
     //인스펙터에서 타일 종류를 다루기 위한 직렬화된 딕셔너리
     public SerializedDictionary<string, TileType> tileTypes;
     //현재 선택된 유닛(추후 개발)
-    public GameObject selectedUnit;
-    //셀 위치에 타일 정보를 저장할 행렬
-
-    int width;
-    int height;
-
+    
     void Start(){
-        //유닛의 시작 위치 초기화
-        selectedUnit.GetComponent<UnitManager>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<UnitManager>().tileY = (int)selectedUnit.transform.position.y;
-        selectedUnit.GetComponent<UnitManager>().map = this;
 
         GenerateTileData();
     }
-    public int GetAxisRange(List<Vector3Int> keys, string axis)
-    {
-        int max = int.MinValue;
-        int min = int.MaxValue;
 
-        foreach (Vector3Int key in keys)
-        {
-            int value = axis.ToLower() switch
-            {
-                "x" => key.x,
-                "y" => key.y,
-                "z" => key.z,
-                _ => key.x
-            };
-
-            if (value > max) max = value;
-            if (value < min) min = value;
-        }
-
-        return max - min;
+    public Vector3  CellCoordToWorldCoord(Vector3Int cellPos){
+        int x = cellPos.x;
+        int y = cellPos.y;
+        int z = cellPos.z;
+        return new Vector3(x - y , x/2f + y/2f + 0.5f + z,0);
     }
 
-    public Vector3  CellCoordToWorldCoord(int x, int y){
-        return new Vector3(x + 0.5f, y + 0.5f,-1);
-    }
-
-    public Dictionary<Vector3Int, TileType> dataOnTiles = new Dictionary<Vector3Int, TileType>();// key : cell pos , value : TileType
-    public Dictionary<Vector3Int, Node> cellPosGraph = new Dictionary<Vector3Int, Node>();// key : cell pos , value : Node
+    public Dictionary<Vector3Int, TileType> dataOnTiles; // key : cell pos , value : TileType
+    public Dictionary<Vector3Int, Node> cellPosGraph;// key : cell pos , value : Node
 
     void GenerateTileData(){
-        // 타일 맵 생성(2차원 배열)
-        // 타일맵 내의 셀 좌표들에 대해서 타일이 있다면 딕셔너리에 초기 정보를 추가한다. pos는 셀 좌표
-        //출처: https://upbo.tistory.com/111 [메모장:티스토리]
-        foreach(Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        // 0단계 데이터 초기화
+        dataOnTiles = new Dictionary<Vector3Int, TileType>();
+        cellPosGraph = new Dictionary<Vector3Int, Node>();
+        // 1단계: 모든 타일맵에서 타일 데이터 수집
+        int z = 0;
+        foreach (Tilemap tilemap in tilemaps)
         {
-            // 해당 좌표에 타일이 없으면 넘어간다.
-            if(!tilemap.HasTile(pos)) continue;
-            // 해당 좌표의 타일을 얻는다.
-            var tile = tilemap.GetTile<TileBase>(pos);
-
-            // 정보 초기화, 타일 이름이 종류를 분간함, 인스펙터에서 설정한 데이터는 tileTypes에서 이름 넣어서 불러오면 됨
-            dataOnTiles[pos] = new TileType();
-            dataOnTiles[pos].name = tile.name;
-            dataOnTiles[pos].tileX = pos[0];
-            dataOnTiles[pos].tileY = pos[1];
-            dataOnTiles[pos].movementCost = tileTypes[tile.name].movementCost;
+            foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+            {
+                if (!tilemap.HasTile(pos)) continue;
+                var tile = tilemap.GetTile<TileBase>(pos);
+                Vector3Int realPos = pos;
+                realPos.z = z;
+                // 중복 체크 추가 (필요시)
+                if (!dataOnTiles.ContainsKey(realPos))
+                {
+                    dataOnTiles[realPos] = new TileType();
+                    dataOnTiles[realPos].name = tile.name;
+                    dataOnTiles[realPos].cellPosition = realPos;
+                    dataOnTiles[realPos].movementCost = tileTypes[tile.name].movementCost;
+                    dataOnTiles[realPos].escalator = tileTypes[tile.name].escalator;
+                }
+            }
+                
+            z++;
         }
-        
-        //셀 좌표를 이용해서 graph에 쓸 width와 height 구하기 
-        width = GetAxisRange(dataOnTiles.Keys.ToList(), "x");
-        height = GetAxisRange(dataOnTiles.Keys.ToList(), "y");
 
-        //cellPosGraph 작성 및 neighbours 추가
-        // 1. 모든 노드 생성
-        foreach(Vector3Int v in dataOnTiles.Keys)
+        // 2단계: 그래프 생성 (타일맵 반복문 밖으로 이동)
+        foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            cellPosGraph[v] = new Node { x = v[0], y = v[1] }; // 객체 초기화 구문
+            cellPosGraph[v] = new Node { x = v[0], y = v[1], z = v[2] };
         }
-        
-        // 2. 이웃 노드 연결 (4방향)
+
+        // 3단계: 이웃 노드 연결
         Vector3Int[] directions = new Vector3Int[]
         {
-            new Vector3Int(-1, 0, 0),  // 왼쪽
-            new Vector3Int(1, 0, 0),   // 오른쪽
-            new Vector3Int(0, -1, 0),  // 아래
-            new Vector3Int(0, 1, 0)    // 위
+            new Vector3Int(-1, 0, 0),
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(0, -1, 0),
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(0, 0, 1),
+            new Vector3Int(0, 0, -1)
+            
         };
-        
-        foreach(Vector3Int v in dataOnTiles.Keys)
-        {            
-            foreach(Vector3Int dir in directions)
+
+        foreach (Vector3Int v in dataOnTiles.Keys)
+        {
+            foreach (Vector3Int dir in directions)
             {
                 Vector3Int newV = v + dir;
-                
-                // 범위 체크 및 노드 존재 확인
                 if (cellPosGraph.ContainsKey(newV))
                 {
+                    if (dir.z == 1)//올라갈때 도착 타일이 에스컬레이터 면
+                    {
+                        if (dataOnTiles[newV].escalator == false) continue;
+                    }else if (dir.z == -1)//내려갈때 출발 타일이 에스컬레이터 면
+                    {
+                        if (dataOnTiles[v].escalator == false) continue;
+                    }
                     cellPosGraph[v].neighbours.Add(cellPosGraph[newV]);
                 }
             }
         }
-        
-        // foreach(Node t in graph){
-        //     if (t != null){
-        //         int i = 0;
-        //         print(t.x+","+t.y);
-        //         foreach(Node j in t.neighbours){
-        //             i++;
-        //         }
-        //         print(i);
-        //     }
-            
-        // }
-        
-        
-    }
+
+        // 모든 타일 보는 코드(디버깅 용)
+        /*foreach (Vector3Int v in cellPosGraph.Keys)
+        {
+            print("main node:"+v);
+            foreach (Node n in cellPosGraph[v].neighbours)
+            {
+                print(n.x+" "+n.y+" "+n.z);
+            }
+        }*/
+    } 
 
     //입력 : cell 좌표계 기반으로 해당 타일의 이동 코스트를 출력
-    private float CostToEnterTile(int x, int y){
-        Vector3Int pos = new Vector3Int(x, y ,0);       
-        return dataOnTiles[pos].movementCost; 
+    private float CostToEnterTile(Vector3Int cellPos){
+        return dataOnTiles[cellPos].movementCost; 
     }
 
     // cell 좌표를 입력 받아 해당 목적지까지의 경로를 작성함(unit 클래스 자체의 currentPath 에 접근하여 작성)
-    public void GeneratePathTo(int tileX, int tileY){
-        // selectedUnit.transform.position = TileCoordToWorldCoord(x,y);
-        //길찾기는 다익스트라 알고리즘을 활용하여 이루어짐
-
-        int x = tileX;
-        int y = tileY;
-        Vector3Int pos = new Vector3Int(x,y,0);
-
-        //타겟이 타일 맵 밖일때
-        if (x < 0 || x >= width) return;
-        if (y < 0 || y >= height) return;
-        //선택된 유닛의 기존 경로 초기화
-        selectedUnit.GetComponent<UnitManager>().currentPath = null;
+    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos){
+        // selected unit Null 체크
         
+        if (!cellPosGraph.ContainsKey(targetPos)) {
+            Debug.LogWarning($"목표 위치 {targetPos}에 타일이 없습니다.");
+            return null;
+        }
         
         Dictionary<Node,float> dist = new Dictionary<Node, float>();
         Dictionary<Node,Node> prev = new Dictionary<Node, Node>();
-        // 아직 방문하지 않은 노드의 리스트
         List<Node> unvisited = new List<Node>();
-        //시작점, 도착점(selected unit을 이용)
-        Node source = cellPosGraph[new Vector3Int(selectedUnit.GetComponent<UnitManager>().tileX, selectedUnit.GetComponent<UnitManager>().tileY, 0)];
-        Node target = cellPosGraph[pos];
-        //시작점에서의 초기값 설정, dist는 시작점에서 목표점 까지의 거리, prev는 현재 까지 진행된 경로의 체인
+        
+        // target tile Null 체크
+        if (!cellPosGraph.ContainsKey(currPos)) {
+            Debug.LogWarning($"유닛 위치 {currPos}에 타일이 없습니다.");
+            return null;
+        }
+        
+        Node source = cellPosGraph[currPos];
+        Node target = cellPosGraph[targetPos];
+        
         dist[source] = 0;
         prev[source] = null;
         
-        // 모든 타일 사이의 거리를 무한대로 초기화
         foreach(Node v in cellPosGraph.Values){
             if(v != null){
                 if (v != source){
@@ -164,52 +147,53 @@ public class TileMapManager : MonoBehaviour
                 }
                 unvisited.Add(v);
             }
-            
         }
         
         while(unvisited.Count > 0){
-            // 느리지만 코드가 간단해용, 시간남으면 우선순위 큐로 최적화 하삼
-            // u : 방문하지 않은 노드중 가장 짧은 거리에 있는 노드
             Node u = null;
             foreach(Node possibleU in unvisited){
                 if(u == null || dist[possibleU] < dist[u]){
                     u = possibleU;
                 }
             }
+            
+            if (dist[u] == Mathf.Infinity){
+                Debug.LogWarning("목표 지점까지 경로가 없습니다.");
+                break;
+            }
 
             if (u == target){
-                break; // while 루프 탈출(타켓의 최소 경로 탐색 완료)
+                break;
             }
+            
             unvisited.Remove(u);
 
             foreach(Node v in u.neighbours){
-                // float alt = dist[u] + u.DistanceTo(v);
-                float alt = dist[u] + CostToEnterTile(v.x,v.y);
+                float alt = dist[u] + CostToEnterTile(new Vector3Int(v.x,v.y,v.z));
                 if(alt < dist[v]){
                     dist[v] = alt;
                     prev[v] = u;
                 }
             }
         }
-        // 경로가 존재 X
+        
+        // 경로가 존재하지 않음
         if(prev[target] == null){
-            return;
+            Debug.LogWarning("목표까지의 경로를 찾을 수 없습니다.");
+            return null;
         }
 
         List<Node> currentPath = new List<Node>();
-
         Node curr = target;
-        //prev 의 시퀀스 체인을 따라가며 추가함
-        while(prev[curr] != null){
+        
+        while(curr != null && prev[curr] != null){
             currentPath.Add(curr);
             curr = prev[curr];
         }
         
         currentPath.Reverse();
-        Debug.Log(dist[target]);
 
-        selectedUnit.GetComponent<UnitManager>().currentPath = currentPath;
-
-    }
+        return currentPath;
+    }    
 
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a93ae9b28635748b2bc24b59cccf35, type: 3}
+  m_Name: Archer
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSO
+  unitName: Archer
+  race: Human
+  hp: 3
+  atk: 4
+  def: 0
+  wil: 0
+  mnt: 0
+  spd: 0
+  foc: 0
+  rng: 0
+  hta: 0
+  sprite: {fileID: 3142249079176190191, guid: 044ee0b5cdf92b244bea4f5b32dded4c, type: 3}
