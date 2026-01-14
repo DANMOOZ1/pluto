@@ -6,23 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Node.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Node.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMapManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMapManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileType.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitSO.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitSO.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/character_purple_idle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/character_purple_idle.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/New Palette 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/New Palette 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +102,7 @@
       <option name="presentableId" value="Default" />
       <updated>1768381114180</updated>
       <workItem from="1768381115488" duration="3000" />
-      <workItem from="1768388079812" duration="2188000" />
+      <workItem from="1768388079812" duration="8760000" />
     </task>
     <servers />
   </component>

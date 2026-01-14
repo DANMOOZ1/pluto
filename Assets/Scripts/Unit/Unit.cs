@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
     public int rng;
     public int hta;
     public Sprite sprite;
-
+    public int mov;
     private void OnMouseDown()
     {
         UIManager.Instance.unit = this;

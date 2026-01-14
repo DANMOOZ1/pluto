@@ -6,11 +6,11 @@ public class GameManager : Singleton<GameManager>
     public GameState gameState;
     public BattleState  battleState;
 
-    public static event Action onGameStateChange;
-
+    public event Action OnGameStateChange;
+    public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Menu);
+        UpdateGameState(GameState.Battle);
     }
 
     public void UpdateGameState(GameState newGameState)
@@ -20,9 +20,9 @@ public class GameManager : Singleton<GameManager>
         switch (gameState)
         {
             case GameState.Menu:
-                HandleMenu();
                 break;
             case GameState.Battle:
+                HandleBattle();
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -32,12 +32,33 @@ public class GameManager : Singleton<GameManager>
                 throw new ArgumentOutOfRangeException();
         }
         
-        onGameStateChange?.Invoke();
+        OnGameStateChange?.Invoke();
     }
 
-    private void HandleMenu()
+    private void HandleBattle()
     {
-        return;
+        UpdateBattleState(BattleState.Move);
+    }
+
+    public void UpdateBattleState(BattleState newBattleState)
+    {
+        battleState = newBattleState;
+
+        switch (battleState)
+        {
+            case BattleState.Move:
+                break;
+            case BattleState.Combat:
+                break;
+            case BattleState.Next:
+                break;
+            case BattleState.EnemyTurn:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        OnBattleStateChange?.Invoke();
     }
 }
 

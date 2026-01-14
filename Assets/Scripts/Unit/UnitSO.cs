@@ -15,5 +15,6 @@ public class UnitSO : ScriptableObject
     public int rng;
     public int hta;
     public Sprite sprite;
+    public int mov;
 }
 

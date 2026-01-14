@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitManager : Singleton<UnitManager>
 {
-    
+    //등록된 유닛 프리팹
     public List<UnitSO> units = new List<UnitSO>();
     
     public GameObject selectedUnit;
@@ -20,8 +22,23 @@ public class UnitManager : Singleton<UnitManager>
         }
         
         selectedUnit = accessibleUnits[selectedUnitIndex];
+
+        GameManager.Instance.OnBattleStateChange += UnitMove;
     }
-    
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnBattleStateChange -= UnitMove;
+    }
+
+    private void UnitMove()
+    {
+        Vector3Int _pos = selectedUnit.GetComponent<UnitController>().cellPosition;
+        int _mov = selectedUnit.GetComponent<Unit>().mov;
+        
+        //TileMapManager.Instance.ReachableTile(_pos, _mov);
+    }
+
     public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
     {
         GameObject unitObject = new GameObject(unitData.unitName);
@@ -44,6 +61,7 @@ public class UnitManager : Singleton<UnitManager>
         unit.race = unitData.race;
         unit.unitName = unitData.unitName;
         unit.sprite = unitData.sprite;
+        unit.mov = unitData.mov;
          
         unitController.cellPosition = unitCellPos;
         
@@ -56,7 +74,6 @@ public class UnitManager : Singleton<UnitManager>
 
     public void UnitChange()
     {
-        if (accessibleUnits.Count == selectedUnitIndex + 1) selectedUnitIndex = 0;
-        else selectedUnitIndex++;
+        if (accessibleUnits.Count > selectedUnitIndex) selectedUnitIndex++;
     }
 }

@@ -14,6 +14,7 @@ public class TileMapManager : Singleton<TileMapManager>
 {
     //타일맵을 불러옴
     public Tilemap[] tilemaps; 
+    public Tilemap[] subTilemaps;
     //인스펙터에서 타일 종류를 다루기 위한 직렬화된 딕셔너리
     public SerializedDictionary<string, TileType> tileTypes;
     //현재 선택된 유닛(추후 개발)
@@ -158,7 +159,6 @@ public class TileMapManager : Singleton<TileMapManager>
             }
             
             if (dist[u] == Mathf.Infinity){
-                Debug.LogWarning("목표 지점까지 경로가 없습니다.");
                 break;
             }
 
@@ -176,12 +176,6 @@ public class TileMapManager : Singleton<TileMapManager>
                 }
             }
         }
-        
-        // 경로가 존재하지 않음
-        if(prev[target] == null){
-            Debug.LogWarning("목표까지의 경로를 찾을 수 없습니다.");
-            return null;
-        }
 
         List<Node> currentPath = new List<Node>();
         Node curr = target;
@@ -194,6 +188,27 @@ public class TileMapManager : Singleton<TileMapManager>
         currentPath.Reverse();
 
         return currentPath;
-    }    
+    }
 
+    public TileBase RTPrefab;
+    public void ReachableTile(Vector3Int pos, int mov)
+    {
+        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
+        
+        foreach (Vector3Int v in dataOnTiles.Keys)
+        {
+            dist[v] = GeneratePathTo(pos, v);
+            if (dist[v] == null || dist[v].Count > mov)
+            {
+                dist.Remove(v);
+            }
+        }
+        
+        foreach (Vector3Int v in dist.Keys)
+        {
+            Vector3Int p  = new Vector3Int(v[0],v[1],0);
+            subTilemaps[v[2]].SetTile(p, RTPrefab);
+        }
+        
+    }
 }
