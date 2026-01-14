@@ -8,7 +8,7 @@ public class UnitManager : Singleton<UnitManager>
     
     public GameObject selectedUnit;
     public int selectedUnitIndex = 0;
-    public List<GameObject> AccessibleUnits = new List<GameObject>();
+    public List<GameObject> accessibleUnits = new List<GameObject>();
         
     void Awake()
     {
@@ -19,7 +19,7 @@ public class UnitManager : Singleton<UnitManager>
             UnitCreater(u,pos);
         }
         
-        selectedUnit = AccessibleUnits[selectedUnitIndex];
+        selectedUnit = accessibleUnits[selectedUnitIndex];
     }
     
     public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
@@ -51,12 +51,12 @@ public class UnitManager : Singleton<UnitManager>
         renderer.sortingOrder = 10;
         
         // 사용가능한 유닛리스트에 만든 유닛 오브젝트 저장
-        AccessibleUnits.Add(unitObject);
+        accessibleUnits.Add(unitObject);
     }
 
     public void UnitChange()
     {
-        if (AccessibleUnits.Count == selectedUnitIndex + 1) selectedUnitIndex = 0;
+        if (accessibleUnits.Count == selectedUnitIndex + 1) selectedUnitIndex = 0;
         else selectedUnitIndex++;
     }
 }
