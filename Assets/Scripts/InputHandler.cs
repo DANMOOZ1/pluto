@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -15,34 +16,63 @@ public class InputHandler : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context){
         if(!context.started) return;
+        switch (GameManager.Instance.battleState)
+        {
+            case BattleState.Default:
+                break;
+            case BattleState.Move:
+                UnitMove();
+                break;
+            case BattleState.Combat:
+                break;
+            case BattleState.Next:
+                break;
+            case BattleState.Info:
+                break;
+            case BattleState.EnemyTurn:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력
+    public Vector3Int? MousePosToCellPos()
+    {
         var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        
+    
         int i = 0;
-        Vector3Int pos = new Vector3Int();
-        bool flag = false;
+        Vector3Int? foundPos = null;
+    
         foreach (var tilemap in TileMapManager.Instance.tilemaps)
         {
             Vector3Int mousePosTranslated = tilemap.WorldToCell(mousePos);
-            mousePosTranslated = mousePosTranslated - new Vector3Int(5, 5, 0);// 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
+            mousePosTranslated = mousePosTranslated - new Vector3Int(5, 5, 0); // 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
             mousePosTranslated.z = i;
+        
             if (TileMapManager.Instance.dataOnTiles.ContainsKey(mousePosTranslated))
             {
-                pos = mousePosTranslated;
-                flag = true;
+                foundPos = mousePosTranslated;
+                // 계속 순회하면서 더 높은 z값을 가진 타일을 찾음
             }
             i++;
         }
 
-        if (flag)
-        {
-            // 유닛 매니저에서 selected unit을 불러와 이동시킴
-            GameObject unit = UnitManager.Instance.selectedUnit;
-            Vector3Int currPos = unit.GetComponent<UnitController>().cellPosition;
-            List<Node> currentPath = TileMapManager.Instance.GeneratePathTo(currPos, pos);
-            
-            unit.GetComponent<UnitController>().StartMoving(currentPath);
-        }
+        return foundPos;
     }
 
+    public void UnitMove()
+    {
+        Vector3Int? cellpos = MousePosToCellPos();
+
+        if (cellpos.HasValue)
+        {
+            UnitManager.Instance.selectedUnit.GetComponent<Unit>().StartMoving(cellpos.Value);
+        }
+        else
+        {
+            //"이동 불가능한 지역입니다" 알림하는 함수 위치
+        }
+    }
 
 }

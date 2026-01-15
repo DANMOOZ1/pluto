@@ -14,6 +14,7 @@ public class UnitManager : Singleton<UnitManager>
         
     void Awake()
     {
+        //디버깅 용으로 유닛 생성
         Vector3Int pos = new Vector3Int(0,1,0);
         foreach (UnitSO u in units)
         {
@@ -33,9 +34,13 @@ public class UnitManager : Singleton<UnitManager>
 
     private void UnitMove()
     {
+        /*//사전 데이터 수집   
         Vector3Int _pos = selectedUnit.GetComponent<UnitController>().cellPosition;
         int _mov = selectedUnit.GetComponent<Unit>().mov;
-        TileMapManager.Instance.ReachableTile(_pos, _mov);
+        MovementRule _movementRule = selectedUnit.GetComponent<Unit>().movementRule;
+        
+        //이동가능한 영역 표시 타일을 만들고 이동가능한 타일을 반환함
+        selectedUnit.GetComponent<UnitController>().accessibleTiles = TileMapManager.Instance.ReachableTile(_pos, _mov, _movementRule);*/
     }
 
     public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
@@ -44,7 +49,6 @@ public class UnitManager : Singleton<UnitManager>
         
         // 유닛 오브젝트에 컴포넌트 추가
         Unit unit = unitObject.AddComponent<Unit>();
-        UnitController unitController =  unitObject.AddComponent<UnitController>();
         SpriteRenderer renderer = unitObject.AddComponent<SpriteRenderer>();
 
         //컴포넌트에 데이터 삽입
@@ -62,8 +66,8 @@ public class UnitManager : Singleton<UnitManager>
         unit.level = unitData.level;
         unit.isAlly = unitData.isAlly;
         unit.portrait = unitData.portrait;
-         
-        unitController.cellPosition = unitCellPos;
+        unit.movementRule =  unitData.movementRule;
+        unit.cellPosition = unitCellPos;
         
         renderer.sprite = unit.sprite;
         renderer.sortingOrder = 10;

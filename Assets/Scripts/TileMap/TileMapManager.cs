@@ -191,24 +191,26 @@ public class TileMapManager : Singleton<TileMapManager>
     }
 
     public TileBase RTPrefab;
-    public void ReachableTile(Vector3Int pos, int mov)
+    // 이동 가능한 타일을 RTPrefab으로 표현하고 이동가능한 타일의 셀좌표 keycollection을 반환함
+    public Dictionary<Vector3Int,List<Node>> ReachableTile(Vector3Int pos, int mov, MovementRule movementRule)
     {
-        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
+        Dictionary<Vector3Int,List<Node>> _dist = new Dictionary<Vector3Int,List<Node>> ();
         
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || dist[v].Count > mov)
+            _dist[v] = GeneratePathTo(pos, v);
+            if (_dist[v] == null || !movementRule.MovementRuleFunc(_dist[v], mov))
             {
-                dist.Remove(v);
+                _dist.Remove(v);
             }
         }
         
-        foreach (Vector3Int v in dist.Keys)
+        foreach (Vector3Int v in _dist.Keys)
         {
             Vector3Int p  = new Vector3Int(v[0],v[1],0);
             subTilemaps[v[2]].SetTile(p, RTPrefab);
         }
+        return _dist;
         
     }
 }

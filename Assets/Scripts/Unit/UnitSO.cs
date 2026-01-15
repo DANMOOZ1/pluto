@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Unit", menuName = "Unit")]
@@ -17,5 +18,6 @@ public class UnitSO : ScriptableObject
     public int level;
     public bool isAlly;
     public Sprite portrait;
+    public MovementRule movementRule;
 }
 

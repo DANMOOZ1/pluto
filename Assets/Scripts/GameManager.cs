@@ -24,9 +24,9 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Battle:
                 //HandleBattle();
-                // button¿¡ ÀÇÇØ °áÁ¤ + Default°¡ ÀÖÀ¸¸é HandleBattleÀÌ ÇÊ¿ä¾øÀ» °Í °°¾Ò´Âµ¥.. º¸½Ã°í ÇÊ¿äÇÏ¸é »ì¸®¼¼¿ë
-                // button¿¡ µé¾î°¥ ÇÔ¼öµéÀº UIManager¿¡ ³Ö¾îµÎ¾ú½À´Ï´Ù
-                UpdateBattleState(BattleState.Default);
+                // buttonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ + Defaultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ HandleBattleï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ò´Âµï¿½.. ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ê¿ï¿½ï¿½Ï¸ï¿½ ï¿½ì¸®ï¿½ï¿½ï¿½ï¿½
+                // buttonï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ UIManagerï¿½ï¿½ ï¿½Ö¾ï¿½Î¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+                UpdateBattleState(BattleState.Move);
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -57,6 +57,14 @@ public class GameManager : Singleton<GameManager>
                 break;
             case BattleState.Move:
                 UIManager.Instance.UIMove();
+                
+                //ì´ë™ê°€ëŠ¥í•œ ì˜ì—­ ì„ íƒíƒ€ì¼ ìƒì„±ë° ê·¸ ë¦¬ìŠ¤íŠ¸ë¥¼ í• ë‹¹
+                Vector3Int pos = UnitManager.Instance.selectedUnit.GetComponent<Unit>().cellPosition;
+                int mov = UnitManager.Instance.selectedUnit.GetComponent<Unit>().mov;
+                MovementRule movementRule = UnitManager.Instance.selectedUnit.GetComponent<Unit>().movementRule;
+                
+                UnitManager.Instance.selectedUnit.GetComponent<Unit>().accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
+                
                 break;
             case BattleState.Combat:
                 UpdateCombatState(CombatState.Default);
@@ -76,7 +84,7 @@ public class GameManager : Singleton<GameManager>
         OnBattleStateChange?.Invoke();
     }
 
-    // ÀÌ°Ô ÀûÀıÇÒÁö´Â ¸ğ¸£°Ú³×¿ä.. Unit.cs¿¡¼­ BattleState.CombatÀÏ ¶§ ¼±ÅÃµÈ UnitÀÌ ÀûÀÌ¸é CombatState.EnemySelected·Î ¹Ù²Ù¶ó°í ÇØµÎ¾ú½À´Ï´Ù.
+    // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ğ¸£°Ú³×¿ï¿½.. Unit.csï¿½ï¿½ï¿½ï¿½ BattleState.Combatï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Unitï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ CombatState.EnemySelectedï¿½ï¿½ ï¿½Ù²Ù¶ï¿½ï¿½ ï¿½ØµÎ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
     public void UpdateCombatState(CombatState newCombatState)
     {
         combatState = newCombatState;
@@ -106,11 +114,11 @@ public enum GameState
 
 public enum BattleState
 {
-    Default, // µ¹¾Æ°¥ È­¸éÀÌ ÀÖÀ¸·Á¸é µğÆúÆ®°¡ ÀÖ¾î¾ß ÇÒ °Í °°¾Ò¾î¿ä
+    Default, // ï¿½ï¿½ï¿½Æ°ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ò¾ï¿½ï¿½
     Move,
     Combat,
     Next,
-    Info,// Á¤º¸ »óÅÂ¿¡¼­ Á¤º¸Ã¢À» ¶ç¿ö¾ß ÇØ¼­ Ãß°¡Çß½À´Ï´Ù
+    Info,// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½
     EnemyTurn
 }
 
