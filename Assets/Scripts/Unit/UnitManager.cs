@@ -28,7 +28,10 @@ public class UnitManager : Singleton<UnitManager>
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnBattleStateChange -= UnitMove;
+        if (GameManager.HasInstance) //오류나서 gemini한테 물어보니까 추가하라고 해서 자아 없이 추가했습니다.. 문제 있음 알려주세용..
+        {
+            GameManager.Instance.OnBattleStateChange -= UnitMove;
+        }
     }
 
     private void UnitMove()
@@ -52,8 +55,6 @@ public class UnitManager : Singleton<UnitManager>
         unit.hp = unitData.hp;
         unit.atk = unitData.atk;
         unit.def = unitData.def;
-        unit.wil =  unitData.wil;
-        unit.mnt = unitData.mnt;
         unit.spd = unitData.spd;
         unit.foc = unitData.foc;
         unit.rng = unitData.rng;
@@ -62,6 +63,9 @@ public class UnitManager : Singleton<UnitManager>
         unit.unitName = unitData.unitName;
         unit.sprite = unitData.sprite;
         unit.mov = unitData.mov;
+        unit.level = unitData.level;
+        unit.isAlly = unitData.isAlly;
+        unit.portrait = unitData.portrait;
          
         unitController.cellPosition = unitCellPos;
         

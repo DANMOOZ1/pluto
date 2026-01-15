@@ -10,18 +10,32 @@ public class Unit : MonoBehaviour
     public int hp;
     public int atk;
     public int def;
-    public int wil;
-    public int mnt;
     public int spd;
     public int foc;
     public int rng;
     public int hta;
     public Sprite sprite;
     public int mov;
+    public int level;
+    public bool isAlly;
+    public Sprite portrait;
+
     private void OnMouseDown()
     {
-        UIManager.Instance.unit = this;
+        if (isAlly)
+        {
+            if (GameManager.Instance.battleState == BattleState.Default)
+            {
+                UIManager.Instance.unit = this;
+                UIManager.Instance.UIBattle();
+            }
+        } else
+        {
+            if (GameManager.Instance.battleState == BattleState.Combat)
+            {
+                UIManager.Instance.unit = this;
+                GameManager.Instance.UpdateCombatState(CombatState.EnemySelected);
+            }
+        }
     }
 }
-
-//웹훅되는지 확인용 아무말

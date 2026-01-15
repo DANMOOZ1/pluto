@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
   unitName: Warrior
   race: Human
-  hp: 5
+  hp: 7
   atk: 2
-  def: 0
-  wil: 0
-  mnt: 0
-  spd: 0
-  foc: 0
+  def: 6
+  spd: 3
+  foc: 4
   rng: 0
   hta: 0
   sprite: {fileID: -612100085893734951, guid: b40c7a52246d241449dbb7eb9bfcd72d, type: 3}
+  mov: 0
+  level: 0
+  isAlly: 1
+  portrait: {fileID: 4937003873562304621, guid: c2ac27877d701b5429ecb0c18fdbb207, type: 3}
