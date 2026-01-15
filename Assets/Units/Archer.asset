@@ -24,3 +24,4 @@ MonoBehaviour:
   rng: 0
   hta: 0
   sprite: {fileID: -4784303693153902740, guid: 3b8bd23c95686b6499cc09c1829f8702, type: 3}
+  mov: 5

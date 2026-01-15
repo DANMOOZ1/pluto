@@ -36,7 +36,7 @@ public class UnitManager : Singleton<UnitManager>
         Vector3Int _pos = selectedUnit.GetComponent<UnitController>().cellPosition;
         int _mov = selectedUnit.GetComponent<Unit>().mov;
         
-        //TileMapManager.Instance.ReachableTile(_pos, _mov);
+        TileMapManager.Instance.ReachableTile(_pos, _mov);
     }
 
     public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
