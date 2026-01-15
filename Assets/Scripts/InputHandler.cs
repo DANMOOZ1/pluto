@@ -75,4 +75,25 @@ public class InputHandler : MonoBehaviour
         }
     }
 
+
+    // 버튼에 들어갈 함수
+    public void MoveButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Move);
+    }
+
+    public void CombatButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Combat);
+    }
+
+    public void NextButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Next);
+    }
+
+    public void InfoButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Info);
+    }
 }

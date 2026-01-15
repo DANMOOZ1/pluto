@@ -1,16 +1,16 @@
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using TMPro;
 using System.Text.RegularExpressions;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.UI;
 
-// Ãß°¡ÇØ¾ß ÇÒ °Í
-// 1. ¹èÆ² default¿¡¼­ ÇöÀç Â÷·ÊÀÎ unit ÀÚµ¿À¸·Î unit¿¡ ³Ö±â
-// 2. OnBattleStateChange¿¡ ÇöÀç Â÷·ÊÀÎ unitÀ» currentunits[0]¿¡ ³Ö´Â ÇÔ¼ö ´õÇÏ±â
-// 3. ÇöÀç Â÷·ÊÀÎ unit ¸Ó¸® À§·Î ¹öÆ° À§Ä¡ ¿Å±â±â
-// 4. HPÀÇ °æ¿ì ÀüÃ¼ HP¶û ³²Àº HP ±¸ºĞÇÏ±â
+// ì¶”ê°€í•´ì•¼ í•  ê²ƒ
+// 1. ë°°í‹€ defaultì—ì„œ í˜„ì¬ ì°¨ë¡€ì¸ unitì´ currentunitì— ë“¤ì–´ê°€ê²Œ
+// 2. HPì˜ ê²½ìš° ì „ì²´ HPë‘ ë‚¨ì€ HP êµ¬ë¶„í•˜ê¸°
 
 public class UIManager : Singleton<UIManager>
 {
@@ -47,131 +47,137 @@ public class UIManager : Singleton<UIManager>
     public GameObject eUI_enemySPD;
     public GameObject eU_barImage;
 
+    [Header("battleButtons")]
+    public GameObject battleButtons;
 
-    [Header("combatButton")]
-    public GameObject combatButton;
+    [Header("HeadUI")]
+    public GameObject headUI;
 
-    // unit °¡Á®¿À±â
-    public Unit unit;
+    // unit ê°€ì ¸ì˜¤ê¸°
+    public Unit currentUnit;
+    public List<GameObject> accessibleUnits;
+    public Unit selectedEnemy;
 
-    public List<Unit> currentunits = new List<Unit>();
+    public void Start()
+    {
+        accessibleUnits = UnitManager.Instance.accessibleUnits;
+        currentUnit = accessibleUnits[0].GetComponent<Unit>();        // êµ¬í˜„ì„ ìœ„í•´ ì„ì‹œë¡œ ì§€ì •
+    }
 
-
+    // ìƒíƒœë³„ UI ì¼œê¸°
     public void UIBattle()
     {
-        // ¹öÆ° ¶ç¿ì±â
-        combatButton.SetActive(true);
+        // ë²„íŠ¼ ë„ìš°ê¸°
+        battleButtons.transform.SetParent(currentUnit.transform);
+        battleButtons.SetActive(true);
 
-        if (unit == null) return;
-
-        // Ãâ·ÂÇÒ ally ÀúÀå
-        if (unit.isAlly)
-        {
-            currentunits.Clear();
-            currentunits.Add(unit);
-        }
-
-        // UI ¶ç¿ì±â
-        bUI_UnitName.text = currentunits[0].unitName;
-        bUI_Level.text = "Lv." + currentunits[0].level;
-        bUI_Portrait.sprite = currentunits[0].portrait;
-        DrawBar(bU_barImage, currentunits[0].hp, bUI_HP);
+        // UI ë„ìš°ê¸°
+        bUI_UnitName.text = currentUnit.unitName;
+        bUI_Level.text = "Lv." + currentUnit.level;
+        bUI_Portrait.sprite = currentUnit.portrait;
+        DrawBar(bU_barImage, currentUnit.hp, bUI_HP);
 
         battleUI.SetActive(true);
+
+        // ë¨¸ë¦¬ ìœ„ UI ë„ìš°ê¸°
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            if (accessibleUnit != currentUnit.gameObject)
+            {
+                HeadUI(accessibleUnit, true);
+            }
+        }
     }
 
     public void UIMove()
     {
-        // ¹öÆ° ¾ø¾Ö±â
-        combatButton.SetActive(false);
+        // ë²„íŠ¼ ì—†ì• ê¸°
+        battleButtons.SetActive(false);
+
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            HeadUI(accessibleUnit, true);
+
+        }
     }
 
     public void UICombat()
     {
-        // ¹öÆ° ¾ø¾Ö±â
-        combatButton.SetActive(false);
+        // ë²„íŠ¼ ì—†ì• ê¸°
+        battleButtons.SetActive(false);
+
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            HeadUI(accessibleUnit, true);
+
+        }
 
     }
 
     public void UINext()
     {
-        // ¹öÆ° ¾ø¾Ö±â
-        combatButton.SetActive(false);
+        // ë²„íŠ¼ ì—†ì• ê¸°
+        battleButtons.SetActive(false);
+
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            HeadUI(accessibleUnit, true);
+
+        }
     }
 
     public void UIInfo()
     {
-        // ¹öÆ° ¾ø¾Ö±â
-        combatButton.SetActive(false);
+        // ë²„íŠ¼ ì—†ì• ê¸°
+        battleButtons.SetActive(false);
 
-        // UI ¶ç¿ì±â
-        iUI_Portrait.sprite = currentunits[0].sprite;
-        iUI_UnitName.text = currentunits[0].unitName;
-        iUI_Level.text = "Lv." + currentunits[0].level;
-        DrawBar(bU_barImage, currentunits[0].hp, iUI_HP);
-        DrawBar(bU_barImage, currentunits[0].atk, iUI_ATK);
-        DrawBar(bU_barImage, currentunits[0].def, iUI_DEF);
-        DrawBar(bU_barImage, currentunits[0].foc, iUI_FOC);
-        DrawBar(bU_barImage, currentunits[0].spd, iUI_SPD);
+        // UI ë„ìš°ê¸°
+        iUI_Portrait.sprite = currentUnit.portrait;
+        iUI_UnitName.text = currentUnit.unitName;
+        iUI_Level.text = "Lv." + currentUnit.level;
+        DrawBar(bU_barImage, currentUnit.hp, iUI_HP);
+        DrawBar(bU_barImage, currentUnit.atk, iUI_ATK);
+        DrawBar(bU_barImage, currentUnit.def, iUI_DEF);
+        DrawBar(bU_barImage, currentUnit.foc, iUI_FOC);
+        DrawBar(bU_barImage, currentUnit.spd, iUI_SPD);
 
         infoUI.SetActive(true);
     }
 
+    public void UIEnemyTurn()
+    {
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            HeadUI(accessibleUnit, false);
+        }
+    }
+
     public void UIEnemySelected()
     {
-        // Ãâ·ÂÇÒ enemy ÀúÀå
-        if(!unit.isAlly)
-        {
-            if (currentunits.Count > 1)
-            {
-                currentunits[1] = unit;
-            }
-            else
-            {
-                currentunits.Add(unit);
-            }
-        }
-
-        // UI ¶ç¿ì±â
-        eUI_allyPortrait.sprite = currentunits[0].sprite;
-        DrawBar(eU_barImage, currentunits[0].hp, eUI_allyHP);
-        DrawBar(eU_barImage, currentunits[0].atk, eUI_allyATK);
-        DrawBar(eU_barImage, currentunits[0].foc, eUI_allyFOC);
-        DrawBar(eU_barImage, currentunits[0].spd, eUI_allySPD);
-        eUI_enemyPortrait.sprite= currentunits[1].sprite;
-        DrawBar(eU_barImage, currentunits[1].hp, eUI_enemyHP);
-        DrawBar(eU_barImage, currentunits[1].def, eUI_enemyDEF);
-        DrawBar(eU_barImage, currentunits[1].foc, eUI_enemyFOC);
-        DrawBar(eU_barImage, currentunits[1].spd, eUI_enemySPD);
+        // UI ë„ìš°ê¸°
+        eUI_allyPortrait.sprite = currentUnit.portrait;
+        eU_barImage.GetComponent<Image>().color = Color.blue;
+        DrawBar(eU_barImage, currentUnit.hp, eUI_allyHP);
+        DrawBar(eU_barImage, currentUnit.atk, eUI_allyATK);
+        DrawBar(eU_barImage, currentUnit.foc, eUI_allyFOC);
+        DrawBar(eU_barImage, currentUnit.spd, eUI_allySPD);
+        eUI_enemyPortrait.sprite= selectedEnemy.portrait;
+        eU_barImage.GetComponent<Image>().color = Color.red;
+        DrawBar(eU_barImage, selectedEnemy.hp, eUI_enemyHP);
+        DrawBar(eU_barImage, selectedEnemy.def, eUI_enemyDEF);
+        DrawBar(eU_barImage, selectedEnemy.foc, eUI_enemyFOC);
+        DrawBar(eU_barImage, selectedEnemy.spd, eUI_enemySPD);
 
         enemySelectedUI.SetActive(true);
 
-    }
-    
+        foreach (GameObject accessibleUnit in accessibleUnits)
+        {
+            HeadUI(accessibleUnit, true);
+        }
 
-    // ¹öÆ°¿¡ µé¾î°¥ ÇÔ¼ö
-    public void MoveButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Move);
     }
 
-    public void CombatButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Combat);
-    }
-
-    public void NextButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Next);
-    }
-
-    public void InfoButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Info);
-    }
-
-
-    // stat¹Ù ±×¸®´Â ÇÔ¼ö
+    // statë°” ê·¸ë¦¬ëŠ” í•¨ìˆ˜
     public void DrawBar(GameObject barImage, int num, GameObject stat)
     {
         HorizontalLayoutGroup stratch = stat.GetComponent<HorizontalLayoutGroup>();
@@ -200,5 +206,44 @@ public class UIManager : Singleton<UIManager>
             Instantiate(barImage, stat.transform);
         }
     }
-    
+
+    // ë¨¸ë¦¬ ìœ„ UI
+    public void HeadUI(GameObject accessibleUnit, bool isPlayerTurn)
+    {
+        foreach (Transform child in accessibleUnit.transform)
+        {
+            if(child.name == "HeadUI")
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        GameObject clonedHeadUI = Instantiate(headUI, accessibleUnit.transform);
+        clonedHeadUI.name = "HeadUI";
+
+        Unit unit = accessibleUnit.GetComponent<Unit>();
+
+        GameObject portrait = clonedHeadUI.transform.GetChild(0).gameObject;
+        GameObject hp = clonedHeadUI.transform.GetChild(1).gameObject;
+        GameObject stat = clonedHeadUI.transform.GetChild(2).gameObject;
+
+        portrait.GetComponent<Image>().sprite = unit.portrait;
+        eU_barImage.GetComponent<Image>().color = Color.green;
+        DrawBar(eU_barImage, unit.hp, hp);
+
+        bool isAttacker = (isPlayerTurn && unit.isAlly) || (!isPlayerTurn && !unit.isAlly);
+
+        if (isAttacker)
+        {
+            // ê³µê²©ì: ë¹¨ê°„ìƒ‰ ATK
+            eU_barImage.GetComponent<Image>().color = Color.red;
+            DrawBar(eU_barImage, unit.atk, stat);
+        }
+        else
+        {
+            // ë°©ì–´ì: íŒŒë€ìƒ‰ DEF
+            eU_barImage.GetComponent<Image>().color = Color.blue;
+            DrawBar(eU_barImage, unit.def, stat);
+        }
+    }
 }

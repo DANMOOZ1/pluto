@@ -76,6 +76,7 @@ public class GameManager : Singleton<GameManager>
                 UIManager.Instance.UIInfo();
                 break;
             case BattleState.EnemyTurn:
+                UIManager.Instance.UIEnemyTurn();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

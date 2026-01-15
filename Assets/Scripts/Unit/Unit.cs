@@ -101,18 +101,11 @@ public class Unit : MonoBehaviour
     
     private void OnMouseDown()
     {
-        if (isAlly)
-        {
-            if (GameManager.Instance.battleState == BattleState.Default)
-            {
-                UIManager.Instance.unit = this;
-                UIManager.Instance.UIBattle();
-            }
-        } else
+        if (!isAlly)
         {
             if (GameManager.Instance.battleState == BattleState.Combat)
             {
-                UIManager.Instance.unit = this;
+                UIManager.Instance.selectedEnemy = this;
                 GameManager.Instance.UpdateCombatState(CombatState.EnemySelected);
             }
         }
