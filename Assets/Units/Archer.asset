@@ -22,7 +22,7 @@ MonoBehaviour:
   rng: 0
   hta: 0
   sprite: {fileID: -4784303693153902740, guid: 3b8bd23c95686b6499cc09c1829f8702, type: 3}
-  mov: 0
+  mov: 3
   level: 0
   isAlly: 0
   portrait: {fileID: 8886885071965154576, guid: 82732ca7749f15a46bc65cd1dacfdcee, type: 3}

@@ -28,17 +28,13 @@ public class UnitManager : Singleton<UnitManager>
 
     private void OnDestroy()
     {
-        if (GameManager.HasInstance) //오류나서 gemini한테 물어보니까 추가하라고 해서 자아 없이 추가했습니다.. 문제 있음 알려주세용..
-        {
-            GameManager.Instance.OnBattleStateChange -= UnitMove;
-        }
+        GameManager.Instance.OnBattleStateChange -= UnitMove;
     }
 
     private void UnitMove()
     {
         Vector3Int _pos = selectedUnit.GetComponent<UnitController>().cellPosition;
         int _mov = selectedUnit.GetComponent<Unit>().mov;
-        
         TileMapManager.Instance.ReachableTile(_pos, _mov);
     }
 

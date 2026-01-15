@@ -20,6 +20,7 @@ public class TileMapManager : Singleton<TileMapManager>
     //현재 선택된 유닛(추후 개발)
     
     void Awake(){
+
         GenerateTileData();
     }
 
@@ -192,19 +193,18 @@ public class TileMapManager : Singleton<TileMapManager>
     public TileBase RTPrefab;
     public void ReachableTile(Vector3Int pos, int mov)
     {
-        Dictionary<Vector3Int,List<Node>> reachableTileDict = new Dictionary<Vector3Int,List<Node>> ();
+        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
         
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            reachableTileDict[v] = new List<Node>();
-            reachableTileDict[v] = GeneratePathTo(pos, v);
-            if (reachableTileDict[v] == null || reachableTileDict[v].Count > mov)
+            dist[v] = GeneratePathTo(pos, v);
+            if (dist[v] == null || dist[v].Count > mov)
             {
-                reachableTileDict.Remove(v);
+                dist.Remove(v);
             }
         }
         
-        foreach (Vector3Int v in reachableTileDict.Keys)
+        foreach (Vector3Int v in dist.Keys)
         {
             Vector3Int p  = new Vector3Int(v[0],v[1],0);
             subTilemaps[v[2]].SetTile(p, RTPrefab);
