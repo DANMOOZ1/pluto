@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 
     public event Action OnGameStateChange;
     public event Action OnBattleStateChange;
+    public event Action OnCombatStateChange;
     private void Start()
     {
         UpdateGameState(GameState.Battle);
@@ -23,7 +24,7 @@ public class GameManager : Singleton<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                UpdateBattleState(BattleState.Move);
+                UpdateBattleState(BattleState.Default);
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -43,22 +44,17 @@ public class GameManager : Singleton<GameManager>
         switch (battleState)
         {
             case BattleState.Default:
-                UIManager.Instance.UIBattle();
                 break;
             case BattleState.Move:
-                UIManager.Instance.UIMove();
                 break;
             case BattleState.Combat:
-                UpdateCombatState(CombatState.Default);
+                UpdateCombatState(CombatState.EnemySelecting);
                 break;
             case BattleState.Next:
-                UIManager.Instance.UINext();
                 break;
             case BattleState.Info:
-                UIManager.Instance.UIInfo();
                 break;
             case BattleState.EnemyTurn:
-                UIManager.Instance.UIEnemyTurn();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -67,23 +63,22 @@ public class GameManager : Singleton<GameManager>
         OnBattleStateChange?.Invoke();
     }
 
-    // �̰� ���������� �𸣰ڳ׿�.. Unit.cs���� BattleState.Combat�� �� ���õ� Unit�� ���̸� CombatState.EnemySelected�� �ٲٶ�� �صξ����ϴ�.
     public void UpdateCombatState(CombatState newCombatState)
     {
         combatState = newCombatState;
 
         switch (combatState)
         {
-            case CombatState.Default:
-                UIManager.Instance.UICombat();
-                break;
-            case CombatState.EnemySelected:
-                UIManager.Instance.UIEnemySelected();
+            case CombatState.EnemySelecting:
                 break;
             case CombatState.Attack:
                 break;
         }
+
+        OnCombatStateChange?.Invoke();
     }
+
+
 }
 
 public enum GameState
@@ -97,17 +92,16 @@ public enum GameState
 
 public enum BattleState
 {
-    Default, // ���ư� ȭ���� �������� ����Ʈ�� �־�� �� �� ���Ҿ��
+    Default,
     Move,
     Combat,
     Next,
-    Info,// ���� ���¿��� ����â�� ����� �ؼ� �߰��߽��ϴ�
+    Info,
     EnemyTurn
 }
 
 public enum CombatState
 {
-    Default,
-    EnemySelected,
+    EnemySelecting,
     Attack
 }

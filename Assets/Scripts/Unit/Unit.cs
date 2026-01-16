@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
     public float moveSpeed = 5f;  // 이동 속도
     private int currentPathIndex = 0;  // 현재 목표 노드 인덱스
     private bool isMoving = false;  // 이동 중인지 확인
-    
+
     void Update()
     {
         // 경로 시각화 (디버그용)
@@ -107,15 +107,14 @@ public class Unit : MonoBehaviour
         }
     }
     
-    private void OnMouseDown()
-    {
-        if (!isAlly)
-        {
-            if (GameManager.Instance.battleState == BattleState.Combat)
-            {
-                UIManager.Instance.selectedEnemy = this;
-                GameManager.Instance.UpdateCombatState(CombatState.EnemySelected);
-            }
-        }
-    }
+    //private void OnMouseDown()
+    //{
+    //    if (!isAlly)
+    //    {
+    //        if (GameManager.Instance.battleState == BattleState.Combat)
+    //        {
+    //            UIManager.Instance.selectedEnemy = this;
+    //        }
+    //    }
+    //}
 }
