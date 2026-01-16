@@ -60,7 +60,6 @@ public class UIManager : Singleton<UIManager>
     // unit 가져오기
     public Unit currentUnit;
     public List<GameObject> accessibleUnits;
-    public Unit selectedEnemy;
 
     public void Start()
     {
@@ -103,7 +102,7 @@ public class UIManager : Singleton<UIManager>
         switch (GameManager.Instance.combatState)
         {
             case CombatState.EnemySelecting:
-                if (selectedEnemy != null)
+                if (UnitManager.Instance.selectedEnemy != null)
                 {
                     UIEnemySelected();
                 }
@@ -206,6 +205,7 @@ public class UIManager : Singleton<UIManager>
     public void UIEnemySelected()
     {
         // UI 띄우기
+        Unit selectedEnemy = UnitManager.Instance.selectedEnemy;
         eUI_allyPortrait.sprite = currentUnit.portrait;
         DrawBar(eU_barImage, Color.blue, currentUnit.hp, eUI_allyHP);
         DrawBar(eU_barImage, Color.blue, currentUnit.atk, eUI_allyATK);

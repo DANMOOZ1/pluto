@@ -8,11 +8,13 @@ public class UnitManager : Singleton<UnitManager>
     //등록된 유닛 프리팹
     public List<UnitSO> units = new List<UnitSO>();
     
-    public GameObject selectedUnit;
+    public GameObject selectedUnit;// 아군 적군
+    public Unit selectedEnemy;
     public int selectedUnitIndex = 0;
-    public List<GameObject> accessibleUnits = new List<GameObject>();
-    public List<GameObject> enemyUnits = new List<GameObject>();
+    public List<GameObject> accessibleUnits = new List<GameObject>();//아군
+    public List<GameObject> enemyUnits = new List<GameObject>();//적군
         
+    
     void Awake()
     {
         // 아군 생성

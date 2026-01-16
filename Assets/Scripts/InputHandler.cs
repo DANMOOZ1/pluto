@@ -74,6 +74,7 @@ public class InputHandler : MonoBehaviour
 
     public void UnitAttack()
     {
+        //교체
         Vector3Int? cellpos = MousePosToCellPos();
 
         if (cellpos.HasValue)
@@ -112,7 +113,7 @@ public class InputHandler : MonoBehaviour
 
             if (!clickedUnit.isAlly)
             {
-                UIManager.Instance.selectedEnemy = clickedUnit;
+                UnitManager.Instance.selectedEnemy = clickedUnit;
             }
         }
 
