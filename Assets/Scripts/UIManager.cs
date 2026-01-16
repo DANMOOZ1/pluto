@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -11,6 +12,9 @@ using UnityEngine.UI;
 // 추가해야 할 것
 // 1. 배틀 default에서 현재 차례인 unit이 currentunit에 들어가게
 // 2. HP의 경우 전체 HP랑 남은 HP 구분하기
+// 3. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
+// 4. 행마법이랑 공격 확정되면 그려보기
+// 5. attack이랑 enemyturn에서는 HP가 바로바로 업데이트되어야 함 
 
 public class UIManager : Singleton<UIManager>
 {
@@ -60,22 +64,68 @@ public class UIManager : Singleton<UIManager>
 
     public void Start()
     {
+        GameManager.Instance.OnBattleStateChange += BattleStateUI;
+        GameManager.Instance.OnCombatStateChange += UICombatState;
+
         accessibleUnits = UnitManager.Instance.accessibleUnits;
         currentUnit = accessibleUnits[0].GetComponent<Unit>();        // 구현을 위해 임시로 지정
     }
 
+
     // 상태별 UI 켜기
+    public void BattleStateUI()
+    {
+        switch(GameManager.Instance.battleState)
+        {
+            case BattleState.Default:
+                UIBattle();
+                break;
+            case BattleState.Move:
+                UIMove();
+                break;
+            case BattleState.Combat:
+                UICombat();
+                break;
+            case BattleState.Next:
+                UINext();
+                break;
+            case BattleState.Info:
+                UIInfo();
+                break;
+            case BattleState.EnemyTurn:
+                UIEnemyTurn();
+                break;
+        }
+    }
+
+    public void UICombatState()
+    {
+        switch (GameManager.Instance.combatState)
+        {
+            case CombatState.EnemySelecting:
+                if (selectedEnemy != null)
+                {
+                    UIEnemySelected();
+                }
+                break;
+            case CombatState.Attack:
+                break;
+        }
+    }
+
+
+
     public void UIBattle()
     {
         // 버튼 띄우기
-        battleButtons.transform.SetParent(currentUnit.transform);
+        battleButtons.transform.SetParent(currentUnit.transform, false);
         battleButtons.SetActive(true);
 
         // UI 띄우기
         bUI_UnitName.text = currentUnit.unitName;
         bUI_Level.text = "Lv." + currentUnit.level;
         bUI_Portrait.sprite = currentUnit.portrait;
-        DrawBar(bU_barImage, currentUnit.hp, bUI_HP);
+        DrawBar(bU_barImage, Color.green, currentUnit.hp, bUI_HP);
 
         battleUI.SetActive(true);
 
@@ -89,6 +139,8 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+
+
     public void UIMove()
     {
         // 버튼 없애기
@@ -97,7 +149,6 @@ public class UIManager : Singleton<UIManager>
         foreach (GameObject accessibleUnit in accessibleUnits)
         {
             HeadUI(accessibleUnit, true);
-
         }
     }
 
@@ -135,11 +186,11 @@ public class UIManager : Singleton<UIManager>
         iUI_Portrait.sprite = currentUnit.portrait;
         iUI_UnitName.text = currentUnit.unitName;
         iUI_Level.text = "Lv." + currentUnit.level;
-        DrawBar(bU_barImage, currentUnit.hp, iUI_HP);
-        DrawBar(bU_barImage, currentUnit.atk, iUI_ATK);
-        DrawBar(bU_barImage, currentUnit.def, iUI_DEF);
-        DrawBar(bU_barImage, currentUnit.foc, iUI_FOC);
-        DrawBar(bU_barImage, currentUnit.spd, iUI_SPD);
+        DrawBar(bU_barImage, Color.blue, currentUnit.hp, iUI_HP);
+        DrawBar(bU_barImage, Color.blue, currentUnit.atk, iUI_ATK);
+        DrawBar(bU_barImage, Color.blue, currentUnit.def, iUI_DEF);
+        DrawBar(bU_barImage, Color.blue, currentUnit.foc, iUI_FOC);
+        DrawBar(bU_barImage, Color.blue, currentUnit.spd, iUI_SPD);
 
         infoUI.SetActive(true);
     }
@@ -156,17 +207,15 @@ public class UIManager : Singleton<UIManager>
     {
         // UI 띄우기
         eUI_allyPortrait.sprite = currentUnit.portrait;
-        eU_barImage.GetComponent<Image>().color = Color.blue;
-        DrawBar(eU_barImage, currentUnit.hp, eUI_allyHP);
-        DrawBar(eU_barImage, currentUnit.atk, eUI_allyATK);
-        DrawBar(eU_barImage, currentUnit.foc, eUI_allyFOC);
-        DrawBar(eU_barImage, currentUnit.spd, eUI_allySPD);
+        DrawBar(eU_barImage, Color.blue, currentUnit.hp, eUI_allyHP);
+        DrawBar(eU_barImage, Color.blue, currentUnit.atk, eUI_allyATK);
+        DrawBar(eU_barImage, Color.blue, currentUnit.foc, eUI_allyFOC);
+        DrawBar(eU_barImage, Color.blue, currentUnit.spd, eUI_allySPD);
         eUI_enemyPortrait.sprite= selectedEnemy.portrait;
-        eU_barImage.GetComponent<Image>().color = Color.red;
-        DrawBar(eU_barImage, selectedEnemy.hp, eUI_enemyHP);
-        DrawBar(eU_barImage, selectedEnemy.def, eUI_enemyDEF);
-        DrawBar(eU_barImage, selectedEnemy.foc, eUI_enemyFOC);
-        DrawBar(eU_barImage, selectedEnemy.spd, eUI_enemySPD);
+        DrawBar(eU_barImage, Color.red, selectedEnemy.hp, eUI_enemyHP);
+        DrawBar(eU_barImage, Color.red, selectedEnemy.def, eUI_enemyDEF);
+        DrawBar(eU_barImage, Color.red, selectedEnemy.foc, eUI_enemyFOC);
+        DrawBar(eU_barImage, Color.red, selectedEnemy.spd, eUI_enemySPD);
 
         enemySelectedUI.SetActive(true);
 
@@ -178,7 +227,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     // stat바 그리는 함수
-    public void DrawBar(GameObject barImage, int num, GameObject stat)
+    public void DrawBar(GameObject barImage, Color color, int num, GameObject stat)
     {
         HorizontalLayoutGroup stratch = stat.GetComponent<HorizontalLayoutGroup>();
         
@@ -200,6 +249,8 @@ public class UIManager : Singleton<UIManager>
         {
             Destroy(child.gameObject);
         }
+
+        eU_barImage.GetComponent<Image>().color = color;
 
         for (int i = 0; i < num; i++)
         {
@@ -229,21 +280,19 @@ public class UIManager : Singleton<UIManager>
 
         portrait.GetComponent<Image>().sprite = unit.portrait;
         eU_barImage.GetComponent<Image>().color = Color.green;
-        DrawBar(eU_barImage, unit.hp, hp);
+        DrawBar(eU_barImage, Color.green, unit.hp, hp);
 
         bool isAttacker = (isPlayerTurn && unit.isAlly) || (!isPlayerTurn && !unit.isAlly);
 
         if (isAttacker)
         {
             // 공격자: 빨간색 ATK
-            eU_barImage.GetComponent<Image>().color = Color.red;
-            DrawBar(eU_barImage, unit.atk, stat);
+            DrawBar(eU_barImage, Color.red, unit.atk, stat);
         }
         else
         {
             // 방어자: 파란색 DEF
-            eU_barImage.GetComponent<Image>().color = Color.blue;
-            DrawBar(eU_barImage, unit.def, stat);
+            DrawBar(eU_barImage, Color.blue, unit.def, stat);
         }
     }
 }

@@ -16,6 +16,7 @@ public class InputHandler : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context){
         if(!context.started) return;
+
         switch (GameManager.Instance.battleState)
         {
             case BattleState.Default:
@@ -34,6 +35,15 @@ public class InputHandler : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+
+        switch (GameManager.Instance.combatState)
+        {
+            case CombatState.EnemySelecting:
+                selectEnemy();
+                break;
+            case CombatState.Attack:
+                break;
         }
     }
 
@@ -87,6 +97,26 @@ public class InputHandler : MonoBehaviour
         {
             print("이동 가능한 타일이 아닙니다.");
         }
+    }
+
+    public void selectEnemy()
+    {
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+        Vector2 mouseWorldPos = _mainCamera.ScreenToWorldPoint(mouseScreenPos);
+
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
+
+        if (hit.collider != null && hit.collider.GetComponent<Unit>() != null)
+        {
+            Unit clickedUnit =  hit.collider.GetComponent<Unit>();
+
+            if (!clickedUnit.isAlly)
+            {
+                UIManager.Instance.selectedEnemy = clickedUnit;
+            }
+        }
+
+        GameManager.Instance.UpdateCombatState(CombatState.EnemySelecting);
     }
 
 

@@ -2769,8 +2769,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 485511009}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
         m_MethodName: NextButton
         m_Mode: 1
         m_Arguments:
@@ -6917,8 +6917,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 485511009}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
         m_MethodName: InfoButton
         m_Mode: 1
         m_Arguments:
@@ -7331,8 +7331,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 485511009}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
         m_MethodName: MoveButton
         m_Mode: 1
         m_Arguments:
@@ -7963,8 +7963,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 485511009}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
         m_MethodName: CombatButton
         m_Mode: 1
         m_Arguments:
