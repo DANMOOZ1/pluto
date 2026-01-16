@@ -88,7 +88,7 @@ public class Unit : MonoBehaviour
             // 모든 경로 이동 완료
             isMoving = false;
             currentPath = null;
-            GameManager.Instance.UpdateBattleState(BattleState.Combat);// 이동 완료후 combat으로 전환!
+            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 combat으로 전환! // 제가 수정한 코드가 잘 작동되는지 봐야 할 것 같아서 여기만 만졌습니다!
             return;
         }
         

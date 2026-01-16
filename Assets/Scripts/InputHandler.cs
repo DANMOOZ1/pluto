@@ -23,6 +23,7 @@ public class InputHandler : MonoBehaviour
                 break;
             case BattleState.Move:
                 UnitMove();
+                selectEnemy();
                 break;
             case BattleState.Combat:
                 UnitAttack();
@@ -40,7 +41,6 @@ public class InputHandler : MonoBehaviour
         switch (GameManager.Instance.combatState)
         {
             case CombatState.EnemySelecting:
-                selectEnemy();
                 break;
             case CombatState.Attack:
                 break;
@@ -114,19 +114,13 @@ public class InputHandler : MonoBehaviour
             if (!clickedUnit.isAlly)
             {
                 UnitManager.Instance.selectedEnemy = clickedUnit;
+                UIManager.Instance.BattleStateUI();
             }
         }
-
-        GameManager.Instance.UpdateCombatState(CombatState.EnemySelecting);
     }
 
 
     // 버튼에 들어갈 함수
-    public void MoveButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Move);
-    }
-
     public void CombatButton()
     {
         GameManager.Instance.UpdateBattleState(BattleState.Combat);

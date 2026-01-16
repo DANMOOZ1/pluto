@@ -9,7 +9,6 @@ public class GameManager : Singleton<GameManager>
 
     public event Action OnGameStateChange;
     public event Action OnBattleStateChange;
-    public event Action OnCombatStateChange;
     private void Start()
     {
         UpdateGameState(GameState.Battle);
@@ -24,7 +23,7 @@ public class GameManager : Singleton<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                UpdateBattleState(BattleState.Default);
+                UpdateBattleState(BattleState.Move);
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -43,12 +42,11 @@ public class GameManager : Singleton<GameManager>
 
         switch (battleState)
         {
-            case BattleState.Default:
-                break;
             case BattleState.Move:
                 break;
+            case BattleState.Default:
+                break;
             case BattleState.Combat:
-                UpdateCombatState(CombatState.EnemySelecting);
                 break;
             case BattleState.Next:
                 break;
@@ -62,21 +60,6 @@ public class GameManager : Singleton<GameManager>
         
         OnBattleStateChange?.Invoke();
     }
-
-    public void UpdateCombatState(CombatState newCombatState)
-    {
-        combatState = newCombatState;
-
-        switch (combatState)
-        {
-            case CombatState.EnemySelecting:
-                break;
-            case CombatState.Attack:
-                break;
-        }
-        OnCombatStateChange?.Invoke();
-    }
-
 
 }
 
