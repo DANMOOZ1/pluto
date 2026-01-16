@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.LowLevel;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Unit : MonoBehaviour
 {
+    //유닛 데이터 
     public string unitName;
     public string race;
     public int hp;
@@ -22,12 +23,12 @@ public class Unit : MonoBehaviour
     public bool isAlly;
     public Sprite portrait;
     public MovementRule movementRule;
-
+    public AttackRule atkRule;
+    
+    //인게임 유닛 테이터
     public Vector3Int cellPosition; // cell 좌표임
     public List<Node> currentPath = null;//이동을 시작할때 목표 타일까지의 경로를 나타냄
     public Dictionary<Vector3Int,List<Node>> accessibleTiles = null;// 현재 시점에서 이동가능한 타일을 나타냄
-    
-    // 이동 관련 변수 추가
     public float moveSpeed = 5f;  // 이동 속도
     private int currentPathIndex = 0;  // 현재 목표 노드 인덱스
     private bool isMoving = false;  // 이동 중인지 확인
@@ -61,9 +62,16 @@ public class Unit : MonoBehaviour
     {
         if (accessibleTiles.ContainsKey(targetPos)) 
         {
+            // 타일맵 청소
+            TileMapManager.Instance.ClearTileMap(accessibleTiles.Keys);
+            //이동
             currentPath = accessibleTiles[targetPos];
             currentPathIndex = 0;
             isMoving = true;
+        }
+        else
+        {
+            print("이동 가능한 타일이 아닙니다.");
         }
     }
     

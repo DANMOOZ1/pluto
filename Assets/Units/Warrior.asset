@@ -26,3 +26,5 @@ MonoBehaviour:
   level: 0
   isAlly: 1
   portrait: {fileID: 4937003873562304621, guid: c2ac27877d701b5429ecb0c18fdbb207, type: 3}
+  movementRule: {fileID: 11400000, guid: 7bd0948c97071b34fb1cffdf03c84802, type: 2}
+  atkRule: {fileID: 11400000, guid: 13f28463e25c5e640b9538ec2075e101, type: 2}

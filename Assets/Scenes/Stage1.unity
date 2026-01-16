@@ -7863,6 +7863,7 @@ MonoBehaviour:
   selectedUnit: {fileID: 0}
   selectedUnitIndex: 0
   accessibleUnits: []
+  unitPrefab: {fileID: 1584436410610593183, guid: 4c4072e75220e9a4bbceb75593c5cd92, type: 3}
 --- !u!4 &1304187389
 Transform:
   m_ObjectHideFlags: 0
@@ -9973,7 +9974,8 @@ MonoBehaviour:
         name: Wall
         movementCost: 1e+13
         escalator: 0
-  RTPrefab: {fileID: 11400000, guid: 57e3df91120e0c3499eefb896933294d, type: 2}
+  ReachableTilePrefab: {fileID: 11400000, guid: 57e3df91120e0c3499eefb896933294d, type: 2}
+  AttackableTilePrefab: {fileID: 11400000, guid: a543d5844e61c4d4fac6e058ce329ee2, type: 2}
 --- !u!1 &2033316806
 GameObject:
   m_ObjectHideFlags: 0

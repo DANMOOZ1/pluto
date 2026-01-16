@@ -71,7 +71,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            //"이동 불가능한 지역입니다" 알림하는 함수 위치
+            print("이동 가능한 타일이 아닙니다.");
         }
     }
 

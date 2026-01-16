@@ -21,34 +21,46 @@ public class UnitManager : Singleton<UnitManager>
         }
         
         selectedUnit = accessibleUnits[selectedUnitIndex];
-
-        GameManager.Instance.OnBattleStateChange += UnitMove;
+        
+        //구독
+        GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
     }
 
     private void OnDestroy()
     {
-        if (GameManager.HasInstance) //오류나서 gemini한테 물어보니까 추가하라고 해서 자아 없이 추가했습니다.. 문제 있음 알려주세용..
+        if (GameManager.HasInstance)
         {
-            GameManager.Instance.OnBattleStateChange -= UnitMove;
+            //구독 취소 : 램 누수 방지
+            GameManager.Instance.OnBattleStateChange -= UnitMovePrepare;
         }
     }
 
-    private void UnitMove()
+    private void UnitMovePrepare()
     {
-        Vector3Int _pos = selectedUnit.GetComponent<Unit>().cellPosition; // GetComponent<UnitController> 로 적혀 있었습니다!
-        int _mov = selectedUnit.GetComponent<Unit>().mov;
-        
-        //TileMapManager.Instance.ReachableTile(_pos, _mov);
+        //state  체크
+        switch (GameManager.Instance.battleState)
+        {
+            case BattleState.Move:
+                Unit unit = selectedUnit.GetComponent<Unit>();
+                Vector3Int pos = unit.cellPosition;
+                int mov = unit.mov;
+                MovementRule movementRule = unit.movementRule;
+                
+                //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
+                unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
+                break;
+        }
     }
 
+    public GameObject unitPrefab;
     public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
     {
-        GameObject unitObject = new GameObject(unitData.unitName);
+        //규리님 원래 빈 오브젝트를 생성하는 것에서 prefab 생성으로 바꿨어요! 컴포넌트 추가를 원하시면 프리팹에서 하시면 될 것 같습니다.
+        GameObject unitObject = Instantiate(unitPrefab,TileMapManager.Instance.CellCoordToWorldCoord(unitCellPos),Quaternion.identity);
         
         // 유닛 오브젝트에 컴포넌트 추가
-        Unit unit = unitObject.AddComponent<Unit>();
-        Unit unitController =  unitObject.AddComponent<Unit>(); // UnitController unitController =  unitObject.AddComponent<UnitController>(); 로 적혀 있었습니다!
-        SpriteRenderer renderer = unitObject.AddComponent<SpriteRenderer>();
+        Unit unit = unitObject.GetComponent<Unit>();
+        SpriteRenderer renderer = unitObject.GetComponent<SpriteRenderer>();
 
         //컴포넌트에 데이터 삽입
         unit.hp = unitData.hp;
@@ -65,8 +77,9 @@ public class UnitManager : Singleton<UnitManager>
         unit.level = unitData.level;
         unit.isAlly = unitData.isAlly;
         unit.portrait = unitData.portrait;
-         
-        unitController.cellPosition = unitCellPos;
+        unit.cellPosition = unitCellPos;
+        unit.movementRule =  unitData.movementRule;
+        unit.atkRule = unitData.atkRule;
         
         renderer.sprite = unit.sprite;
         renderer.sortingOrder = 10;

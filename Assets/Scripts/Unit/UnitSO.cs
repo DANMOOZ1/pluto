@@ -19,5 +19,6 @@ public class UnitSO : ScriptableObject
     public bool isAlly;
     public Sprite portrait;
     public MovementRule movementRule;
+    public AttackRule atkRule;
 }
 

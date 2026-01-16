@@ -23,9 +23,6 @@ public class GameManager : Singleton<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                //HandleBattle();
-                // button�� ���� ���� + Default�� ������ HandleBattle�� �ʿ���� �� ���Ҵµ�.. ���ð� �ʿ��ϸ� �츮����
-                // button�� �� �Լ����� UIManager�� �־�ξ����ϴ�
                 UpdateBattleState(BattleState.Move);
                 break;
             case GameState.PositionSetUp:
@@ -39,13 +36,6 @@ public class GameManager : Singleton<GameManager>
         OnGameStateChange?.Invoke();
     }
 
-
-    //private void HandleBattle()
-    //{
-    //    UpdateBattleState(BattleState.Move);
-    //}
-
-
     public void UpdateBattleState(BattleState newBattleState)
     {
         battleState = newBattleState;
@@ -57,14 +47,6 @@ public class GameManager : Singleton<GameManager>
                 break;
             case BattleState.Move:
                 UIManager.Instance.UIMove();
-                
-                //이동가능한 영역 선택타일 생성및 그 리스트를 할당
-                Vector3Int pos = UnitManager.Instance.selectedUnit.GetComponent<Unit>().cellPosition;
-                int mov = UnitManager.Instance.selectedUnit.GetComponent<Unit>().mov;
-                MovementRule movementRule = UnitManager.Instance.selectedUnit.GetComponent<Unit>().movementRule;
-                
-                UnitManager.Instance.selectedUnit.GetComponent<Unit>().accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
-                
                 break;
             case BattleState.Combat:
                 UpdateCombatState(CombatState.Default);
