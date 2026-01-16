@@ -24,6 +24,7 @@ public class InputHandler : MonoBehaviour
                 UnitMove();
                 break;
             case BattleState.Combat:
+                UnitAttack();
                 break;
             case BattleState.Next:
                 break;
@@ -61,6 +62,19 @@ public class InputHandler : MonoBehaviour
         return foundPos;
     }
 
+    public void UnitAttack()
+    {
+        Vector3Int? cellpos = MousePosToCellPos();
+
+        if (cellpos.HasValue)
+        {
+            UnitManager.Instance.selectedUnit.GetComponent<Unit>().AttackEnemy();
+        }
+        else
+        {
+            print("공격 가능한 타일이 아닙니다.");
+        }
+    }
     public void UnitMove()
     {
         Vector3Int? cellpos = MousePosToCellPos();

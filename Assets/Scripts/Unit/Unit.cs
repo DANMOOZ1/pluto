@@ -28,7 +28,8 @@ public class Unit : MonoBehaviour
     //인게임 유닛 테이터
     public Vector3Int cellPosition; // cell 좌표임
     public List<Node> currentPath = null;//이동을 시작할때 목표 타일까지의 경로를 나타냄
-    public Dictionary<Vector3Int,List<Node>> accessibleTiles = null;// 현재 시점에서 이동가능한 타일을 나타냄
+    public Dictionary<Vector3Int,List<Node>> accessibleTiles = null;// 현재 시점에서 이동 가능한 타일을 나타냄
+    public List<Vector3Int> attackableTiles = new List<Vector3Int>();// 현재 시점에서 공격 가능한 타일을 나타냄
     public float moveSpeed = 5f;  // 이동 속도
     private int currentPathIndex = 0;  // 현재 목표 노드 인덱스
     private bool isMoving = false;  // 이동 중인지 확인
@@ -74,15 +75,20 @@ public class Unit : MonoBehaviour
             print("이동 가능한 타일이 아닙니다.");
         }
     }
-    
+
+    public void AttackEnemy()
+    {
+        
+    }
     // 경로를 따라 이동
     void MoveAlongPath()
     {
         if(currentPathIndex >= currentPath.Count)
         {
-            // 이동 완료
+            // 모든 경로 이동 완료
             isMoving = false;
             currentPath = null;
+            GameManager.Instance.UpdateBattleState(BattleState.Combat);// 이동 완료후 combat으로 전환!
             return;
         }
         

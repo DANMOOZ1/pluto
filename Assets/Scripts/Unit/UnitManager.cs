@@ -11,19 +11,33 @@ public class UnitManager : Singleton<UnitManager>
     public GameObject selectedUnit;
     public int selectedUnitIndex = 0;
     public List<GameObject> accessibleUnits = new List<GameObject>();
+    public List<GameObject> enemyUnits = new List<GameObject>();
         
     void Awake()
     {
-        Vector3Int pos = new Vector3Int(0,1,0);
+        // 아군 생성
+        int i = 0;
+        Vector3Int pos = new Vector3Int(i,1,0);
         foreach (UnitSO u in units)
         {
-            UnitCreater(u,pos);
+            accessibleUnits.Add(UnitCreater(u,pos, true));
+            i++;
         }
         
         selectedUnit = accessibleUnits[selectedUnitIndex];
         
+        //적군생성
+        i = 0;
+        pos = new Vector3Int(i,0,0);
+        foreach (UnitSO u in units)
+        {
+            enemyUnits.Add(UnitCreater(u,pos, false));
+            i++;
+        }
+        
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
+        GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;
     }
 
     private void OnDestroy()
@@ -32,6 +46,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             //구독 취소 : 램 누수 방지
             GameManager.Instance.OnBattleStateChange -= UnitMovePrepare;
+            GameManager.Instance.OnBattleStateChange -= UnitAttackPrepare;
         }
     }
 
@@ -42,18 +57,44 @@ public class UnitManager : Singleton<UnitManager>
         {
             case BattleState.Move:
                 Unit unit = selectedUnit.GetComponent<Unit>();
+                if (unit.isAlly)
+                {
+                    Vector3Int pos = unit.cellPosition;
+                    int mov = unit.mov;
+                    MovementRule movementRule = unit.movementRule;
+                    
+                    //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
+                    unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
+                }
+                else
+                {
+                    //적 AI 가동
+                    if (accessibleUnits.Count > selectedUnitIndex) selectedUnitIndex++;
+                    else selectedUnitIndex = 0;
+                    GameManager.Instance.UpdateBattleState(BattleState.Move);
+                }
+                break;
+        }
+    }
+    
+    private void UnitAttackPrepare()
+    {
+        //state  체크
+        switch (GameManager.Instance.battleState)
+        {
+            case BattleState.Combat:
+                Unit unit = selectedUnit.GetComponent<Unit>();
                 Vector3Int pos = unit.cellPosition;
-                int mov = unit.mov;
-                MovementRule movementRule = unit.movementRule;
+                AttackRule atkRule = unit.atkRule;
                 
                 //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
-                unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
+                unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
                 break;
         }
     }
 
     public GameObject unitPrefab;
-    public void UnitCreater(UnitSO unitData, Vector3Int unitCellPos)
+    public GameObject UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
     {
         //규리님 원래 빈 오브젝트를 생성하는 것에서 prefab 생성으로 바꿨어요! 컴포넌트 추가를 원하시면 프리팹에서 하시면 될 것 같습니다.
         GameObject unitObject = Instantiate(unitPrefab,TileMapManager.Instance.CellCoordToWorldCoord(unitCellPos),Quaternion.identity);
@@ -75,7 +116,7 @@ public class UnitManager : Singleton<UnitManager>
         unit.sprite = unitData.sprite;
         unit.mov = unitData.mov;
         unit.level = unitData.level;
-        unit.isAlly = unitData.isAlly;
+        unit.isAlly = isAlly;
         unit.portrait = unitData.portrait;
         unit.cellPosition = unitCellPos;
         unit.movementRule =  unitData.movementRule;
@@ -85,7 +126,7 @@ public class UnitManager : Singleton<UnitManager>
         renderer.sortingOrder = 10;
         
         // 사용가능한 유닛리스트에 만든 유닛 오브젝트 저장
-        accessibleUnits.Add(unitObject);
+        return unitObject;
     }
 
     public void UnitChange()

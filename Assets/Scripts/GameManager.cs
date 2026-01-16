@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 
     public event Action OnGameStateChange;
     public event Action OnBattleStateChange;
+    public event Action OnCombatStateChange;
     private void Start()
     {
         UpdateGameState(GameState.Battle);
@@ -83,6 +84,8 @@ public class GameManager : Singleton<GameManager>
             case CombatState.Attack:
                 break;
         }
+        
+        OnCombatStateChange?.Invoke();
     }
 }
 

@@ -216,26 +216,17 @@ public class TileMapManager : Singleton<TileMapManager>
     
     public TileBase AttackableTilePrefab;
     
-    public Dictionary<Vector3Int,List<Node>> AttackableTile(Vector3Int pos, AttackRule atkRule)
+    public List<Vector3Int> AttackableTile(Vector3Int pos, AttackRule atkRule)
     {
-        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
+        List<Vector3Int> vList = atkRule.AttackRuleFunc(pos, dataOnTiles.Keys);
         
-        foreach (Vector3Int v in dataOnTiles.Keys)
-        {
-            dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || !atkRule.AttackRuleFunc(dist[v]))
-            {
-                dist.Remove(v);
-            }
-        }
-        
-        foreach (Vector3Int v in dist.Keys)
+        foreach (Vector3Int v in vList)
         {
             Vector3Int p  = new Vector3Int(v[0],v[1],0);
             subTilemaps[v[2]].SetTile(p, AttackableTilePrefab);
         }
-        return dist;
         
+        return vList;
     }
     public void ClearTileMap(IEnumerable<Vector3Int> keys)
     {

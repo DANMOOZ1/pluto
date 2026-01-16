@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class AttackRule : ScriptableObject
 {
-    public abstract bool AttackRuleFunc(List<Node> path);
+    public abstract List<Vector3Int> AttackRuleFunc(Vector3Int pos, IEnumerable<Vector3Int> targets);
 }

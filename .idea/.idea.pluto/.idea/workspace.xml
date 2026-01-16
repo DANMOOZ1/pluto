@@ -6,18 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/New Palette 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/New Palette 1.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/StandardMovementRule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/StandardMovementRule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/StandardAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/StandardAttackRule.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Archer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Archer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Mage.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Mage.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Warrior.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Warrior.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +110,8 @@
       <workItem from="1768388079812" duration="12551000" />
       <workItem from="1768449696583" duration="675000" />
       <workItem from="1768453439688" duration="7981000" />
-      <workItem from="1768538791174" duration="4593000" />
+      <workItem from="1768538791174" duration="7885000" />
+      <workItem from="1768550028923" duration="3461000" />
     </task>
     <servers />
   </component>

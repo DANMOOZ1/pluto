@@ -4,10 +4,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StandardAttackRule", menuName = "AttackRuleSO/StandardAttackRule")]
 public class StandardAttackRule : AttackRule
 {
-    public override bool AttackRuleFunc(List<Node> path)
+    public override List<Vector3Int> AttackRuleFunc(Vector3Int pos, IEnumerable<Vector3Int> targets)
     {
-        if (path.Count > 1) return false;
-        return true;
+        List<Vector3Int> ret = new List<Vector3Int>();
+        
+        foreach (Vector3Int target in targets)
+        {
+            if (Mathf.Abs(pos.x - target.x) + Mathf.Abs(pos.y - target.y) + Mathf.Abs(pos.z - target.z) <= 1) ret.Add(target);
+        }
+        return ret;
     }
 }
 
