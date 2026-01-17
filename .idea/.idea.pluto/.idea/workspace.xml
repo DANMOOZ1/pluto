@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="" />
+    <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,7 +108,7 @@
       <workItem from="1768550028923" duration="3461000" />
       <workItem from="1768554946247" duration="2231000" />
       <workItem from="1768557272976" duration="427000" />
-      <workItem from="1768621266916" duration="5084000" />
+      <workItem from="1768621266916" duration="5880000" />
     </task>
     <servers />
   </component>
