@@ -69,7 +69,7 @@ public class TileMapManager : Singleton<TileMapManager>
         }
 
         // 3단계: 이웃 노드 연결
-        Vector3Int[] directions = new Vector3Int[]
+        Vector3Int[] xyDirections = new Vector3Int[]
         {
             new Vector3Int(-1, 0, 0),
             new Vector3Int(1, 0, 0),
@@ -79,24 +79,31 @@ public class TileMapManager : Singleton<TileMapManager>
             new Vector3Int(0, 0, -1)
             
         };
-
+        
+        Vector3Int[] zDirections = new Vector3Int[]
+        {
+            new Vector3Int(0, 0, 1),
+            new Vector3Int(0, 0, -1),
+            new Vector3Int(0, 0, 0)
+        };
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            foreach (Vector3Int dir in directions)
-            {
-                Vector3Int newV = v + dir;
-                if (cellPosGraph.ContainsKey(newV))
+            foreach (Vector3Int zDir in zDirections)
+                foreach (Vector3Int xyDir in xyDirections)
                 {
-                    if (dir.z == 1)//올라갈때 도착 타일이 에스컬레이터 면
+                    Vector3Int newV = v + xyDir + zDir;
+                    if (cellPosGraph.ContainsKey(newV))
                     {
-                        if (dataOnTiles[newV].escalator == false) continue;
-                    }else if (dir.z == -1)//내려갈때 출발 타일이 에스컬레이터 면
-                    {
-                        if (dataOnTiles[v].escalator == false) continue;
+                        if (zDir.z == 1)//올라갈때 도착 타일이 에스컬레이터 면
+                        {
+                            if (dataOnTiles[newV].escalator == false) continue;
+                        }else if (zDir.z == -1)//내려갈때 출발 타일이 에스컬레이터 면
+                        {
+                            if (dataOnTiles[v].escalator == false) continue;
+                        }
+                        cellPosGraph[v].neighbours.Add(cellPosGraph[newV]);
                     }
-                    cellPosGraph[v].neighbours.Add(cellPosGraph[newV]);
                 }
-            }
         }
 
         // 모든 타일 보는 코드(디버깅 용)
