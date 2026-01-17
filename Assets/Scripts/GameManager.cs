@@ -17,7 +17,7 @@ public class GameManager : Singleton<GameManager>
     public void UpdateGameState(GameState newGameState)
     {
         gameState = newGameState;
-
+        
         switch (gameState)
         {
             case GameState.Menu:
@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     public void UpdateBattleState(BattleState newBattleState)
     {
         battleState = newBattleState;
-
+        print(battleState);
         switch (battleState)
         {
             case BattleState.Move:

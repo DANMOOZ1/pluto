@@ -9,7 +9,7 @@ public class UnitManager : Singleton<UnitManager>
     public List<UnitSO> units = new List<UnitSO>();
     
     public GameObject selectedUnit;// 아군 적군
-    public Unit selectedEnemy;
+    public GameObject selectedEnemy;
     public int selectedUnitIndex = 0;
     public List<GameObject> accessibleUnits = new List<GameObject>();//아군
     public List<GameObject> enemyUnits = new List<GameObject>();//적군
@@ -24,6 +24,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             accessibleUnits.Add(UnitCreater(u,pos, true));
             i++;
+            break;
         }
         
         selectedUnit = accessibleUnits[selectedUnitIndex];
@@ -35,6 +36,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             enemyUnits.Add(UnitCreater(u,pos, false));
             i++;
+            break;
         }
         
         //구독

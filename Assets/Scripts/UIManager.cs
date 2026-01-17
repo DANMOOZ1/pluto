@@ -94,7 +94,7 @@ public class UIManager : Singleton<UIManager>
 
             case BattleState.Move:
                 UIMove();
-                    break;
+                break;
             case BattleState.Default:
                 UIChoice();
                 break;
@@ -200,7 +200,7 @@ public class UIManager : Singleton<UIManager>
     // 
     public void UIEnemySelected()
     {   
-        Unit selectedEnemy = UnitManager.Instance.selectedEnemy;
+        Unit selectedEnemy = UnitManager.Instance.selectedEnemy.GetComponent<Unit>();
         eUI_allyPortrait.sprite = currentUnit.portrait;
         DrawBar(eU_barImage, Color.blue, currentUnit.hp, eUI_allyHP);
         DrawBar(eU_barImage, Color.blue, currentUnit.atk, eUI_allyATK);

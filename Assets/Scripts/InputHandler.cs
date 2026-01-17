@@ -22,11 +22,9 @@ public class InputHandler : MonoBehaviour
             case BattleState.Default:
                 break;
             case BattleState.Move:
-                UnitMove();
-                selectEnemy();
+                InputAnalyze();
                 break;
             case BattleState.Combat:
-                UnitAttack();
                 break;
             case BattleState.Next:
                 break;
@@ -72,18 +70,28 @@ public class InputHandler : MonoBehaviour
         return foundPos;
     }
 
-    public void UnitAttack()
+    //유닛을 움직이는 명령인지 마우스 위치의 적을 선택한 것인지 판별함
+    public void InputAnalyze()
     {
-        //교체
-        Vector3Int? cellpos = MousePosToCellPos();
-
-        if (cellpos.HasValue)
+        GameObject obj = selectCollider();
+    
+        // 선택된 오브젝트가 없으면 이동
+        if (obj == null)
         {
-            UnitManager.Instance.selectedUnit.GetComponent<Unit>().AttackEnemy();
+            UnitMove();
+            return;
         }
-        else
+    
+        // 유닛 컴포넌트 확인
+        Unit unit = obj.GetComponent<Unit>();
+        if (unit == null)
+            return;
+    
+        // 적군만 선택 처리
+        if (!unit.isAlly)
         {
-            print("공격 가능한 타일이 아닙니다.");
+            UnitManager.Instance.selectedEnemy = obj;
+            UIManager.Instance.BattleStateUI();
         }
     }
     public void UnitMove()
@@ -100,26 +108,23 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    public void selectEnemy()
+    //Collider를 지닌 오브젝트를 탐지함, 추후에 combat에서 사용하기 위해 분리함
+    public GameObject selectCollider()
     {
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
         Vector2 mouseWorldPos = _mainCamera.ScreenToWorldPoint(mouseScreenPos);
 
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
 
-        if (hit.collider != null && hit.collider.GetComponent<Unit>() != null)
+        // hit한 collider가 있는지 확인
+        if (hit.collider != null)
         {
-            Unit clickedUnit =  hit.collider.GetComponent<Unit>();
-
-            if (!clickedUnit.isAlly)
-            {
-                UnitManager.Instance.selectedEnemy = clickedUnit;
-                UIManager.Instance.BattleStateUI();
-            }
+            return hit.collider.gameObject;
         }
+    
+        return null;
     }
-
-
+    
     // 버튼에 들어갈 함수
     public void CombatButton()
     {
