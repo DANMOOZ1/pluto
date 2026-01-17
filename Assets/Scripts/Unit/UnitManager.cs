@@ -24,7 +24,6 @@ public class UnitManager : Singleton<UnitManager>
         {
             accessibleUnits.Add(UnitCreater(u,pos, true));
             i++;
-            break;
         }
         
         selectedUnit = accessibleUnits[selectedUnitIndex];
@@ -36,12 +35,12 @@ public class UnitManager : Singleton<UnitManager>
         {
             enemyUnits.Add(UnitCreater(u,pos, false));
             i++;
-            break;
         }
         
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
         GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;
+        GameManager.Instance.OnBattleStateChange += TurnSetting;
     }
 
     private void OnDestroy()
@@ -51,9 +50,115 @@ public class UnitManager : Singleton<UnitManager>
             //구독 취소 : 램 누수 방지
             GameManager.Instance.OnBattleStateChange -= UnitMovePrepare;
             GameManager.Instance.OnBattleStateChange -= UnitAttackPrepare;
+            GameManager.Instance.OnBattleStateChange -= TurnSetting;
         }
     }
 
+    //유닛의 턴 순서 정하는 함수
+    private void TurnSetting()
+    {
+        if (GameManager.Instance.battleState == BattleState.Setting)
+        {
+            // 1. 두 리스트를 하나로 합치기
+            List<GameObject> combinedList = new List<GameObject>();
+            combinedList.AddRange(accessibleUnits);
+            combinedList.AddRange(enemyUnits);
+
+            // 2. 합병 정렬 수행
+            List<GameObject> spdSortList = MergeSort(combinedList);
+    
+            selectedUnit = spdSortList[0];
+            selectedUnitIndex = 0;
+            
+            GameManager.Instance.UpdateBattleState(BattleState.Move);
+        }
+    }
+
+    private List<GameObject> MergeSort(List<GameObject> list)
+    {
+        // 기저 조건: 리스트 크기가 1 이하면 이미 정렬됨
+        if (list.Count <= 1) return list;
+
+        // 리스트를 반으로 나누기
+        int mid = list.Count / 2;
+        List<GameObject> left = list.GetRange(0, mid);
+        List<GameObject> right = list.GetRange(mid, list.Count - mid);
+
+        // 재귀적으로 정렬
+        left = MergeSort(left);
+        right = MergeSort(right);
+
+        // 병합
+        return Merge(left, right);
+    }
+
+    private List<GameObject> Merge(List<GameObject> left, List<GameObject> right)
+    {
+        List<GameObject> result = new List<GameObject>();
+        int i = 0;
+        int j = 0;
+
+        // 두 리스트를 비교하며 병합
+        while (i < left.Count && j < right.Count)
+        {
+            Unit leftUnit = left[i].GetComponent<Unit>();
+            Unit rightUnit = right[j].GetComponent<Unit>();
+
+            // ShouldAddAllyUnit 대신 일반적인 비교 함수 사용
+            if (ShouldAddFirst(leftUnit, rightUnit))
+            {
+                result.Add(left[i]);
+                i++;
+            }
+            else
+            {
+                result.Add(right[j]);
+                j++;
+            }
+        }
+
+        // 남은 요소들 추가
+        while (i < left.Count)
+        {
+            result.Add(left[i]);
+            i++;
+        }
+
+        while (j < right.Count)
+        {
+            result.Add(right[j]);
+            j++;
+        }
+
+        return result;
+    }
+
+    private bool ShouldAddFirst(Unit unit1, Unit unit2)
+    {
+        // 속도가 다르면 속도가 빠른 것이 먼저
+        if (unit1.spd != unit2.spd)
+        {
+            return unit1.spd > unit2.spd;
+        }
+
+        // 속도가 같으면 레벨이 높은 것이 먼저
+        if (unit1.level != unit2.level)
+        {
+            return unit1.level > unit2.level;
+        }
+
+        // 속도와 레벨이 모두 같으면 아군 우선
+        // unit1이 아군이고 unit2가 적이면 unit1을 먼저
+        // unit1이 적이고 unit2가 아군이면 unit2를 먼저 (false 반환)
+        if (unit1.isAlly != unit2.isAlly)
+        {
+            return unit1.isAlly;
+        }
+
+        // 둘 다 아군이거나 둘 다 적이면 순서 유지
+        return true;
+    }
+    
     private void UnitMovePrepare()
     {
         //state  체크

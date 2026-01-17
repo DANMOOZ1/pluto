@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                UpdateBattleState(BattleState.Move);
+                UpdateBattleState(BattleState.Setting);
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -42,6 +42,8 @@ public class GameManager : Singleton<GameManager>
         print(battleState);
         switch (battleState)
         {
+            case BattleState.Setting:
+                break;
             case BattleState.Move:
                 break;
             case BattleState.Default:
@@ -74,6 +76,7 @@ public enum GameState
 
 public enum BattleState
 {
+    Setting,
     Default,
     Move,
     Combat,
