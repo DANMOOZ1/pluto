@@ -6,7 +6,7 @@ public class StandardMovementRule : MovementRule
 {
     public override bool MovementRuleFunc(List<Node> path, int mov)
     {
-        if (path.Count > mov) return false;
+        if (path.Count > mov*4) return false;
         return true;
     }
 }
