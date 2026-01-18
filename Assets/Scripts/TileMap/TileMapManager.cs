@@ -74,7 +74,11 @@ public class TileMapManager : Singleton<TileMapManager>
             new Vector3Int(-1, 0, 0),
             new Vector3Int(1, 0, 0),
             new Vector3Int(0, -1, 0),
-            new Vector3Int(0, 1, 0)
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(-1, -1, 0),
+            new Vector3Int(1, 1, 0),
+            new Vector3Int(1, -1, 0),
+            new Vector3Int(-1, 1, 0)
         };
         
         Vector3Int[] zDirections = new Vector3Int[]
@@ -205,7 +209,7 @@ public class TileMapManager : Singleton<TileMapManager>
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
             dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || !movementRule.MovementRuleFunc(dist[v], mov))
+            if (dist[v] == null || !movementRule.MovementRuleFunc(dist[v], pos, mov))
             {
                 dist.Remove(v);
             }
@@ -231,7 +235,7 @@ public class TileMapManager : Singleton<TileMapManager>
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
             dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || !atkRule.AttackRuleFunc(dist[v]))
+            if (dist[v] == null || !atkRule.AttackRuleFunc(dist[v],pos))
             {
                 dist.Remove(v);
             }
