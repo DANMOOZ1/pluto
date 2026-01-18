@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Temple_GrayWPattern
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: 7378466756914692750, guid: b3675192299344331830a4f4d456c9e8, type: 3}
+  m_Sprite: {fileID: 818243735862752300, guid: 0260fdfcd9c074c30967cf1b38ddfbd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
