@@ -76,16 +76,52 @@ public class Unit : MonoBehaviour
         }
     }
 
+    // 경로를 따라 이동
+    void MoveAlongPath()
+    {
+        if(currentPathIndex >= currentPath.Count)
+        {
+            // 모든 경로 이동 완료
+            isMoving = false;
+            currentPath = null;
+            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 Default로 전환
+            return;
+        }
+        
+        Vector3Int targetCellPos = new Vector3Int(currentPath[currentPathIndex].x,currentPath[currentPathIndex].y,currentPath[currentPathIndex].z);
+        // 목표 위치 계산
+        Vector3 targetPosition = TileMapManager.Instance.CellCoordToWorldCoord(targetCellPos);
+        //반블록일시 위치를 맞춰줌
+        if(TileMapManager.Instance.dataOnTiles[targetCellPos].escalator) targetPosition += new Vector3(0,-0.5f,0);
+        
+        // 현재 위치에서 목표 위치로 이동
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        
+        // 목표 지점 도착 확인
+        if(Vector3.Distance(transform.position, targetPosition) < 0.01f)
+        {
+            // 정확한 위치로 스냅
+            transform.position = targetPosition;
+            // 타일 좌표 업데이트
+            cellPosition = targetCellPos;
+            // 다음 노드로 이동
+            currentPathIndex++;
+        }
+    }
+    
+    //1~100 사이의 확률을 받아 bool 출력
     private bool RandomFunc(int x)
     {
         int ran = Random.Range(0, 100);
         
         return ran < x;
     }
+    
+    // enemy에 대한 공격 연산 및 타일맵 클리어
     public void Attack(Unit enemy)
     {
         TileMapManager.Instance.ClearTileMap(attackableTiles);
-        int damage = this.atk;
+        int damage = atk;
         
         // 명중률 계산
         int accuracy = 85 + 4 * (foc - enemy.foc) -3*((int)Mathf.Round(Vector3.Distance(cellPosition,enemy.cellPosition)) - 2);
@@ -125,36 +161,5 @@ public class Unit : MonoBehaviour
         GameManager.Instance.UpdateBattleState(BattleState.Next);// 공격 완료 후 Next로 전환
     }
     
-    // 경로를 따라 이동
-    void MoveAlongPath()
-    {
-        if(currentPathIndex >= currentPath.Count)
-        {
-            // 모든 경로 이동 완료
-            isMoving = false;
-            currentPath = null;
-            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 Default로 전환
-            return;
-        }
-        
-        Vector3Int targetCellPos = new Vector3Int(currentPath[currentPathIndex].x,currentPath[currentPathIndex].y,currentPath[currentPathIndex].z);
-        // 목표 위치 계산
-        Vector3 targetPosition = TileMapManager.Instance.CellCoordToWorldCoord(targetCellPos);
-        
-        // 현재 위치에서 목표 위치로 이동
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        
-        // 목표 지점 도착 확인
-        if(Vector3.Distance(transform.position, targetPosition) < 0.01f)
-        {
-            // 정확한 위치로 스냅
-            transform.position = targetPosition;
-            
-            // 타일 좌표 업데이트
-            cellPosition = targetCellPos;
-            
-            // 다음 노드로 이동
-            currentPathIndex++;
-        }
-    }
+    
 }

@@ -49,18 +49,29 @@ public class InputHandler : MonoBehaviour
     {
         var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
     
+        Vector3Int? cellPos = WorldToCellPos(mousePos); 
+        Vector3Int? cellPos2 = WorldToCellPos(mousePos + new Vector3(0, 0.5f, 0));
+        
+        //반블록 인식을 위한 재검증
+        if (!cellPos2.HasValue) return cellPos;
+        if(TileMapManager.Instance.dataOnTiles[(Vector3Int)cellPos2].escalator) return cellPos2;
+        return cellPos;
+    }
+
+    public Vector3Int? WorldToCellPos(Vector3 worldPos)
+    {
         int i = 0;
         Vector3Int? foundPos = null;
     
         foreach (var tilemap in TileMapManager.Instance.tilemaps)
         {
-            Vector3Int mousePosTranslated = tilemap.WorldToCell(mousePos);
-            mousePosTranslated = mousePosTranslated - new Vector3Int(5, 5, 0); // 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
-            mousePosTranslated.z = i;
+            Vector3Int worldPosTranslated = tilemap.WorldToCell(worldPos);
+            worldPosTranslated = worldPosTranslated - new Vector3Int(5, 5, 0); // 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
+            worldPosTranslated.z = i;
         
-            if (TileMapManager.Instance.dataOnTiles.ContainsKey(mousePosTranslated))
+            if (TileMapManager.Instance.dataOnTiles.ContainsKey(worldPosTranslated))
             {
-                foundPos = mousePosTranslated;
+                foundPos = worldPosTranslated;
                 // 계속 순회하면서 더 높은 z값을 가진 타일을 찾음
             }
             i++;

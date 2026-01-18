@@ -19,22 +19,22 @@ public class UnitManager : Singleton<UnitManager>
     {
         // 아군 생성
         int i = 0;
-        Vector3Int pos = new Vector3Int(0,1,0);
+        Vector3Int pos =  new Vector3Int(-10,4,0);
         foreach (UnitSO u in units)
         {
             accessibleUnits.Add(UnitCreater(u,pos, true));
             i++;
-            pos.x = i;
+            break;
         }
         
         //적군생성
         i = 0;
-        pos = new Vector3Int(0,0,0);
+        pos = new Vector3Int(-1,5,0);
         foreach (UnitSO u in units)
         {
             enemyUnits.Add(UnitCreater(u, pos, false));
             i++;
-            pos.x = i;
+            pos.y += i;
         }
         
         //구독
