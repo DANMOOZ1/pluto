@@ -6,8 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayHalfWPattern_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayHalfWPattern_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayHalf_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayHalf_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayWPattern_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_GrayWPattern_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_Gray_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_Gray_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_WhiteHalf_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_WhiteHalf_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_White_V01.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/IsometricTiles/Tile_Temple_White_V01.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Temple_WhiteHalf.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Temple_WhiteHalf.asset.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +120,7 @@
       <workItem from="1768557272976" duration="427000" />
       <workItem from="1768621266916" duration="5880000" />
       <workItem from="1768664344607" duration="2881000" />
+      <workItem from="1768710850575" duration="1901000" />
     </task>
     <servers />
   </component>

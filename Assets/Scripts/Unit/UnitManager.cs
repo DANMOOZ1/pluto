@@ -8,33 +8,33 @@ public class UnitManager : Singleton<UnitManager>
     //등록된 유닛 프리팹
     public List<UnitSO> units = new List<UnitSO>();
     
-    public GameObject selectedUnit;// 아군 적군
-    public GameObject selectedEnemy;
+    public Unit selectedUnit;// 아군 적군
+    public Unit selectedEnemy;
     public int selectedUnitIndex = 0;
-    public List<GameObject> accessibleUnits = new List<GameObject>();//아군
-    public List<GameObject> enemyUnits = new List<GameObject>();//적군
-        
+    public List<Unit> accessibleUnits = new List<Unit>();//아군
+    public List<Unit> enemyUnits = new List<Unit>();//적군
+    public List<Unit> spdSortUnits = new List<Unit>();
     
     void Awake()
     {
         // 아군 생성
         int i = 0;
-        Vector3Int pos = new Vector3Int(i,1,0);
+        Vector3Int pos = new Vector3Int(0,1,0);
         foreach (UnitSO u in units)
         {
             accessibleUnits.Add(UnitCreater(u,pos, true));
             i++;
+            pos.x = i;
         }
-        
-        selectedUnit = accessibleUnits[selectedUnitIndex];
         
         //적군생성
         i = 0;
-        pos = new Vector3Int(i,0,0);
+        pos = new Vector3Int(0,0,0);
         foreach (UnitSO u in units)
         {
-            enemyUnits.Add(UnitCreater(u,pos, false));
+            enemyUnits.Add(UnitCreater(u, pos, false));
             i++;
+            pos.x = i;
         }
         
         //구독
@@ -60,29 +60,31 @@ public class UnitManager : Singleton<UnitManager>
         if (GameManager.Instance.battleState == BattleState.Setting)
         {
             // 1. 두 리스트를 하나로 합치기
-            List<GameObject> combinedList = new List<GameObject>();
+            List<Unit> combinedList = new List<Unit>();
             combinedList.AddRange(accessibleUnits);
             combinedList.AddRange(enemyUnits);
 
             // 2. 합병 정렬 수행
-            List<GameObject> spdSortList = MergeSort(combinedList);
+            spdSortUnits = MergeSort(combinedList);
     
-            selectedUnit = spdSortList[0];
+            selectedUnit = spdSortUnits[0];
             selectedUnitIndex = 0;
+            
+            foreach (Unit u in spdSortUnits) print(u.unitName);
             
             GameManager.Instance.UpdateBattleState(BattleState.Move);
         }
     }
 
-    private List<GameObject> MergeSort(List<GameObject> list)
+    private List<Unit> MergeSort(List<Unit> list)
     {
         // 기저 조건: 리스트 크기가 1 이하면 이미 정렬됨
         if (list.Count <= 1) return list;
 
         // 리스트를 반으로 나누기
         int mid = list.Count / 2;
-        List<GameObject> left = list.GetRange(0, mid);
-        List<GameObject> right = list.GetRange(mid, list.Count - mid);
+        List<Unit> left = list.GetRange(0, mid);
+        List<Unit> right = list.GetRange(mid, list.Count - mid);
 
         // 재귀적으로 정렬
         left = MergeSort(left);
@@ -92,20 +94,17 @@ public class UnitManager : Singleton<UnitManager>
         return Merge(left, right);
     }
 
-    private List<GameObject> Merge(List<GameObject> left, List<GameObject> right)
+    private List<Unit> Merge(List<Unit> left, List<Unit> right)
     {
-        List<GameObject> result = new List<GameObject>();
+        List<Unit> result = new List<Unit>();
         int i = 0;
         int j = 0;
 
         // 두 리스트를 비교하며 병합
         while (i < left.Count && j < right.Count)
         {
-            Unit leftUnit = left[i].GetComponent<Unit>();
-            Unit rightUnit = right[j].GetComponent<Unit>();
-
             // ShouldAddAllyUnit 대신 일반적인 비교 함수 사용
-            if (ShouldAddFirst(leftUnit, rightUnit))
+            if (ShouldAddFirst(left[i], right[j]))
             {
                 result.Add(left[i]);
                 i++;
@@ -198,14 +197,14 @@ public class UnitManager : Singleton<UnitManager>
                 
                 //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
                 unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
+                
                 break;
         }
     }
 
     public GameObject unitPrefab;
-    public GameObject UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
+    public Unit UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
     {
-        //규리님 원래 빈 오브젝트를 생성하는 것에서 prefab 생성으로 바꿨어요! 컴포넌트 추가를 원하시면 프리팹에서 하시면 될 것 같습니다.
         GameObject unitObject = Instantiate(unitPrefab,TileMapManager.Instance.CellCoordToWorldCoord(unitCellPos),Quaternion.identity);
         
         // 유닛 오브젝트에 컴포넌트 추가
@@ -234,8 +233,10 @@ public class UnitManager : Singleton<UnitManager>
         renderer.sprite = unit.sprite;
         renderer.sortingOrder = 10;
         
-        // 사용가능한 유닛리스트에 만든 유닛 오브젝트 저장
-        return unitObject;
+        unitObject.name = unit.unitName;
+        
+        // 사용가능한 유닛리스트에 만든 유닛 저장
+        return unit;
     }
 
     public void UnitChange()

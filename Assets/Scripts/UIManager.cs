@@ -53,7 +53,7 @@ public class UIManager : Singleton<UIManager>
 
     // unit 가져오기
     public Unit currentUnit;
-    public List<GameObject> allUnits;
+    public List<Unit> allUnits;
 
     // 유닛 턴인가요?
     public bool isPlayerTurn;
@@ -64,14 +64,7 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
 
         // 모든 유닛 한 리스트에 저장
-        foreach (GameObject unit in UnitManager.Instance.accessibleUnits)
-        {
-            allUnits.Add(unit);
-        }
-        foreach (GameObject unit in UnitManager.Instance.enemyUnits)
-        {
-            allUnits.Add(unit);
-        }
+        allUnits = UnitManager.Instance.spdSortUnits;
     }
 
 
@@ -79,9 +72,9 @@ public class UIManager : Singleton<UIManager>
     public void BattleStateUI()
     {
         // 현재 차례인 unit 가져오기
-        if (UnitManager.Instance.selectedUnit.GetComponent<Unit>().isAlly)
+        if (UnitManager.Instance.selectedUnit.isAlly)
         {
-            currentUnit = UnitManager.Instance.selectedUnit.GetComponent<Unit>();
+            currentUnit = UnitManager.Instance.selectedUnit;
         }
 
         // 창 다 지우기
@@ -116,7 +109,7 @@ public class UIManager : Singleton<UIManager>
         profileUI();
 
         // 머리 위 UI 띄우기
-        foreach (GameObject unit in allUnits)
+        foreach (Unit unit in allUnits)
         {
             HeadUI(unit, isPlayerTurn);
 
@@ -156,7 +149,7 @@ public class UIManager : Singleton<UIManager>
     public void UICombat()
     {
 
-        foreach (GameObject unit in allUnits)
+        foreach (Unit unit in allUnits)
         {
             HeadUI(unit, true);
 
@@ -259,7 +252,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     // 머리 위 UI
-    public void HeadUI(GameObject parentUnit, bool isPlayerTurn)
+    public void HeadUI(Unit parentUnit, bool isPlayerTurn)
     {
         foreach (Transform child in parentUnit.transform)
         {
@@ -272,27 +265,25 @@ public class UIManager : Singleton<UIManager>
         GameObject clonedHeadUI = Instantiate(headUI, parentUnit.transform);
         clonedHeadUI.name = "HeadUI";
 
-        Unit unit = parentUnit.GetComponent<Unit>();
-
         GameObject portrait = clonedHeadUI.transform.GetChild(0).gameObject;
         GameObject hp = clonedHeadUI.transform.GetChild(1).gameObject;
         GameObject stat = clonedHeadUI.transform.GetChild(2).gameObject;
 
-        portrait.GetComponent<Image>().sprite = unit.portrait;
+        portrait.GetComponent<Image>().sprite = parentUnit.portrait;
         eU_barImage.GetComponent<Image>().color = Color.green;
-        DrawBar(eU_barImage, Color.green, unit.hp, hp);
+        DrawBar(eU_barImage, Color.green, parentUnit.hp, hp);
 
-        bool isAttacker = (isPlayerTurn && unit.isAlly) || (!isPlayerTurn && !unit.isAlly);
+        bool isAttacker = (isPlayerTurn && parentUnit.isAlly) || (!isPlayerTurn && !parentUnit.isAlly);
 
         if (isAttacker)
         {
             // 공격: 빨간색 ATK
-            DrawBar(eU_barImage, Color.red, unit.atk, stat);
+            DrawBar(eU_barImage, Color.red, parentUnit.atk, stat);
         }
         else
         {
             // 방어: 파란색 DEF
-            DrawBar(eU_barImage, Color.blue, unit.def, stat);
+            DrawBar(eU_barImage, Color.blue, parentUnit.def, stat);
         }
     }
 }

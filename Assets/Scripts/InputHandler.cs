@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour
         // 적군만 선택 처리
         if (!unit.isAlly)
         {
-            UnitManager.Instance.selectedEnemy = obj;
+            UnitManager.Instance.selectedEnemy = unit;
             UIManager.Instance.BattleStateUI();
         }
     }
