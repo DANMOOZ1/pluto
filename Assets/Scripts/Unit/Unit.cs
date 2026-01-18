@@ -76,10 +76,55 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void AttackEnemy()
+    private bool RandomFunc(int x)
     {
-        //ㅇㅈㅇ
+        int ran = Random.Range(0, 100);
+        
+        return ran < x;
     }
+    public void Attack(Unit enemy)
+    {
+        TileMapManager.Instance.ClearTileMap(attackableTiles);
+        int damage = this.atk;
+        
+        // 명중률 계산
+        int accuracy = 85 + 4 * (foc - enemy.foc) -3*((int)Mathf.Round(Vector3.Distance(cellPosition,enemy.cellPosition)) - 2);
+        if (!RandomFunc(accuracy))
+        {
+            print("빗나감 ㅅㄱ");
+            GameManager.Instance.UpdateBattleState(BattleState.Next); // 공격 완료 후 Next로 전환
+            return;
+        }
+        
+        //치명타 계산
+        int crit = 10 + 5 * foc;
+        if(RandomFunc(crit)) damage += 2;
+        
+        //공격횟수 계산
+        int attackCount = 0;
+        if (spd < 5) attackCount = 1;
+        else if (spd < 8) attackCount = 2;
+        else if (spd < 10) attackCount = 3;
+        else attackCount = 4;
+        
+        enemy.Attacked(damage,attackCount);
+    }
+
+    public void Attacked(int damage, int attackCount)
+    {
+        for (int i = 0; i < attackCount; i++)
+        {
+            hp -= damage;
+
+            if (hp <= 0)
+            {
+                UnitManager.Instance.UnitEliminate(this);
+                break;
+            }
+        }
+        GameManager.Instance.UpdateBattleState(BattleState.Next);// 공격 완료 후 Next로 전환
+    }
+    
     // 경로를 따라 이동
     void MoveAlongPath()
     {
@@ -88,7 +133,7 @@ public class Unit : MonoBehaviour
             // 모든 경로 이동 완료
             isMoving = false;
             currentPath = null;
-            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 combat으로 전환! // 제가 수정한 코드가 잘 작동되는지 봐야 할 것 같아서 여기만 만졌습니다!
+            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 Default로 전환
             return;
         }
         
@@ -112,15 +157,4 @@ public class Unit : MonoBehaviour
             currentPathIndex++;
         }
     }
-    
-    //private void OnMouseDown()
-    //{
-    //    if (!isAlly)
-    //    {
-    //        if (GameManager.Instance.battleState == BattleState.Combat)
-    //        {
-    //            UIManager.Instance.selectedEnemy = this;
-    //        }
-    //    }
-    //}
 }

@@ -41,6 +41,7 @@ public class UnitManager : Singleton<UnitManager>
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
         GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;
         GameManager.Instance.OnBattleStateChange += TurnSetting;
+        GameManager.Instance.OnBattleStateChange += NextUnit;
     }
 
     private void OnDestroy()
@@ -51,10 +52,31 @@ public class UnitManager : Singleton<UnitManager>
             GameManager.Instance.OnBattleStateChange -= UnitMovePrepare;
             GameManager.Instance.OnBattleStateChange -= UnitAttackPrepare;
             GameManager.Instance.OnBattleStateChange -= TurnSetting;
+            GameManager.Instance.OnBattleStateChange -= NextUnit;
         }
     }
 
-    //유닛의 턴 순서 정하는 함수
+    //다음 유닛으로 이동 혹은 승패 여부를 결정
+    public void NextUnit()
+    {
+        if (GameManager.Instance.battleState == BattleState.Next)
+        {
+            //승패 판정
+            if (accessibleUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Defeat);
+            else if (enemyUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Victory);
+            else
+            {
+                if(selectedUnitIndex < spdSortUnits.Count-1) selectedUnitIndex++;
+                else selectedUnitIndex = 0;
+                selectedUnit = spdSortUnits[selectedUnitIndex];
+                
+                GameManager.Instance.UpdateBattleState(BattleState.Move);
+            }
+            
+        }
+    }
+    
+    //유닛의 턴 순서 정하는 함수, BattleState : Setting
     private void TurnSetting()
     {
         if (GameManager.Instance.battleState == BattleState.Setting)
@@ -158,6 +180,7 @@ public class UnitManager : Singleton<UnitManager>
         return true;
     }
     
+    //유
     private void UnitMovePrepare()
     {
         //state  체크
@@ -177,9 +200,8 @@ public class UnitManager : Singleton<UnitManager>
                 else
                 {
                     //적 AI 가동
-                    if (accessibleUnits.Count > selectedUnitIndex) selectedUnitIndex++;
-                    else selectedUnitIndex = 0;
-                    GameManager.Instance.UpdateBattleState(BattleState.Move);
+                     GameManager.Instance.UpdateBattleState(BattleState.Next);
+                    
                 }
                 break;
         }
@@ -239,8 +261,13 @@ public class UnitManager : Singleton<UnitManager>
         return unit;
     }
 
-    public void UnitChange()
+    public void UnitEliminate(Unit unit)
     {
-        if (accessibleUnits.Count > selectedUnitIndex) selectedUnitIndex++;
+        //리스트에서 Unit 제거
+        if (unit.isAlly) accessibleUnits.Remove(unit);
+        else enemyUnits.Add(unit);
+        spdSortUnits.Remove(unit);
+
+        Destroy(unit.gameObject);
     }
 }

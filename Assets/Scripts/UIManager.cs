@@ -63,7 +63,7 @@ public class UIManager : Singleton<UIManager>
         // 구독
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
 
-        // 모든 유닛 한 리스트에 저장
+        // 모든 유닛 한 리스트에 저장 ** spdSortUnits에 현재 가용 가능한 모든 유닛이 있음(Unit 타입)
         allUnits = UnitManager.Instance.spdSortUnits;
     }
 
@@ -99,9 +99,6 @@ public class UIManager : Singleton<UIManager>
                 break;
             case BattleState.Info:
                 UIInfo();
-                break;
-            case BattleState.EnemyTurn:
-                UIEnemyTurn();
                 break;
         }
 
@@ -181,12 +178,6 @@ public class UIManager : Singleton<UIManager>
 
         // 플레이어 턴
         isPlayerTurn = true;
-    }
-
-    public void UIEnemyTurn()
-    {
-        // 플레이어 턴
-        isPlayerTurn = false;
     }
 
 

@@ -7628,6 +7628,7 @@ MonoBehaviour:
   selectedUnitIndex: 0
   accessibleUnits: []
   enemyUnits: []
+  spdSortUnits: []
   unitPrefab: {fileID: 1584436410610593183, guid: 4c4072e75220e9a4bbceb75593c5cd92, type: 3}
 --- !u!4 &1304187389
 Transform:

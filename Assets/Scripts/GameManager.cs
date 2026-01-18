@@ -29,6 +29,10 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.UnitSetUp:
                 break;
+            case GameState.Victory:
+                break;
+            case GameState.Defeat:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -54,8 +58,6 @@ public class GameManager : Singleton<GameManager>
                 break;
             case BattleState.Info:
                 break;
-            case BattleState.EnemyTurn:
-                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -70,7 +72,9 @@ public enum GameState
     Menu,
     Battle,
     PositionSetUp,
-    UnitSetUp
+    UnitSetUp,
+    Victory,
+    Defeat
     
 }
 
@@ -81,8 +85,7 @@ public enum BattleState
     Move,
     Combat,
     Next,
-    Info,
-    EnemyTurn
+    Info
 }
 
 public enum CombatState

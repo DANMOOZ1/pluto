@@ -25,12 +25,11 @@ public class InputHandler : MonoBehaviour
                 InputAnalyze();
                 break;
             case BattleState.Combat:
+                UnitAttack();
                 break;
             case BattleState.Next:
                 break;
             case BattleState.Info:
-                break;
-            case BattleState.EnemyTurn:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -100,12 +99,25 @@ public class InputHandler : MonoBehaviour
 
         if (cellpos.HasValue)
         {
-            UnitManager.Instance.selectedUnit.GetComponent<Unit>().StartMoving(cellpos.Value);
+            UnitManager.Instance.selectedUnit.StartMoving(cellpos.Value);
         }
         else
         {
             print("이동 가능한 타일이 아닙니다.");
         }
+    }
+
+    public void UnitAttack()
+    {
+        GameObject obj = selectCollider();
+        
+        //유닛 선택이 안된경우 return
+        if (obj == null) return;
+            
+        Unit unit = obj.GetComponent<Unit>();
+        
+        //두 선택 유닛간 진영이 다를 경우 Attack!
+        if (unit.isAlly != UnitManager.Instance.selectedUnit.isAlly) UnitManager.Instance.selectedUnit.Attack(unit);
     }
 
     //Collider를 지닌 오브젝트를 탐지함, 추후에 combat에서 사용하기 위해 분리함

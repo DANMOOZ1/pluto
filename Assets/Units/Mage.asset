@@ -23,7 +23,7 @@ MonoBehaviour:
   hta: 0
   sprite: {fileID: -6511610701255145038, guid: b587d1cbdd8a84643b84991b0b5d0b22, type: 3}
   mov: 3
-  level: 0
+  level: 2
   isAlly: 1
   portrait: {fileID: 1435938718540855604, guid: 540e86c5cd118db4b9382aaab92cb8d7, type: 3}
   movementRule: {fileID: 11400000, guid: 7bd0948c97071b34fb1cffdf03c84802, type: 2}

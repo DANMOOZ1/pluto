@@ -162,8 +162,9 @@ public class TileMapManager : Singleton<TileMapManager>
                 }
             }
             
-            if (dist[u] == Mathf.Infinity){
-                break;
+            if (dist[u] == Mathf.Infinity)
+            {
+                return null;
             }
 
             if (u == target){
