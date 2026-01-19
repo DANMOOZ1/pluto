@@ -22,7 +22,7 @@ public class InputHandler : MonoBehaviour
             case BattleState.Default:
                 break;
             case BattleState.Move:
-                InputAnalyze();
+                if (!UnitManager.Instance.selectedUnit.isMoving) InputAnalyze();
                 break;
             case BattleState.Combat:
                 UnitAttack();

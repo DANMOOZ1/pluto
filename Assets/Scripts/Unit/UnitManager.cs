@@ -192,7 +192,7 @@ public class UnitManager : Singleton<UnitManager>
                 {
                     Vector3Int pos = unit.cellPosition;
                     int mov = unit.mov;
-                    MovementRule movementRule = unit.movementRule;
+                    TileCheckRule movementRule = unit.movementRule;
                     
                     //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
                     unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
@@ -215,7 +215,7 @@ public class UnitManager : Singleton<UnitManager>
             case BattleState.Combat:
                 Unit unit = selectedUnit.GetComponent<Unit>();
                 Vector3Int pos = unit.cellPosition;
-                AttackRule atkRule = unit.atkRule;
+                TileCheckRule atkRule = unit.atkRule;
                 
                 //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
                 unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
@@ -263,7 +263,9 @@ public class UnitManager : Singleton<UnitManager>
 
     public void UnitEliminate(Unit unit)
     {
-        //리스트에서 Unit 제거
+        //인덱스 당겨오기
+        if (spdSortUnits.IndexOf(unit) < selectedUnitIndex) selectedUnitIndex -= 1;
+        //리스트에서 Unit 제거    
         if (unit.isAlly) accessibleUnits.Remove(unit);
         else enemyUnits.Add(unit);
         spdSortUnits.Remove(unit);

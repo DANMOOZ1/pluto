@@ -22,17 +22,17 @@ public class Unit : MonoBehaviour
     public int level;
     public bool isAlly;
     public Sprite portrait;
-    public MovementRule movementRule;
-    public AttackRule atkRule;
+    public TileCheckRule movementRule;
+    public TileCheckRule atkRule;
     
     //인게임 유닛 테이터
     public Vector3Int cellPosition; // cell 좌표임
     public List<Node> currentPath = null;//이동을 시작할때 목표 타일까지의 경로를 나타냄
-    public Dictionary<Vector3Int,List<Node>> accessibleTiles = null;// 현재 시점에서 이동 가능한 타일을 나타냄
+    public List<Vector3Int> accessibleTiles = new List<Vector3Int>();// 현재 시점에서 이동 가능한 타일을 나타냄
     public List<Vector3Int> attackableTiles = new List<Vector3Int>();// 현재 시점에서 공격 가능한 타일을 나타냄
     public float moveSpeed = 5f;  // 이동 속도
     private int currentPathIndex = 0;  // 현재 목표 노드 인덱스
-    private bool isMoving = false;  // 이동 중인지 확인
+    public bool isMoving = false;  // 이동 중인지 확인
 
     void Update()
     {
@@ -61,12 +61,12 @@ public class Unit : MonoBehaviour
     // 경로 이동 시작
     public void StartMoving(Vector3Int targetPos)
     {
-        if (accessibleTiles.ContainsKey(targetPos)) 
+        if (accessibleTiles.Contains(targetPos)) 
         {
             // 타일맵 청소
-            TileMapManager.Instance.ClearTileMap(accessibleTiles.Keys);
+            TileMapManager.Instance.ClearTileMap(accessibleTiles);
             //이동
-            currentPath = accessibleTiles[targetPos];
+            currentPath = TileMapManager.Instance.GeneratePathTo(cellPosition,targetPos, movementRule);
             currentPathIndex = 0;
             isMoving = true;
         }

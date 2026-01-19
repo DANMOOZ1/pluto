@@ -6,21 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/New Palette 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/New Palette 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/StandardAttackRule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/StandardAttackRule.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/StandardMovementRule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/StandardMovementRule.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Archer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Archer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/AttackRules/StandardAttackRule.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/AttackRules/StandardAttackRule.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Mage.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Mage.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/MovementRules/StandardMovementRule.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/MovementRules/StandardMovementRule.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Warrior.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/Warrior.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RunaAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RunaAttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RunaMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RunaMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +30,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/EnemyAI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../카카오톡 받은 파일/UIManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -128,6 +127,7 @@
       <workItem from="1768710850575" duration="10208000" />
       <workItem from="1768728545330" duration="2158000" />
       <workItem from="1768743751549" duration="3648000" />
+      <workItem from="1768821741862" duration="5341000" />
     </task>
     <servers />
   </component>

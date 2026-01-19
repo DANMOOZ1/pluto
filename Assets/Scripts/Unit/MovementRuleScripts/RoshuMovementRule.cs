@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RoshuMovementRule", menuName = "MovementRuleSO/RoshuMovementRule")]
-public class RoshuMovementRule : MovementRule
+public class RoshuMovementRule : TileCheckRule
 {
-    public override bool MovementRuleFunc(List<Node> path, Vector3Int pos, int mov)
+    public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
     {
-        if (path.Count > 1) return false;
-        if (path.Count == 0) return true;
-        if(Mathf.Abs(path[0].x - pos[0]) + Mathf.Abs(path[0].y - pos[1]) == 2) return true;
-        return false;
+        int dx = Mathf.Abs(to.x - from.x);
+        int dy = Mathf.Abs(to.y - from.y);
+
+        return dx == 1 && dy == 1;
     }
 }
 

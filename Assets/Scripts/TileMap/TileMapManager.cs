@@ -124,23 +124,20 @@ public class TileMapManager : Singleton<TileMapManager>
     }
 
     // cell 좌표를 입력 받아 해당 목적지까지의 경로를 작성함(unit 클래스 자체의 currentPath 에 접근하여 작성)
-    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos){
-        // selected unit Null 체크
-        
+    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos, TileCheckRule movementRule){
         if (!cellPosGraph.ContainsKey(targetPos)) {
             Debug.LogWarning($"목표 위치 {targetPos}에 타일이 없습니다.");
             return null;
         }
         
-        Dictionary<Node,float> dist = new Dictionary<Node, float>();
-        Dictionary<Node,Node> prev = new Dictionary<Node, Node>();
-        List<Node> unvisited = new List<Node>();
-        
-        // target tile Null 체크
         if (!cellPosGraph.ContainsKey(currPos)) {
             Debug.LogWarning($"유닛 위치 {currPos}에 타일이 없습니다.");
             return null;
         }
+        
+        Dictionary<Node, float> dist = new Dictionary<Node, float>();
+        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+        List<Node> unvisited = new List<Node>();
         
         Node source = cellPosGraph[currPos];
         Node target = cellPosGraph[targetPos];
@@ -148,9 +145,12 @@ public class TileMapManager : Singleton<TileMapManager>
         dist[source] = 0;
         prev[source] = null;
         
-        foreach(Node v in cellPosGraph.Values){
-            if(v != null){
-                if (v != source){
+        foreach(Node v in cellPosGraph.Values)
+        {
+            if(v != null)
+            {
+                if (v != source)
+                {
                     dist[v] = Mathf.Infinity;
                     prev[v] = null;
                 }
@@ -158,10 +158,13 @@ public class TileMapManager : Singleton<TileMapManager>
             }
         }
         
-        while(unvisited.Count > 0){
+        while(unvisited.Count > 0)
+        {
             Node u = null;
-            foreach(Node possibleU in unvisited){
-                if(u == null || dist[possibleU] < dist[u]){
+            foreach(Node possibleU in unvisited)
+            {
+                if(u == null || dist[possibleU] < dist[u])
+                {
                     u = possibleU;
                 }
             }
@@ -171,15 +174,28 @@ public class TileMapManager : Singleton<TileMapManager>
                 return null;
             }
 
-            if (u == target){
+            if (u == target)
+            {
                 break;
             }
             
             unvisited.Remove(u);
 
-            foreach(Node v in u.neighbours){
-                float alt = dist[u] + CostToEnterTile(new Vector3Int(v.x,v.y,v.z));
-                if(alt < dist[v]){
+            // 핵심 변경: 행마법을 고려한 이웃 탐색
+            foreach(Node v in u.neighbours)
+            {
+                Vector3Int fromPos = new Vector3Int(u.x, u.y, u.z);
+                Vector3Int toPos = new Vector3Int(v.x, v.y, v.z);
+                
+                // 행마법 체크: 이 이동이 허용되는지 확인
+                if (!movementRule.TileCheckRuleFunc(fromPos, toPos))
+                {
+                    continue; // 행마법에 맞지 않으면 스킵
+                }
+                
+                float alt = dist[u] + CostToEnterTile(toPos);
+                if(alt < dist[v])
+                {
                     dist[v] = alt;
                     prev[v] = u;
                 }
@@ -189,7 +205,8 @@ public class TileMapManager : Singleton<TileMapManager>
         List<Node> currentPath = new List<Node>();
         Node curr = target;
         
-        while(curr != null && prev[curr] != null){
+        while(curr != null && prev[curr] != null)
+        {
             currentPath.Add(curr);
             curr = prev[curr];
         }
@@ -202,20 +219,16 @@ public class TileMapManager : Singleton<TileMapManager>
     public TileBase ReachableTilePrefab;
     public TileBase ReachableTilePrefab2;
     // 이동 가능한 타일을 RTPrefab으로 표현하고 이동가능한 타일의 셀좌표 keycollection을 반환함
-    public Dictionary<Vector3Int,List<Node>> ReachableTile(Vector3Int pos, int mov, MovementRule movementRule)
+    public List<Vector3Int> ReachableTile(Vector3Int pos, int mov, TileCheckRule movementRule)
     {
-        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
+        List<Vector3Int> dist = new List<Vector3Int>();
         
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || !movementRule.MovementRuleFunc(dist[v], pos, mov))
-            {
-                dist.Remove(v);
-            }
+            if(movementRule.TileCheckRuleFunc(v, pos)) dist.Add(v);
         }
         
-        foreach (Vector3Int v in dist.Keys)
+        foreach (Vector3Int v in dist)
         {
             Vector3Int p  = new Vector3Int(v[0],v[1],0);
             
@@ -228,29 +241,27 @@ public class TileMapManager : Singleton<TileMapManager>
     
     public TileBase AttackableTilePrefab;
     public TileBase AttackableTilePrefab2;
-    public List<Vector3Int> AttackableTile(Vector3Int pos, AttackRule atkRule)
+
+    public List<Vector3Int> AttackableTile(Vector3Int pos, TileCheckRule atkRule)
     {
-        Dictionary<Vector3Int,List<Node>> dist = new Dictionary<Vector3Int,List<Node>> ();
-        
+        List<Vector3Int> dist = new List<Vector3Int>();
+
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            dist[v] = GeneratePathTo(pos, v);
-            if (dist[v] == null || !atkRule.AttackRuleFunc(dist[v],pos))
-            {
-                dist.Remove(v);
-            }
+            if (atkRule.TileCheckRuleFunc(v, pos)) dist.Add(v);
         }
-        
-        foreach (Vector3Int v in dist.Keys)
+
+        foreach (Vector3Int v in dist)
         {
-            Vector3Int p  = new Vector3Int(v[0],v[1],0);
-            
-            if (dataOnTiles[v].escalator)  subTilemaps[v[2]].SetTile(p, AttackableTilePrefab2);
+            Vector3Int p = new Vector3Int(v[0], v[1], 0);
+
+            if (dataOnTiles[v].escalator) subTilemaps[v[2]].SetTile(p, AttackableTilePrefab2);
             else subTilemaps[v[2]].SetTile(p, AttackableTilePrefab);
         }
 
-        return dist.Keys.ToList();
+        return dist;
     }
+
     public void ClearTileMap(IEnumerable<Vector3Int> keys)
     {
         foreach (Vector3Int v in keys)

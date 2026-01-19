@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RunaMovementRule", menuName = "MovementRuleSO/RunaMovementRule")]
-public class RunaMovementRule : MovementRule
+public class RunaMovementRule : TileCheckRule
 {
-    public override bool MovementRuleFunc(List<Node> path, Vector3Int pos, int mov)
+    public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
     {
-        if (path.Count <= 1) return true;
-        return false;
+        int dx = Mathf.Abs(to.x - from.x);
+        int dy = Mathf.Abs(to.y - from.y);
+
+        return ((dx == 1 && dy == 0) || (dx == 0 && dy == 1));
     }
 }
 
