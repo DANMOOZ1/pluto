@@ -16,32 +16,26 @@ public class InputHandler : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context){
         if(!context.started) return;
-
-        switch (GameManager.Instance.battleState)
-        {
-            case BattleState.Default:
-                break;
-            case BattleState.Move:
-                if (!UnitManager.Instance.selectedUnit.isMoving) InputAnalyze();
-                break;
-            case BattleState.Combat:
-                UnitAttack();
-                break;
-            case BattleState.Next:
-                break;
-            case BattleState.Info:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        switch (GameManager.Instance.combatState)
-        {
-            case CombatState.EnemySelecting:
-                break;
-            case CombatState.Attack:
-                break;
-        }
+        
+        if(GameManager.Instance.gameState == GameState.Battle && UnitManager.Instance.selectedUnit.isAlly)
+            switch (GameManager.Instance.battleState)
+            {
+                case BattleState.Default:
+                    break;
+                case BattleState.Move:
+                    if (!UnitManager.Instance.selectedUnit.isMoving) InputAnalyze();
+                    break;
+                case BattleState.Combat:
+                    UnitAttack();
+                    break;
+                case BattleState.Next:
+                    break;
+                case BattleState.Info:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        else if(GameManager.Instance.gameState == GameState.Debug) print(MousePosToCellPos());
     }
 
     //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력
@@ -114,7 +108,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            print("이동 가능한 타일이 아닙니다.");
+            print("마우스 위치에 타일이 존재하지 않습니다.");
         }
     }
 

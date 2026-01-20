@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5610402231091307627}
   - component: {fileID: -7123932589929542723}
   - component: {fileID: 7469130622301206962}
+  - component: {fileID: -2336904663452575696}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -168,5 +169,19 @@ MonoBehaviour:
   movementRule: {fileID: 0}
   atkRule: {fileID: 0}
   cellPosition: {x: 0, y: 0, z: 0}
+  accessibleTiles: []
   attackableTiles: []
   moveSpeed: 5
+  isMoving: 0
+--- !u!114 &-2336904663452575696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584436410610593183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cab650ac17715649a6aaec1e98090f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI

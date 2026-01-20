@@ -33,6 +33,8 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Defeat:
                 break;
+            case GameState.Debug:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -74,7 +76,8 @@ public enum GameState
     PositionSetUp,
     UnitSetUp,
     Victory,
-    Defeat
+    Defeat,
+    Debug
     
 }
 

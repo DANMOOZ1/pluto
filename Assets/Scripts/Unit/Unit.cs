@@ -61,7 +61,7 @@ public class Unit : MonoBehaviour
     // 경로 이동 시작
     public void StartMoving(Vector3Int targetPos)
     {
-        if (accessibleTiles.Contains(targetPos)) 
+        if (isAlly && accessibleTiles.Contains(targetPos)) 
         {
             // 타일맵 청소
             TileMapManager.Instance.ClearTileMap(accessibleTiles);
@@ -70,9 +70,16 @@ public class Unit : MonoBehaviour
             currentPathIndex = 0;
             isMoving = true;
         }
+        else if(!isAlly)
+        {
+            //이동
+            currentPath = TileMapManager.Instance.GeneratePathTo(cellPosition,targetPos, movementRule);
+            currentPathIndex = 0;
+            isMoving = true;
+        }
         else
         {
-            print("이동 가능한 타일이 아닙니다.");
+            print("이동 가능한 경로가 존재하지 않습니다.");
         }
     }
 
@@ -84,7 +91,9 @@ public class Unit : MonoBehaviour
             // 모든 경로 이동 완료
             isMoving = false;
             currentPath = null;
-            GameManager.Instance.UpdateBattleState(BattleState.Default);// 이동 완료후 Default로 전환
+            
+            if(isAlly) GameManager.Instance.UpdateBattleState(BattleState.Default);// 아군 유닛의 경우 이동 완료후 Default로 전환
+            else GameManager.Instance.UpdateBattleState(BattleState.Combat); // 적 유닛의 경우 이동 완료후  combat으로 전환
             return;
         }
         
@@ -151,9 +160,10 @@ public class Unit : MonoBehaviour
         for (int i = 0; i < attackCount; i++)
         {
             hp -= damage;
-
+            print(unitName+"(이)가"+damage+"만큼 피해를 입음");
             if (hp <= 0)
             {
+                hp = 0;
                 UnitManager.Instance.UnitEliminate(this);
                 break;
             }

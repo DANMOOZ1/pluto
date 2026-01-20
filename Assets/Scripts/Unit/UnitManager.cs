@@ -29,12 +29,12 @@ public class UnitManager : Singleton<UnitManager>
         
         //적군생성
         i = 0;
-        pos = new Vector3Int(-1,5,0);
+        pos = new Vector3Int(-2,3,1);
         foreach (UnitSO u in units)
         {
             enemyUnits.Add(UnitCreater(u, pos, false));
             i++;
-            pos.y += i;
+            break;
         }
         
         //구독
@@ -187,9 +187,11 @@ public class UnitManager : Singleton<UnitManager>
         switch (GameManager.Instance.battleState)
         {
             case BattleState.Move:
-                Unit unit = selectedUnit.GetComponent<Unit>();
+                Unit unit = selectedUnit;
+                
                 if (unit.isAlly)
                 {
+                    //아군 유닛인 경우
                     Vector3Int pos = unit.cellPosition;
                     int mov = unit.mov;
                     TileCheckRule movementRule = unit.movementRule;
@@ -199,9 +201,8 @@ public class UnitManager : Singleton<UnitManager>
                 }
                 else
                 {
-                    //적 AI 가동
-                     GameManager.Instance.UpdateBattleState(BattleState.Next);
-                    
+                    //적 유닛인 경우
+                    unit.gameObject.GetComponent<EnemyAI>().Move();
                 }
                 break;
         }
@@ -213,13 +214,25 @@ public class UnitManager : Singleton<UnitManager>
         switch (GameManager.Instance.battleState)
         {
             case BattleState.Combat:
-                Unit unit = selectedUnit.GetComponent<Unit>();
-                Vector3Int pos = unit.cellPosition;
-                TileCheckRule atkRule = unit.atkRule;
+                Unit unit = selectedUnit;
+
+                if (unit.isAlly)
+                {
+                    //아군 유닛인 경우
+                    Vector3Int pos = unit.cellPosition;
+                    TileCheckRule atkRule = unit.atkRule;
                 
-                //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
-                unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
-                
+                    //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
+                    unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
+                }
+                else
+                {
+                    Unit targetUnit = selectedUnit.gameObject.GetComponent<EnemyAI>().target;
+                    
+                    //타겟이 존재 x : 공격 불가능 일시 넘어감
+                    if(targetUnit != null) unit.Attack(targetUnit);
+                    else GameManager.Instance.UpdateBattleState(BattleState.Next);
+                }
                 break;
         }
     }
