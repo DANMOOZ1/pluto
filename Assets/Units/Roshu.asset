@@ -19,8 +19,9 @@ MonoBehaviour:
   def: 2
   spd: 2
   foc: 1
-  rng: 0
-  hta: 0
+  movImage: {fileID: 7993689361209672188, guid: 10f2327d4950a8e42b8c072e53f4c0b5, type: 3}
+  rng: {fileID: -6032845919751461111, guid: 431d027ffd01fb64c932281569594223, type: 3}
+  hta: {fileID: 7184467698807056556, guid: 85236933e52f00c4ebc00404cac82b02, type: 3}
   sprite: {fileID: -612100085893734951, guid: b40c7a52246d241449dbb7eb9bfcd72d, type: 3}
   mov: 3
   level: 3

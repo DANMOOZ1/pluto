@@ -265,6 +265,7 @@ public class UnitManager : Singleton<UnitManager>
         unit.def = unitData.def;
         unit.spd = unitData.spd;
         unit.foc = unitData.foc;
+        unit.movImage = unitData.movImage;
         unit.rng = unitData.rng;
         unit.hta = unitData.hta;
         unit.race = unitData.race;

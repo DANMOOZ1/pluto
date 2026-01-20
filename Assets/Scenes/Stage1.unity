@@ -3363,6 +3363,9 @@ MonoBehaviour:
   iUI_DEF: {fileID: 112672881}
   iUI_FOC: {fileID: 1486571842}
   iUI_SPD: {fileID: 1605397213}
+  iUI_MOV: {fileID: 6904881}
+  iUI_RNG: {fileID: 369913004}
+  iUI_HTA: {fileID: 1033275363}
   enemySelectedUI: {fileID: 1005947779}
   eUI_allyPortrait: {fileID: 831918651}
   eUI_allyHP: {fileID: 155703323}

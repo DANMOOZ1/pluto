@@ -11,8 +11,9 @@ public class UnitSO : ScriptableObject
     public int def;
     public int spd;
     public int foc;
-    public int rng;
-    public int hta;
+    public Sprite movImage;
+    public Sprite rng;
+    public Sprite hta;
     public Sprite sprite;
     public int mov;
     public int level;

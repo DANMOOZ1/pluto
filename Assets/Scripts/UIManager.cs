@@ -26,6 +26,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject iUI_DEF;
     public GameObject iUI_FOC;
     public GameObject iUI_SPD;
+    public Image iUI_MOV;
+    public Image iUI_RNG;
+    public Image iUI_HTA;
 
     [Header("enemySelectedUI")]
     public GameObject enemySelectedUI;
@@ -81,6 +84,7 @@ public class UIManager : Singleton<UIManager>
         // 창 다 지우기
         infoUI.SetActive(false);
         enemySelectedUI.SetActive(false);
+        leftUI.SetActive(false);
         rightUI.SetActive(false);
 
         // 현재 차례인 유닛 가져오기
@@ -140,22 +144,28 @@ public class UIManager : Singleton<UIManager>
 
     public void UIChoice()
     {
-        // 적 선택 시 비교창
-        if (UnitManager.Instance.selectedEnemy != null)
-        {
-            UIEnemySelected();
-        }
+        //// 적 선택 시 비교창
+        //if (UnitManager.Instance.selectedEnemy != null)
+        //{
+        //    UIEnemySelected();
+        //}
 
-        // 버튼 띄우기
-        foreach (Transform child in currentUnit.transform)
+        //if (currentUnit.attackableTiles == null)
+        //{
+
+        //} else
         {
-            if (child.name == "HeadUI")
+                        // 버튼 띄우기
+            foreach (Transform child in currentUnit.transform)
             {
-                Destroy(child.gameObject);
+                if (child.name == "HeadUI")
+                {
+                    Destroy(child.gameObject);
+                }
             }
+            battleButtons.transform.SetParent(currentUnit.transform, false);
+            battleButtons.SetActive(true);
         }
-        battleButtons.transform.SetParent(currentUnit.transform, false);
-        battleButtons.SetActive(true);
 
     }
 
@@ -199,11 +209,16 @@ public class UIManager : Singleton<UIManager>
         iUI_Portrait.sprite = currentUnit.portrait;
         iUI_UnitName.text = currentUnit.unitName;
         iUI_Level.text = "Lv." + currentUnit.level;
+
         DrawBar(bigBar, Color.blue, currentUnit.hp, iUI_HP);
         DrawBar(bigBar, Color.blue, currentUnit.atk, iUI_ATK);
         DrawBar(bigBar, Color.blue, currentUnit.def, iUI_DEF);
         DrawBar(bigBar, Color.blue, currentUnit.foc, iUI_FOC);
         DrawBar(bigBar, Color.blue, currentUnit.spd, iUI_SPD);
+
+        iUI_MOV.sprite = currentUnit.movImage;
+        iUI_RNG.sprite = currentUnit.rng;
+        iUI_HTA.sprite = currentUnit.hta;
 
         infoUI.SetActive(true);
     }
