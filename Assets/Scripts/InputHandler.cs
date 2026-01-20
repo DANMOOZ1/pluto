@@ -9,10 +9,8 @@ public class InputHandler : MonoBehaviour
 {
 
     private Camera _mainCamera;
-    public int zLayerCount;
     private void Awake(){
         _mainCamera = Camera.main;
-        zLayerCount = TileMapManager.Instance.tilemaps.Length;
     }
 
     public void OnClick(InputAction.CallbackContext context){
@@ -39,7 +37,7 @@ public class InputHandler : MonoBehaviour
             }
         else if(GameManager.Instance.gameState == GameState.Debug) print(MousePosToCellPos());
     }
-
+    
     //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력
     public Vector3Int? MousePosToCellPos()
     {
@@ -121,14 +119,17 @@ public class InputHandler : MonoBehaviour
     {
         Vector3Int? cellpos = MousePosToCellPos();
 
-        if (cellpos.HasValue)
-        {
-            UnitManager.Instance.selectedUnit.StartMoving(cellpos.Value);
-        }
-        else
+        if (!cellpos.HasValue)
         {
             print("마우스 위치에 타일이 존재하지 않습니다.");
+            return;
         }
+        
+        if(UnitManager.Instance.UnitOnTile(cellpos.Value)){
+            print("해당 위치에 이미 유닛이 존재합니다.");
+            return;
+        }
+        UnitManager.Instance.selectedUnit.StartMoving(cellpos.Value);
     }
 
     public void UnitAttack()

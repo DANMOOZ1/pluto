@@ -4,125 +4,206 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    private Unit mySelf;
-    public List<Vector3Int> attackableTiles = null;
-    public Unit target = null;
+    [SerializeField] private float detectionRange = 7f;
     
-    //수 많은 버그의 향현, 버그의 집합체, 정신 나갈거 같아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+    private Unit mySelf;
+    public Unit target;
+    private List<Vector3Int> attackableTiles;
+    
+    private void Awake()
+    {
+        mySelf = GetComponent<Unit>();
+    }
+
     public void Move()
     {
-        target = FindTarget();
-
-        if (target != null)
+        target = FindNearestTarget();
+        
+        if (target == null)
         {
-            print("타겟 찾음");
-            attackableTiles = AttackableTiles(target.cellPosition);
+            TransitionToNextState();
+            return;
+        }
+
+        Debug.Log("타겟 찾음: " + target.name);
+        attackableTiles = FindAttackableTilesAfterMove(target.cellPosition);
+
+        if (TryAttackFromCurrentPosition())
+            return;
+
+        if (TryMoveAndAttack())
+            return;
+
+        Debug.Log("적 공격 불가");
+        TransitionToNextState();
+    }
+
+    private bool TryAttackFromCurrentPosition()
+    {
+        if (CanAttackFrom(mySelf.cellPosition, target.cellPosition))
+        {
+            GameManager.Instance.UpdateBattleState(BattleState.Combat);
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryMoveAndAttack()
+    {
+        if (attackableTiles.Count > 0)
+        {
+            Vector3Int bestTile = FindBestAttackPosition(attackableTiles);
+            mySelf.StartMoving(bestTile);
+            return true;
+        }
+
+        // 이동 범위 밖에서 공격 가능한 위치 탐색
+        Vector3Int reachableAttackTile = FindReachableAttackPosition();
+        if (reachableAttackTile != Vector3Int.zero)
+        {
+            List<Node> path = TileMapManager.Instance.GeneratePathTo(
+                mySelf.cellPosition, 
+                reachableAttackTile, 
+                mySelf.movementRule
+            );
+
+            if (path != null && path.Count > 0)
+            {
+                mySelf.StartMoving(new Vector3Int(path[0].x, path[0].y, path[0].z));
+                target = null; // 이동 후 공격 방지
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Unit FindNearestTarget()
+    {
+        List<Unit> enemyUnits = UnitManager.Instance.allyUnits;
+        if (enemyUnits == null || enemyUnits.Count == 0)
+            return null;
+
+        Unit nearestTarget = null;
+        float minDistance = float.MaxValue;
+        Vector3Int myPos = mySelf.cellPosition;
+
+        foreach (Unit enemy in enemyUnits)
+        {
+            float distance = Vector3Int.Distance(enemy.cellPosition, myPos);
+            if (distance < minDistance)
+            {
+                nearestTarget = enemy;
+                minDistance = distance;
+            }
+        }
+
+        return minDistance <= detectionRange ? nearestTarget : null;
+    }
+
+    private List<Vector3Int> FindAttackableTilesAfterMove(Vector3Int targetPos)
+    {
+        List<Vector3Int> result = new List<Vector3Int>();
+        Vector3Int myPos = mySelf.cellPosition;
+
+        // 현재 위치에서 공격 가능한지 먼저 확인
+        if (CanAttackFrom(myPos, targetPos))
+        {
+            result.Add(myPos);
+            return result;
+        }
+
+        // 이동 가능한 타일 중 공격 가능한 위치 찾기
+        List<Vector3Int> movableTiles = GetMovableTiles(myPos, targetPos);
+        
+        foreach (Vector3Int tile in movableTiles)
+        {
+            if (CanAttackFrom(tile, targetPos))
+            {
+                result.Add(tile);
+            }
+        }
+
+        return result;
+    }
+
+    private Vector3Int FindReachableAttackPosition()
+    {
+        List<Vector3Int> allAttackPositions = GetAllAttackPositions(target.cellPosition);
+        Vector3Int myPos = mySelf.cellPosition;
+        
+        // 거리 순으로 정렬하여 가장 가까운 위치부터 시도
+        var sortedPositions = allAttackPositions
+            .OrderBy(pos => Vector3Int.Distance(pos, myPos))
+            .ToList();
+
+        foreach (Vector3Int attackPos in sortedPositions)
+        {
+            List<Node> path = TileMapManager.Instance.GeneratePathTo(
+                myPos, 
+                attackPos, 
+                mySelf.movementRule
+            );
+
+            if (path != null && path.Count > 0)
+            {
+                return attackPos;
+            }
+        }
+
+        return Vector3Int.zero;
+    }
+
+    private List<Vector3Int> GetMovableTiles(Vector3Int fromPos, Vector3Int excludePos)
+    {
+        List<Vector3Int> allTiles = TileMapManager.Instance.dataOnTiles.Keys.ToList();
+        List<Vector3Int> movableTiles = new List<Vector3Int>();
+
+        foreach (Vector3Int tile in allTiles)
+        {
+            if (tile == excludePos) continue;
             
-            //현재 상태에서 이동 후 공격가능하지 않을 경우
-            if (attackableTiles.Count == 0)
+            if (mySelf.movementRule.TileCheckRuleFunc(fromPos, tile))
             {
-                List<Vector3Int> attackableTilesNearbyTarget = NoMoveAttackTiles(target.cellPosition);
-                
-                //적 주변에서 적을 공격할 수 있는 타일이 존재하는 경우
-                if (attackableTilesNearbyTarget.Count != 0)
-                {
-                    List<Node> path = null;
-                    foreach (Vector3Int tileNearbyTarget in attackableTilesNearbyTarget)
-                    {
-                        path = TileMapManager.Instance.GeneratePathTo(mySelf.cellPosition,tileNearbyTarget, mySelf.movementRule);
-                    }
-                    if(path != null) mySelf.StartMoving(new Vector3Int(path[0].x, path[0].y,path[0].z));
-                    // 적을 아예 공격할 수 없는 경우
-                    else
-                    {
-                        print("적 공격 불가");
-                        GameManager.Instance.UpdateBattleState(BattleState.Next);
-                    }
-                }
-                else
-                {
-                    // 적을 아예 공격할 수 없는 경우
-                    print("적 공격 불가");
-                    GameManager.Instance.UpdateBattleState(BattleState.Next);
-                }
-                // 타겟을 null 로 만들어 move 후 attack 방지
-                target = null;
-            }
-            //현재 위치에서 공격이 가능한 경우
-            else if (attackableTiles[0] == mySelf.cellPosition)
-            {
-                GameManager.Instance.UpdateBattleState(BattleState.Combat);
-            }
-            //현재 상태에서 이동 후 공격이 가능한 경우
-            else
-            {
-                mySelf.StartMoving(new Vector3Int(attackableTiles[0].x, attackableTiles[0].y, attackableTiles[0].z));
+                movableTiles.Add(tile);
             }
         }
-        else GameManager.Instance.UpdateBattleState(BattleState.Next);
+
+        return movableTiles;
     }
 
-    private Unit FindTarget()
+    private List<Vector3Int> GetAllAttackPositions(Vector3Int targetPos)
     {
-        List<Unit> EnemyUnits = UnitManager.Instance.accessibleUnits;
-        mySelf = gameObject.GetComponent<Unit>();
-        
-        //가장 가까운 적 찾기
-        Vector3Int pos = mySelf.cellPosition;
-        float minDist = float.MaxValue;
-        Unit target = null;
-        foreach(Unit u in EnemyUnits)
-        {
-            float dist = Vector3Int.Distance(u.cellPosition, pos);
-            if (dist < minDist)
-            {
-                target = u;
-                minDist = dist;
-            }
-        }
-        // AI의 인식 범위는 7칸
-        if (minDist > 7) return null;
-        
-        return target;
-    }
-
-    private List<Vector3Int> AttackableTiles(Vector3Int targetPos)
-    {
-        List<Vector3Int> dist = new List<Vector3Int>();
-        Vector3Int pos = mySelf.cellPosition;
-        
-        //현재 위치에서 공격이 가능한 경우 검사
-        if (mySelf.atkRule.TileCheckRuleFunc(pos, targetPos))
-        {
-            // 가능하다면 return
-            dist.Add(pos);
-            return dist;
-        }
-        
-        //이동 후 공격이 가능한 경우 검사
         List<Vector3Int> allTiles = TileMapManager.Instance.dataOnTiles.Keys.ToList();
-        allTiles.Remove(targetPos);
-        
-        foreach (Vector3Int v in allTiles)
+        List<Vector3Int> attackPositions = new List<Vector3Int>();
+
+        foreach (Vector3Int tile in allTiles)
         {
-            if (!mySelf.movementRule.TileCheckRuleFunc(pos, v)) continue;
-            if (mySelf.atkRule.TileCheckRuleFunc(v, targetPos)) dist.Add(v);
+            if (tile == targetPos) continue;
+            
+            if (CanAttackFrom(tile, targetPos))
+            {
+                attackPositions.Add(tile);
+            }
         }
-        
-        return dist;
+
+        return attackPositions;
     }
 
-    private List<Vector3Int> NoMoveAttackTiles(Vector3Int targetPos)
+    private Vector3Int FindBestAttackPosition(List<Vector3Int> candidates)
     {
-        List<Vector3Int> dist = new List<Vector3Int>();
-        List<Vector3Int> allTiles = TileMapManager.Instance.dataOnTiles.Keys.ToList();
-        allTiles.Remove(targetPos);
+        // 현재는 첫 번째 타일 반환, 필요시 우선순위 로직 추가 가능
+        // 예: 가장 안전한 위치, 다른 적과의 거리 등 고려
+        return candidates[0];
+    }
 
-        foreach (Vector3Int v in allTiles)
-        {
-            if(mySelf.atkRule.TileCheckRuleFunc(v, targetPos))  dist.Add(v);
-        }
-        
-        return dist;
+    private bool CanAttackFrom(Vector3Int fromPos, Vector3Int targetPos)
+    {
+        return mySelf.atkRule.TileCheckRuleFunc(fromPos, targetPos);
+    }
+
+    private void TransitionToNextState()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Next);
     }
 }

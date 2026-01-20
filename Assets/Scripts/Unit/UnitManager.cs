@@ -9,12 +9,15 @@ public class UnitManager : Singleton<UnitManager>
     public List<UnitSO> units = new List<UnitSO>();
     
     public Unit selectedUnit;// 아군 적군
-    public Unit selectedAlly; // UI에서 "현재 차례는 아니지만 선택된 아군"이 필요해져서 추가했습니다.
-    public Unit selectedEnemy;
     public int selectedUnitIndex = 0;
-    public List<Unit> accessibleUnits = new List<Unit>();//아군
+    public List<Unit> allyUnits = new List<Unit>();//아군
     public List<Unit> enemyUnits = new List<Unit>();//적군
     public List<Unit> spdSortUnits = new List<Unit>();
+    
+    //For UIManager and InputHandler
+    public Unit selectedAlly; // UI에서 "현재 차례는 아니지만 선택된 아군"이 필요해져서 추가했습니다.
+    public Unit selectedEnemy;
+    
     
     void Awake()
     {
@@ -23,7 +26,7 @@ public class UnitManager : Singleton<UnitManager>
         Vector3Int pos =  new Vector3Int(-10,4,0);
         foreach (UnitSO u in units)
         {
-            accessibleUnits.Add(UnitCreater(u,pos, true));
+            allyUnits.Add(UnitCreater(u,pos, true));
             i++;
             break;
         }
@@ -63,7 +66,7 @@ public class UnitManager : Singleton<UnitManager>
         if (GameManager.Instance.battleState == BattleState.Next)
         {
             //승패 판정
-            if (accessibleUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Defeat);
+            if (allyUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Defeat);
             else if (enemyUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Victory);
             else
             {
@@ -84,7 +87,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             // 1. 두 리스트를 하나로 합치기
             List<Unit> combinedList = new List<Unit>();
-            combinedList.AddRange(accessibleUnits);
+            combinedList.AddRange(allyUnits);
             combinedList.AddRange(enemyUnits);
 
             // 2. 합병 정렬 수행
@@ -249,6 +252,15 @@ public class UnitManager : Singleton<UnitManager>
         }
         return false;
     }
+
+    public bool UnitOnTile(Vector3Int cellPosition)
+    {
+        foreach (Unit u in spdSortUnits)
+        {
+            if (u.cellPosition == cellPosition) return true;
+        }
+        return false;
+    }
     
     public GameObject unitPrefab;
     public Unit UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
@@ -293,7 +305,7 @@ public class UnitManager : Singleton<UnitManager>
         //인덱스 당겨오기
         if (spdSortUnits.IndexOf(unit) < selectedUnitIndex) selectedUnitIndex -= 1;
         //리스트에서 Unit 제거    
-        if (unit.isAlly) accessibleUnits.Remove(unit);
+        if (unit.isAlly) allyUnits.Remove(unit);
         else enemyUnits.Add(unit);
         spdSortUnits.Remove(unit);
 
