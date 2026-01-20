@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class InputHandler : MonoBehaviour
             switch (GameManager.Instance.battleState)
             {
                 case BattleState.Default:
+                InputAnalyze();
                     break;
                 case BattleState.Move:
                     if (!UnitManager.Instance.selectedUnit.isMoving) InputAnalyze();
@@ -78,14 +80,25 @@ public class InputHandler : MonoBehaviour
     public void InputAnalyze()
     {
         GameObject obj = selectCollider();
-    
+        // 이거 여기에 넣어도 괜찮을까요?? 다른 방법도 있어서 안 괜찮으면 말씀해주세용
+        UnitManager.Instance.selectedAlly = null;
+        UnitManager.Instance.selectedEnemy = null;
+
         // 선택된 오브젝트가 없으면 이동
         if (obj == null)
         {
-            UnitMove();
+            if (GameManager.Instance.battleState == BattleState.Move) // (+제가 default state일 때도 써야 해서 Move State 일 때 추가했습니다!)
+            {
+                UnitMove();
+            }
+
+            // UI 수정
+            UIManager.Instance.BattleStateUI();
+
             return;
+
         }
-    
+
         // 유닛 컴포넌트 확인
         Unit unit = obj.GetComponent<Unit>();
         if (unit == null)
@@ -95,8 +108,14 @@ public class InputHandler : MonoBehaviour
         if (!unit.isAlly)
         {
             UnitManager.Instance.selectedEnemy = unit;
-            UIManager.Instance.BattleStateUI();
         }
+        else // 제가 아군도 필요하게 되어 버렸어요..
+        {
+            UnitManager.Instance.selectedAlly = unit;
+        }
+
+        // UI 수정
+        UIManager.Instance.BattleStateUI();
     }
     public void UnitMove()
     {
@@ -156,5 +175,11 @@ public class InputHandler : MonoBehaviour
     public void InfoButton()
     {
         GameManager.Instance.UpdateBattleState(BattleState.Info);
+    }
+
+    public void DefaultButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Default);
+
     }
 }

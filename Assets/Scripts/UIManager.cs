@@ -4,21 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // 추가해야 할 것
-// 1. 배틀 default에서 현재 차례인 unit이 currentunit에 들어가게
-// 2. HP의 경우 전체 HP랑 남은 HP 구분하기
-// 3. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
-// 4. 행마법이랑 공격 확정되면 그려보기
-// 5. attack이랑 enemyturn에서는 HP가 바로바로 업데이트되어야 함 
+// 1. HP의 경우 전체 HP랑 남은 HP 구분하기
+// 2. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("battleUI")]
-    public GameObject battleUI;
-    public TextMeshProUGUI bUI_UnitName;
-    public TextMeshProUGUI bUI_Level;
-    public Image bUI_Portrait;
-    public GameObject bUI_HP;
-    public GameObject bU_barImage;
+    [Header("leftUI")]
+    public GameObject leftUI;
+    public TextMeshProUGUI lUI_UnitName;
+    public TextMeshProUGUI lUI_Level;
+    public Image lUI_Portrait;
+    public GameObject lUI_HP;
 
     [Header("infoUI")]
     public GameObject infoUI;
@@ -43,7 +39,13 @@ public class UIManager : Singleton<UIManager>
     public GameObject eUI_enemyDEF;
     public GameObject eUI_enemyFOC;
     public GameObject eUI_enemySPD;
-    public GameObject eU_barImage;
+
+    [Header("righttUI")]
+    public GameObject rightUI;
+    public TextMeshProUGUI rUI_UnitName;
+    public TextMeshProUGUI rUI_Level;
+    public Image rUI_Portrait;
+    public GameObject rUI_HP;
 
     [Header("battleButtons")]
     public GameObject battleButtons;
@@ -51,12 +53,18 @@ public class UIManager : Singleton<UIManager>
     [Header("HeadUI")]
     public GameObject headUI;
 
+    [Header("barImage")]
+    public GameObject bigBar;
+    public GameObject smallBar;
+
     // unit 가져오기
-    public Unit currentUnit;
-    public List<Unit> allUnits;
+    private Unit currentUnit;
+    private Unit selectedAlly;
+    private Unit selectedEnemy;
+    private List<Unit> allUnits;
 
     // 유닛 턴인가요?
-    public bool isPlayerTurn;
+    private bool isPlayerTurn;
 
     public void Start()
     {
@@ -64,57 +72,80 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
 
         // 모든 유닛 한 리스트에 저장 ** spdSortUnits에 현재 가용 가능한 모든 유닛이 있음(Unit 타입)
-        allUnits = UnitManager.Instance.spdSortUnits;
     }
 
 
     // 상태별 UI 켜기
     public void BattleStateUI()
     {
-        // 현재 차례인 unit 가져오기
-        if (UnitManager.Instance.selectedUnit.isAlly)
-        {
-            currentUnit = UnitManager.Instance.selectedUnit;
-        }
-
         // 창 다 지우기
-        battleButtons.SetActive(false);
         infoUI.SetActive(false);
         enemySelectedUI.SetActive(false);
+        rightUI.SetActive(false);
 
-        switch (GameManager.Instance.battleState)
+        // 현재 차례인 유닛 가져오기
+        currentUnit = UnitManager.Instance.selectedUnit;
+
+        // 플레이어 턴
+        if (UnitManager.Instance.selectedUnit.isAlly)
         {
+            selectedAlly = currentUnit;
 
-            case BattleState.Move:
-                UIMove();
-                break;
-            case BattleState.Default:
-                UIChoice();
-                break;
-            case BattleState.Combat:
-                UICombat();
-                break;
-            case BattleState.Next:
-                UINext();
-                break;
-            case BattleState.Info:
-                UIInfo();
-                break;
-        }
+            // 플레이어 턴
+            isPlayerTurn = true;
 
-        // 좌하단 UI 띄우기
-        profileUI();
+            // 머리 위 UI 띄우기
+            allUnits = UnitManager.Instance.spdSortUnits;
+            foreach (Unit unit in allUnits)
+            {
+                HeadUI(unit, isPlayerTurn);
+            }
 
-        // 머리 위 UI 띄우기
-        foreach (Unit unit in allUnits)
+            // 좌하단 UI 띄우기
+            if (UnitManager.Instance.selectedAlly != null)
+            {
+                selectedAlly = UnitManager.Instance.selectedAlly;
+            }
+            LeftUI();
+
+            // 상태별
+            switch (GameManager.Instance.battleState)
+            {
+
+                case BattleState.Move:
+                    UIMove();
+                    break;
+                case BattleState.Default:
+                    UIChoice();
+                    break;
+                case BattleState.Combat:
+                    UICombat();
+                    break;
+                case BattleState.Next:
+                    UINext();
+                    break;
+                case BattleState.Info:
+                    UIInfo();
+                    break;
+            }
+
+        } else
         {
-            HeadUI(unit, isPlayerTurn);
+            selectedEnemy = currentUnit;
 
+            // 우하단 UI 띄우기
+            RightUI();
         }
     }
 
     public void UIChoice()
     {
+        // 적 선택 시 비교창
+        if (UnitManager.Instance.selectedEnemy != null)
+        {
+            UIEnemySelected();
+        }
+
         // 버튼 띄우기
         foreach (Transform child in currentUnit.transform)
         {
@@ -126,12 +157,13 @@ public class UIManager : Singleton<UIManager>
         battleButtons.transform.SetParent(currentUnit.transform, false);
         battleButtons.SetActive(true);
 
-        // 플레이어 턴
-        isPlayerTurn = true;
     }
 
     public void UIMove()
     {
+
+        // 버튼?
+        battleButtons.SetActive(false);
 
         // 적 선택 시 비교창
         if (UnitManager.Instance.selectedEnemy != null)
@@ -139,12 +171,12 @@ public class UIManager : Singleton<UIManager>
             UIEnemySelected();
         }
 
-        // 플레이어 턴
-        isPlayerTurn = true;
     }
 
     public void UICombat()
     {
+        // 버튼?
+        battleButtons.SetActive(false);
 
         foreach (Unit unit in allUnits)
         {
@@ -152,56 +184,58 @@ public class UIManager : Singleton<UIManager>
 
         }
 
-        // 플레이어 턴
-        isPlayerTurn = true;
-
     }
 
     public void UINext()
     {
-        // 플레이어 턴
-        isPlayerTurn = true;
+
     }
 
     public void UIInfo()
     {
+        // 버튼?
+        battleButtons.SetActive(false);
+
         iUI_Portrait.sprite = currentUnit.portrait;
         iUI_UnitName.text = currentUnit.unitName;
         iUI_Level.text = "Lv." + currentUnit.level;
-        DrawBar(bU_barImage, Color.blue, currentUnit.hp, iUI_HP);
-        DrawBar(bU_barImage, Color.blue, currentUnit.atk, iUI_ATK);
-        DrawBar(bU_barImage, Color.blue, currentUnit.def, iUI_DEF);
-        DrawBar(bU_barImage, Color.blue, currentUnit.foc, iUI_FOC);
-        DrawBar(bU_barImage, Color.blue, currentUnit.spd, iUI_SPD);
+        DrawBar(bigBar, Color.blue, currentUnit.hp, iUI_HP);
+        DrawBar(bigBar, Color.blue, currentUnit.atk, iUI_ATK);
+        DrawBar(bigBar, Color.blue, currentUnit.def, iUI_DEF);
+        DrawBar(bigBar, Color.blue, currentUnit.foc, iUI_FOC);
+        DrawBar(bigBar, Color.blue, currentUnit.spd, iUI_SPD);
 
         infoUI.SetActive(true);
-
-        // 플레이어 턴
-        isPlayerTurn = true;
     }
 
 
-    // 
+    // 적군 선택 시
     public void UIEnemySelected()
-    {   
-        Unit selectedEnemy = UnitManager.Instance.selectedEnemy.GetComponent<Unit>();
+    {
+
+        // 비교창
+        selectedEnemy = UnitManager.Instance.selectedEnemy.GetComponent<Unit>();
         eUI_allyPortrait.sprite = currentUnit.portrait;
-        DrawBar(eU_barImage, Color.blue, currentUnit.hp, eUI_allyHP);
-        DrawBar(eU_barImage, Color.blue, currentUnit.atk, eUI_allyATK);
-        DrawBar(eU_barImage, Color.blue, currentUnit.foc, eUI_allyFOC);
-        DrawBar(eU_barImage, Color.blue, currentUnit.spd, eUI_allySPD);
+        DrawBar(smallBar, Color.blue, currentUnit.hp, eUI_allyHP);
+        DrawBar(smallBar, Color.blue, currentUnit.atk, eUI_allyATK);
+        DrawBar(smallBar, Color.blue, currentUnit.foc, eUI_allyFOC);
+        DrawBar(smallBar, Color.blue, currentUnit.spd, eUI_allySPD);
         eUI_enemyPortrait.sprite= selectedEnemy.portrait;
-        DrawBar(eU_barImage, Color.red, selectedEnemy.hp, eUI_enemyHP);
-        DrawBar(eU_barImage, Color.red, selectedEnemy.def, eUI_enemyDEF);
-        DrawBar(eU_barImage, Color.red, selectedEnemy.foc, eUI_enemyFOC);
-        DrawBar(eU_barImage, Color.red, selectedEnemy.spd, eUI_enemySPD);
+        DrawBar(smallBar, Color.red, selectedEnemy.hp, eUI_enemyHP);
+        DrawBar(smallBar, Color.red, selectedEnemy.def, eUI_enemyDEF);
+        DrawBar(smallBar, Color.red, selectedEnemy.foc, eUI_enemyFOC);
+        DrawBar(smallBar, Color.red, selectedEnemy.spd, eUI_enemySPD);
 
         enemySelectedUI.SetActive(true);
+
+        // 우하단
+        RightUI();
     }
 
     // stat바 그리는 함수
     public void DrawBar(GameObject barImage, Color color, int num, GameObject stat)
     {
+        
         HorizontalLayoutGroup stratch = stat.GetComponent<HorizontalLayoutGroup>();
         
         float parentLength = stat.GetComponent<RectTransform>().rect.width;
@@ -223,7 +257,7 @@ public class UIManager : Singleton<UIManager>
             Destroy(child.gameObject);
         }
 
-        eU_barImage.GetComponent<Image>().color = color;
+        smallBar.GetComponent<Image>().color = color;
 
         for (int i = 0; i < num; i++)
         {
@@ -232,19 +266,30 @@ public class UIManager : Singleton<UIManager>
     }
 
     // 좌하단 UI
-    public void profileUI()
+    public void LeftUI()
     {
-        bUI_UnitName.text = currentUnit.unitName;
-        bUI_Level.text = "Lv." + currentUnit.level;
-        bUI_Portrait.sprite = currentUnit.portrait;
-        DrawBar(bU_barImage, Color.green, currentUnit.hp, bUI_HP);
+        lUI_UnitName.text = selectedAlly.unitName;
+        lUI_Level.text = "Lv." + selectedAlly.level;
+        lUI_Portrait.sprite = selectedAlly.portrait;
+        DrawBar(bigBar, Color.green, selectedAlly.hp, lUI_HP);
 
-        battleUI.SetActive(true);
+        leftUI.SetActive(true);
+    }
+
+    public void RightUI()
+    {
+        rUI_UnitName.text = selectedEnemy.unitName;
+        rUI_Level.text = "Lv." + selectedEnemy.level;
+        rUI_Portrait.sprite = selectedEnemy.portrait;
+        DrawBar(bigBar, Color.green, selectedEnemy.hp, rUI_HP);
+
+        rightUI.SetActive(true);
     }
 
     // 머리 위 UI
     public void HeadUI(Unit parentUnit, bool isPlayerTurn)
     {
+
         foreach (Transform child in parentUnit.transform)
         {
             if(child.name == "HeadUI")
@@ -261,20 +306,20 @@ public class UIManager : Singleton<UIManager>
         GameObject stat = clonedHeadUI.transform.GetChild(2).gameObject;
 
         portrait.GetComponent<Image>().sprite = parentUnit.portrait;
-        eU_barImage.GetComponent<Image>().color = Color.green;
-        DrawBar(eU_barImage, Color.green, parentUnit.hp, hp);
+        smallBar.GetComponent<Image>().color = Color.green;
+        DrawBar(smallBar, Color.green, parentUnit.hp, hp);
 
         bool isAttacker = (isPlayerTurn && parentUnit.isAlly) || (!isPlayerTurn && !parentUnit.isAlly);
 
         if (isAttacker)
         {
             // 공격: 빨간색 ATK
-            DrawBar(eU_barImage, Color.red, parentUnit.atk, stat);
+            DrawBar(smallBar, Color.red, parentUnit.atk, stat);
         }
         else
         {
             // 방어: 파란색 DEF
-            DrawBar(eU_barImage, Color.blue, parentUnit.def, stat);
+            DrawBar(smallBar, Color.blue, parentUnit.def, stat);
         }
     }
 }

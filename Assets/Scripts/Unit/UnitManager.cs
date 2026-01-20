@@ -9,6 +9,7 @@ public class UnitManager : Singleton<UnitManager>
     public List<UnitSO> units = new List<UnitSO>();
     
     public Unit selectedUnit;// 아군 적군
+    public Unit selectedAlly; // UI에서 "현재 차례는 아니지만 선택된 아군"이 필요해져서 추가했습니다.
     public Unit selectedEnemy;
     public int selectedUnitIndex = 0;
     public List<Unit> accessibleUnits = new List<Unit>();//아군
@@ -235,7 +236,8 @@ public class UnitManager : Singleton<UnitManager>
                 }
                 break;
         }
-    }
+    } 
+
 
     public GameObject unitPrefab;
     public Unit UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
