@@ -52,6 +52,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("battleButtons")]
     public GameObject battleButtons;
+    public GameObject combatButton;
 
     [Header("HeadUI")]
     public GameObject headUI;
@@ -144,28 +145,24 @@ public class UIManager : Singleton<UIManager>
 
     public void UIChoice()
     {
-        //// 적 선택 시 비교창
-        //if (UnitManager.Instance.selectedEnemy != null)
-        //{
-        //    UIEnemySelected();
-        //}
-
-        //if (currentUnit.attackableTiles == null)
-        //{
-
-        //} else
+        if (UnitManager.Instance.UnitCanAttack())
         {
-                        // 버튼 띄우기
-            foreach (Transform child in currentUnit.transform)
-            {
-                if (child.name == "HeadUI")
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            battleButtons.transform.SetParent(currentUnit.transform, false);
-            battleButtons.SetActive(true);
+            combatButton.GetComponent<Button>().interactable = true;
+        } else
+        {
+            combatButton.GetComponent<Button>().interactable = false;
         }
+
+        // 버튼 띄우기
+        foreach (Transform child in currentUnit.transform)
+        {
+            if (child.name == "HeadUI")
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        battleButtons.transform.SetParent(currentUnit.transform, false);
+        battleButtons.SetActive(true);
 
     }
 
