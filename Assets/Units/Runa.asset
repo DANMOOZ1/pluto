@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5a93ae9b28635748b2bc24b59cccf35, type: 3}
-  m_Name: Mage
+  m_Name: Runa
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  unitName: Mage
+  unitName: Runa
   race: Human
-  hp: 2
-  atk: 7
-  def: 1
-  spd: 2
-  foc: 6
-  movImage: {fileID: 7993689361209672188, guid: 10f2327d4950a8e42b8c072e53f4c0b5, type: 3}
-  rng: {fileID: -6032845919751461111, guid: 431d027ffd01fb64c932281569594223, type: 3}
-  hta: {fileID: 7184467698807056556, guid: 85236933e52f00c4ebc00404cac82b02, type: 3}
+  hp: 3
+  atk: 3
+  def: 0
+  spd: 3
+  foc: 3
+  movImage: {fileID: -7839028212826638627, guid: 19248b4ec461f164187725489016aa6a, type: 3}
+  rng: {fileID: -2669106496597084543, guid: bdecfcf5d318ebd44aeb311951c184b4, type: 3}
+  hta: {fileID: 6245215943514085673, guid: 74b7b3536121f414a9c2dbd97d7b406f, type: 3}
   sprite: {fileID: -6511610701255145038, guid: b587d1cbdd8a84643b84991b0b5d0b22, type: 3}
   mov: 3
   level: 2
   isAlly: 1
   portrait: {fileID: 1435938718540855604, guid: 540e86c5cd118db4b9382aaab92cb8d7, type: 3}
-  movementRule: {fileID: 11400000, guid: 497c5eba4cc7c3542914c3cbf4966621, type: 2}
-  atkRule: {fileID: 11400000, guid: 99543e7ed8dcef041b2fa682dcf76d71, type: 2}
+  movementRule: {fileID: 11400000, guid: bd65ce12301c38d45a5e77f692550868, type: 2}
+  atkRule: {fileID: 11400000, guid: 7302f7d1c8689c74d8d500225e24cc93, type: 2}

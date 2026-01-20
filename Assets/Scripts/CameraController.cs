@@ -19,7 +19,7 @@ public class MainCameraController : MonoBehaviour
 
     private void Start()
     {
-        player = UnitManager.Instance.allyUnits[0].gameObject.transform;
+        //player = UnitManager.Instance.allyUnits[0].gameObject.transform;
          
     }
 

@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using AYellowpaper.SerializedCollections;
+using System.Net;
+using System.IO;
 
 public class UnitManager : Singleton<UnitManager>
 {
     //등록된 유닛 프리팹
-    public List<UnitSO> units = new List<UnitSO>();
+    public SerializedDictionary<string, UnitSO> units;
     
     public Unit selectedUnit;// 아군 적군
     public int selectedUnitIndex = 0;
@@ -20,26 +23,13 @@ public class UnitManager : Singleton<UnitManager>
     
     
     void Awake()
-    {
-        // 아군 생성
-        int i = 0;
-        Vector3Int pos =  new Vector3Int(-10,4,0);
-        foreach (UnitSO u in units)
+    { 
+        StageData sd = LoadStageData();
+        if (sd != null)
         {
-            allyUnits.Add(UnitCreater(u,pos, true));
-            i++;
-            break;
+           GenerateUnits(sd.UnitsInStage);
         }
-        
-        //적군생성
-        i = 0;
-        pos = new Vector3Int(-2,3,1);
-        foreach (UnitSO u in units)
-        {
-            enemyUnits.Add(UnitCreater(u, pos, false));
-            i++;
-            break;
-        }
+        else Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
         
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
@@ -57,6 +47,48 @@ public class UnitManager : Singleton<UnitManager>
             GameManager.Instance.OnBattleStateChange -= UnitAttackPrepare;
             GameManager.Instance.OnBattleStateChange -= TurnSetting;
             GameManager.Instance.OnBattleStateChange -= NextUnit;
+        }
+    }
+
+    private void SaveStageData()
+    {
+        StageData unitData = new StageData();
+        
+        //예시
+        unitData.UnitsInStage.Add(new UnitEntry(new int[] { -10, 4, 0 }, "Runa", true));
+        unitData.UnitsInStage.Add(new UnitEntry(new int[]{-2,3,1}, "Roshu", false));
+        
+        string path  = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
+        string data = JsonUtility.ToJson(unitData);
+        
+        print(path);
+        File.WriteAllText(path, data);
+        print(path);
+    }
+    
+    private StageData LoadStageData()
+    {
+        string path = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
+        if (File.Exists(path))
+        {
+            string jsonData = File.ReadAllText(path);
+            StageData stageData = JsonUtility.FromJson<StageData>(jsonData);
+            return  stageData;
+        }
+        
+        return null;
+    }
+
+    private void GenerateUnits(List<UnitEntry> unitEntryList)
+    {
+        foreach (UnitEntry unitEntry in unitEntryList)
+        {
+            if (units.ContainsKey(unitEntry.unitName))
+            {
+                Vector3Int pos = new Vector3Int(unitEntry.position[0], unitEntry.position[1], unitEntry.position[2]);
+                UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly);
+            }
+            else print("해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
         }
     }
 
