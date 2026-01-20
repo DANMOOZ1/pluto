@@ -17,12 +17,12 @@
                 },
                 {
                     "name": "Keyoard",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "d317ec67-2b3f-42e5-bbdb-2c3e5999c5e7",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -38,48 +38,59 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "114032b3-63e5-4d9b-9e33-a451f7e4bea7",
-                    "path": "<Keyboard>/leftArrow",
+                    "name": "2D Vector",
+                    "id": "3c1927ca-fb02-4b3b-9cda-11963763eef7",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Keyoard",
-                    "isComposite": false,
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "b2ef5419-792b-4042-bcf4-dfaf63b7844f",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Keyoard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "24d8a0a1-e8fa-4c93-8d29-6f11790b6342",
+                    "name": "up",
+                    "id": "10ae5943-3c14-436d-95e4-5be04cf574ff",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Keyoard",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "a233d0d3-24cc-4ee0-b3c8-c81643abb7b8",
+                    "name": "down",
+                    "id": "4dd0140c-6e90-4d06-b5f2-4b621884d159",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Keyoard",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "ea719bb2-a149-4368-a663-93f1497a8f02",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keyoard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "3cf18c30-5697-4c80-870c-7fd1bf5d75e4",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keyoard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -10,11 +10,21 @@ public class MainCameraController : MonoBehaviour
     [SerializeField] Vector2 minCameraBoundary;
     [SerializeField] Vector2 maxCameraBoundary;
     public Vector3 moveDirection = Vector3.zero;
-    public float moveSpeed = 1f;
-    
+    public float moveSpeed = 0.1f;
+
+    private void Awake()
+    {
+        GameManager.Instance.OnGameStateChange += OnDebugMod;
+    }
+
     private void Start()
     {
         player = UnitManager.Instance.allyUnits[0].gameObject.transform;
+         
+    }
+
+    void OnDebugMod()
+    {
         if (GameManager.Instance.gameState == GameState.Debug) DebugMode = true;
     }
 
@@ -34,13 +44,14 @@ public class MainCameraController : MonoBehaviour
         }
     }
     
-    /*public void OnMove(InputAction.CallbackContext context)
+    public void Move(InputAction.CallbackContext context)
     {
-        if (context.performed || context.canceled)
+        if (context.performed)
         {
             moveDirection = context.ReadValue<Vector2>();
+        }else if (context.canceled)
+        {
+            moveDirection = Vector3.zero;
         }
-        
-        
-    }*/
+    }
 }

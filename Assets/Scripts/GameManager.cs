@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         UpdateGameState(GameState.Debug);
+        
     }
 
     public void UpdateGameState(GameState newGameState)
