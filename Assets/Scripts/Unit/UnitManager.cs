@@ -197,7 +197,7 @@ public class UnitManager : Singleton<UnitManager>
                     int mov = unit.mov;
                     TileCheckRule movementRule = unit.movementRule;
                     
-                    //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
+                    //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시 
                     unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
                 }
                 else
@@ -223,7 +223,7 @@ public class UnitManager : Singleton<UnitManager>
                     Vector3Int pos = unit.cellPosition;
                     TileCheckRule atkRule = unit.atkRule;
                 
-                    //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
+                    //유닛이 공격할 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시
                     unit.attackableTiles = TileMapManager.Instance.AttackableTile(pos, atkRule);
                 }
                 else
@@ -236,9 +236,20 @@ public class UnitManager : Singleton<UnitManager>
                 }
                 break;
         }
-    } 
+    }
 
-
+    // selected Unit의 공격 범위 내에 공격 가능한 적이 있는지 출력
+    public bool UnitCanAttack()
+    {
+        List<Vector3Int> attackableTiles =
+            TileMapManager.Instance.ReturnInteractiveTiles(selectedUnit.cellPosition, selectedUnit.atkRule);
+        foreach (Unit u in enemyUnits)
+        {
+            if (attackableTiles.Contains(u.cellPosition)) return true;
+        }
+        return false;
+    }
+    
     public GameObject unitPrefab;
     public Unit UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
     {

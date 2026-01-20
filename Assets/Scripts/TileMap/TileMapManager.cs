@@ -221,20 +221,10 @@ public class TileMapManager : Singleton<TileMapManager>
     // 이동 가능한 타일을 RTPrefab으로 표현하고 이동가능한 타일의 셀좌표 keycollection을 반환함
     public List<Vector3Int> ReachableTile(Vector3Int pos, int mov, TileCheckRule movementRule)
     {
-        List<Vector3Int> dist = new List<Vector3Int>();
+        List<Vector3Int> dist = ReturnInteractiveTiles(pos, movementRule);
+
+        DrawTile(ReachableTilePrefab,ReachableTilePrefab2,dist);
         
-        foreach (Vector3Int v in dataOnTiles.Keys)
-        {
-            if(movementRule.TileCheckRuleFunc(v, pos)) dist.Add(v);
-        }
-        
-        foreach (Vector3Int v in dist)
-        {
-            Vector3Int p  = new Vector3Int(v[0],v[1],0);
-            
-            if (dataOnTiles[v].escalator) subTilemaps[v[2]].SetTile(p, ReachableTilePrefab2);
-            else subTilemaps[v[2]].SetTile(p, ReachableTilePrefab);
-        }
         return dist;
         
     }
@@ -244,22 +234,33 @@ public class TileMapManager : Singleton<TileMapManager>
 
     public List<Vector3Int> AttackableTile(Vector3Int pos, TileCheckRule atkRule)
     {
+        List<Vector3Int> dist = ReturnInteractiveTiles(pos, atkRule);
+
+        DrawTile(AttackableTilePrefab,AttackableTilePrefab2,dist);
+        
+        return dist;
+    }
+
+    public List<Vector3Int> ReturnInteractiveTiles(Vector3Int pos, TileCheckRule Rule)
+    {
         List<Vector3Int> dist = new List<Vector3Int>();
 
         foreach (Vector3Int v in dataOnTiles.Keys)
         {
-            if (atkRule.TileCheckRuleFunc(v, pos)) dist.Add(v);
+            if (Rule.TileCheckRuleFunc(v, pos)) dist.Add(v);
         }
-
-        foreach (Vector3Int v in dist)
+        
+        return dist;
+    }
+    public void DrawTile(TileBase tile1, TileBase tile2, List<Vector3Int> positions)
+    {
+        foreach (Vector3Int v in positions)
         {
             Vector3Int p = new Vector3Int(v[0], v[1], 0);
 
-            if (dataOnTiles[v].escalator) subTilemaps[v[2]].SetTile(p, AttackableTilePrefab2);
-            else subTilemaps[v[2]].SetTile(p, AttackableTilePrefab);
+            if (dataOnTiles[v].escalator) subTilemaps[v[2]].SetTile(p, tile2);
+            else subTilemaps[v[2]].SetTile(p, tile1);
         }
-
-        return dist;
     }
 
     public void ClearTileMap(IEnumerable<Vector3Int> keys)

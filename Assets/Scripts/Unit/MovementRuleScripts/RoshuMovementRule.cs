@@ -13,7 +13,7 @@ public class RoshuMovementRule : TileCheckRule
         if (dz != 0)
         {
             if(dz == 1 && TileMapManager.Instance.dataOnTiles[to].escalator) return dx == 1 && dy == 1;
-            else if(dz == -1 && TileMapManager.Instance.dataOnTiles[from].escalator) return dx == 1 && dy == 1;
+            if(dz == -1 && TileMapManager.Instance.dataOnTiles[from].escalator) return dx == 1 && dy == 1;
             return false;
         }
         return dx == 1 && dy == 1;
