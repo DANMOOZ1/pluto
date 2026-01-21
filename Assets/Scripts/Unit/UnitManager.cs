@@ -86,7 +86,10 @@ public class UnitManager : Singleton<UnitManager>
             if (units.ContainsKey(unitEntry.unitName))
             {
                 Vector3Int pos = new Vector3Int(unitEntry.position[0], unitEntry.position[1], unitEntry.position[2]);
-                UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly);
+                
+                if (unitEntry.isAlly) allyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
+                else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
+                
             }
             else print("해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
         }

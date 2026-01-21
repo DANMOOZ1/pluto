@@ -10250,9 +10250,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   units:
-  - {fileID: 11400000, guid: b6a00e78da60d3344a9b104cc8da06fb, type: 2}
-  - {fileID: 11400000, guid: caef6bb0f40d34e4286f58b5403a2f80, type: 2}
-  - {fileID: 11400000, guid: 01d2653d43eafb840b4806cbdf1544b7, type: 2}
+    _serializedList:
+    - Key: Roshu
+      Value: {fileID: 11400000, guid: b6a00e78da60d3344a9b104cc8da06fb, type: 2}
+    - Key: Runa
+      Value: {fileID: 11400000, guid: 01d2653d43eafb840b4806cbdf1544b7, type: 2}
   selectedUnit: {fileID: 0}
   selectedUnitIndex: 0
   allyUnits: []
