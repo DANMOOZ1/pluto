@@ -31,19 +31,19 @@ public class MainCameraController : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (GameManager.Instance.gameState == GameState.Battle && !DebugMode)
-        {
-            Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
+        //if (GameManager.Instance.gameState == GameState.Battle && !DebugMode)
+        //{
+        //    Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
 
-            targetPos.x = Mathf.Clamp(targetPos.x, minCameraBoundary.x, maxCameraBoundary.x);
-            targetPos.y = Mathf.Clamp(targetPos.y, minCameraBoundary.y, maxCameraBoundary.y);
+        //    targetPos.x = Mathf.Clamp(targetPos.x, minCameraBoundary.x, maxCameraBoundary.x);
+        //    targetPos.y = Mathf.Clamp(targetPos.y, minCameraBoundary.y, maxCameraBoundary.y);
 
-            transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
-        }
-        else if (DebugMode)
-        {
-            transform.position += moveDirection * moveSpeed;
-        }
+        //    transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
+        //}
+        //else if (DebugMode)
+        //{
+        //    transform.position += moveDirection * moveSpeed;
+        //}
     }
     
     public void Move(InputAction.CallbackContext context)

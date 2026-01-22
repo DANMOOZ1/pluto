@@ -22,10 +22,10 @@ MonoBehaviour:
   movImage: {fileID: 7993689361209672188, guid: 10f2327d4950a8e42b8c072e53f4c0b5, type: 3}
   rng: {fileID: -6032845919751461111, guid: 431d027ffd01fb64c932281569594223, type: 3}
   hta: {fileID: 7184467698807056556, guid: 85236933e52f00c4ebc00404cac82b02, type: 3}
-  sprite: {fileID: -612100085893734951, guid: b40c7a52246d241449dbb7eb9bfcd72d, type: 3}
+  sprite: {fileID: 6243826554160707820, guid: e8005d92c453aaf45aebadddb1811fe0, type: 3}
   mov: 3
   level: 3
   isAlly: 0
-  portrait: {fileID: 4937003873562304621, guid: c2ac27877d701b5429ecb0c18fdbb207, type: 3}
+  portrait: {fileID: 6243826554160707820, guid: e8005d92c453aaf45aebadddb1811fe0, type: 3}
   movementRule: {fileID: 11400000, guid: 497c5eba4cc7c3542914c3cbf4966621, type: 2}
   atkRule: {fileID: 11400000, guid: 99543e7ed8dcef041b2fa682dcf76d71, type: 2}

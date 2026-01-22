@@ -61,11 +61,14 @@ public class UIManager : Singleton<UIManager>
     public GameObject bigBar;
     public GameObject smallBar;
 
-    // unit 가져오기
+    [Header("turnUI")]
+    public GameObject turnUI;
+
+    // 가져올 unit turn 만들기
     private Unit currentUnit;
     private Unit selectedAlly;
     private Unit selectedEnemy;
-    private List<Unit> allUnits;
+    //private List<Unit> allUnits;
 
     // 유닛 턴인가요?
     private bool isPlayerTurn;
@@ -74,73 +77,80 @@ public class UIManager : Singleton<UIManager>
     {
         // 구독
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
-
-        // 모든 유닛 한 리스트에 저장 ** spdSortUnits에 현재 가용 가능한 모든 유닛이 있음(Unit 타입)
     }
 
 
     // 상태별 UI 켜기
     public void BattleStateUI()
     {
-        // 창 다 지우기
-        infoUI.SetActive(false);
-        enemySelectedUI.SetActive(false);
-        leftUI.SetActive(false);
-        rightUI.SetActive(false);
-
-        // 현재 차례인 유닛 가져오기
-        currentUnit = UnitManager.Instance.selectedUnit;
-
-        // 플레이어 턴
-        if (UnitManager.Instance.selectedUnit.isAlly)
+        if (GameManager.Instance.gameState == GameState.Battle)
         {
-            selectedAlly = currentUnit;
+            // 창 다 지우기
+            infoUI.SetActive(false);
+            enemySelectedUI.SetActive(false);
+            leftUI.SetActive(false);
+            rightUI.SetActive(false);
+
+            // 현재 차례인 유닛 가져오기
+            currentUnit = UnitManager.Instance.selectedUnit;
 
             // 플레이어 턴
-            isPlayerTurn = true;
-
-            // 머리 위 UI 띄우기
-            allUnits = UnitManager.Instance.spdSortUnits;
-            foreach (Unit unit in allUnits)
+            if (UnitManager.Instance.selectedUnit.isAlly)
             {
-                HeadUI(unit, isPlayerTurn);
-            }
+                selectedAlly = currentUnit;
 
-            // 좌하단 UI 띄우기
-            if (UnitManager.Instance.selectedAlly != null)
+                // 플레이어 턴
+                isPlayerTurn = true;
+
+                // 좌하단 UI 띄우기
+                if (UnitManager.Instance.selectedAlly != null)
+                {
+                    selectedAlly = UnitManager.Instance.selectedAlly;
+                }
+                LeftUI();
+
+                // 상태별
+                switch (GameManager.Instance.battleState)
+                {
+
+                    case BattleState.Move:
+                        UIMove();
+                        break;
+                    case BattleState.Default:
+                        UIChoice();
+                        break;
+                    case BattleState.Combat:
+                        UICombat();
+                        break;
+                    case BattleState.Next:
+                        UINext();
+                        break;
+                    case BattleState.Info:
+                        UIInfo();
+                        break;
+                }
+
+            }
+            else
             {
-                selectedAlly = UnitManager.Instance.selectedAlly;
+                selectedEnemy = currentUnit;
+
+                // 우하단 UI 띄우기
+                RightUI();
             }
-            LeftUI();
-
-            // 상태별
-            switch (GameManager.Instance.battleState)
-            {
-
-                case BattleState.Move:
-                    UIMove();
-                    break;
-                case BattleState.Default:
-                    UIChoice();
-                    break;
-                case BattleState.Combat:
-                    UICombat();
-                    break;
-                case BattleState.Next:
-                    UINext();
-                    break;
-                case BattleState.Info:
-                    UIInfo();
-                    break;
-            }
-
-        } else
-        {
-            selectedEnemy = currentUnit;
-
-            // 우하단 UI 띄우기
-            RightUI();
         }
+
+        // 머리 위 UI 띄우기
+        List<Unit> allUnits = UnitManager.Instance.spdSortUnits; // 쓸 때 가져오기
+
+        foreach (Unit unit in allUnits)
+        {
+            HeadUI(unit, isPlayerTurn);
+        }
+        turnUI.SetActive(true);
+
+        // 순서 띄우기
+        UIturn(allUnits);
     }
 
     public void UIChoice()
@@ -185,12 +195,6 @@ public class UIManager : Singleton<UIManager>
         // 버튼?
         battleButtons.SetActive(false);
 
-        foreach (Unit unit in allUnits)
-        {
-            HeadUI(unit, true);
-
-        }
-
     }
 
     public void UINext()
@@ -202,6 +206,9 @@ public class UIManager : Singleton<UIManager>
     {
         // 버튼?
         battleButtons.SetActive(false);
+
+        // 순서 끄기
+        turnUI.SetActive(false);
 
         iUI_Portrait.sprite = currentUnit.portrait;
         iUI_UnitName.text = currentUnit.unitName;
@@ -304,7 +311,11 @@ public class UIManager : Singleton<UIManager>
 
         foreach (Transform child in parentUnit.transform)
         {
-            if(child.name == "HeadUI")
+            if (child.name == "BattleButtons")
+            {
+                return;
+            }
+            else if (child.name == "HeadUI")
             {
                 Destroy(child.gameObject);
             }
@@ -353,4 +364,45 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+    // 순서 UI
+    public void UIturn(List<Unit> allUnits)
+    {
+        
+        foreach (Transform child in turnUI.transform)
+        {
+
+            Destroy(child.gameObject);
+
+        }
+
+        // 지금 차례인 애 index 가져오기
+        int num = UnitManager.Instance.selectedUnitIndex;
+
+        Debug.Log(num);
+
+        for (int i = num; i < allUnits.Count; i++)
+        {
+            Createportrait(allUnits[i]);
+
+        }
+
+        for (int i = 0; i < num; i++)
+        {
+            Createportrait(allUnits[i]);
+
+        }
+    }
+
+    public void Createportrait(Unit unit)
+    {
+        GameObject portrait = new GameObject("portrait");
+        portrait.transform.SetParent(turnUI.transform, false);
+        Image image = portrait.AddComponent<Image>();
+        image.sprite = unit.portrait;
+        image.preserveAspect = true;
+        AspectRatioFitter size = portrait.AddComponent<AspectRatioFitter>();
+        size.aspectMode = AspectRatioFitter.AspectMode.WidthControlsHeight;
+    }
+
 }
