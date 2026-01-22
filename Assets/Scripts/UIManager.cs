@@ -313,25 +313,44 @@ public class UIManager : Singleton<UIManager>
         GameObject clonedHeadUI = Instantiate(headUI, parentUnit.transform);
         clonedHeadUI.name = "HeadUI";
 
-        GameObject portrait = clonedHeadUI.transform.GetChild(0).gameObject;
-        GameObject hp = clonedHeadUI.transform.GetChild(1).gameObject;
-        GameObject stat = clonedHeadUI.transform.GetChild(2).gameObject;
+        GameObject portrait = null;
+        GameObject hp = null;
+        GameObject stat = null;
+
+
+        foreach (Transform child in clonedHeadUI.transform)
+        {
+            if (child.name == "portrait")
+            {
+                portrait = child.gameObject;
+            } else if (child.name == "hp")
+            {
+                hp = child.gameObject;
+
+            } else if (child.name == "atk/def")
+            {
+                stat = child.gameObject;
+            }
+        }
 
         portrait.GetComponent<Image>().sprite = parentUnit.portrait;
-        smallBar.GetComponent<Image>().color = Color.green;
-        DrawBar(smallBar, Color.green, parentUnit.hp, hp);
 
-        bool isAttacker = (isPlayerTurn && parentUnit.isAlly) || (!isPlayerTurn && !parentUnit.isAlly);
+        if (portrait != null && hp != null && stat != null)
+        {
+            DrawBar(smallBar, Color.green, parentUnit.hp, hp);
 
-        if (isAttacker)
-        {
-            // 공격: 빨간색 ATK
-            DrawBar(smallBar, Color.red, parentUnit.atk, stat);
-        }
-        else
-        {
-            // 방어: 파란색 DEF
-            DrawBar(smallBar, Color.blue, parentUnit.def, stat);
+            bool isAttacker = (isPlayerTurn && parentUnit.isAlly) || (!isPlayerTurn && !parentUnit.isAlly);
+
+            if (isAttacker)
+            {
+                // 공격: 빨간색 ATK
+                DrawBar(smallBar, Color.red, parentUnit.atk, stat);
+            }
+            else
+            {
+                // 방어: 파란색 DEF
+                DrawBar(smallBar, Color.blue, parentUnit.def, stat);
+            }
         }
     }
 }
