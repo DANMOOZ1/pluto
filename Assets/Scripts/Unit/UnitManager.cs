@@ -343,5 +343,6 @@ public class UnitManager : Singleton<UnitManager>
         unit.portrait = unitData.portrait;
         unit.movementRule =  unitData.movementRule;
         unit.atkRule = unitData.atkRule;
+        unit.heatAreaRule = unitData.heatAreaRule;
     }
 }

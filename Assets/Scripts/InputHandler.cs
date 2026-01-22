@@ -43,8 +43,8 @@ public class InputHandler : MonoBehaviour
     {
         var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
     
-        Vector3Int? cellPos = WorldToCellPos(mousePos); 
-        Vector3Int? cellPos2 = WorldToCellPos(mousePos + new Vector3(0, 0.5f, 0));
+        Vector3Int? cellPos = WorldPosToCellPos(mousePos); 
+        Vector3Int? cellPos2 = WorldPosToCellPos(mousePos + new Vector3(0, 0.5f, 0));
         
         //반블록 인식을 위한 재검증
         if (!cellPos2.HasValue) return cellPos;
@@ -52,7 +52,8 @@ public class InputHandler : MonoBehaviour
         return cellPos;
     }
 
-    public Vector3Int? WorldToCellPos(Vector3 worldPos)
+    //입력에 해당하는 worldpos를 위치에 해당하는 가장 높은 cellpos로 변환해줌
+    public Vector3Int? WorldPosToCellPos(Vector3 worldPos)
     {
         int i = 0;
         Vector3Int? foundPos = null;
@@ -81,7 +82,7 @@ public class InputHandler : MonoBehaviour
         // 이거 여기에 넣어도 괜찮을까요?? 다른 방법도 있어서 안 괜찮으면 말씀해주세용
         UnitManager.Instance.selectedAlly = null;
         UnitManager.Instance.selectedEnemy = null;
-
+        
         // 선택된 오브젝트가 없으면 이동
         if (obj == null)
         {
@@ -92,9 +93,7 @@ public class InputHandler : MonoBehaviour
 
             // UI 수정
             UIManager.Instance.BattleStateUI();
-
             return;
-
         }
 
         // 유닛 컴포넌트 확인
@@ -122,11 +121,6 @@ public class InputHandler : MonoBehaviour
         if (!cellpos.HasValue)
         {
             print("마우스 위치에 타일이 존재하지 않습니다.");
-            return;
-        }
-        
-        if(UnitManager.Instance.UnitOnTile(cellpos.Value)){
-            print("해당 위치에 이미 유닛이 존재합니다.");
             return;
         }
         UnitManager.Instance.selectedUnit.StartMoving(cellpos.Value);

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class Unit : MonoBehaviour
 {
     //유닛 데이터 
@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
     public Sprite portrait;
     public TileCheckRule movementRule;
     public TileCheckRule atkRule;
+    public HeatAreaRule heatAreaRule;
     public UnitSO unitSO;
     
     //인게임 유닛 테이터
@@ -62,6 +63,10 @@ public class Unit : MonoBehaviour
     // 경로 이동 시작
     public void StartMoving(Vector3Int targetPos)
     {
+        if(UnitManager.Instance.UnitOnTile(targetPos) && targetPos != cellPosition){
+            print("해당 위치에 이미 유닛이 존재합니다.");
+            return;
+        }
         if (isAlly && accessibleTiles.Contains(targetPos)) 
         {
             // 타일맵 청소
@@ -132,29 +137,35 @@ public class Unit : MonoBehaviour
     public void Attack(Unit enemy)
     {
         TileMapManager.Instance.ClearTileMap(attackableTiles);
-        int damage = atk;
-        
-        // 명중률 계산
-        int accuracy = 85 + 4 * (foc - enemy.foc) -3*((int)Mathf.Round(Vector3.Distance(cellPosition,enemy.cellPosition)) - 2);
-        if (!RandomFunc(accuracy))
+
+        List <Unit> enemies = CheckEnemyOnHeatArea(cellPosition, enemy.cellPosition);
+        foreach (Unit enem in enemies)
         {
-            print("빗나감 ㅅㄱ");
-            GameManager.Instance.UpdateBattleState(BattleState.Next); // 공격 완료 후 Next로 전환
-            return;
+            int damage = atk;
+        
+            // 명중률 계산
+            int accuracy = 85 + 4 * (foc - enem.foc) -3*((int)Mathf.Round(Vector3.Distance(cellPosition,enem.cellPosition)) - 2);
+            if (!RandomFunc(accuracy))
+            {
+                print("빗나감 ㅅㄱ");
+                GameManager.Instance.UpdateBattleState(BattleState.Next); // 공격 완료 후 Next로 전환
+                return;
+            }
+        
+            //치명타 계산
+            int crit = 10 + 5 * foc;
+            if(RandomFunc(crit)) damage += 2;
+        
+            //공격횟수 계산
+            int attackCount = 0;
+            if (spd < 5) attackCount = 1;
+            else if (spd < 8) attackCount = 2;
+            else if (spd < 10) attackCount = 3;
+            else attackCount = 4;
+        
+            enem.Attacked(damage,attackCount);
         }
         
-        //치명타 계산
-        int crit = 10 + 5 * foc;
-        if(RandomFunc(crit)) damage += 2;
-        
-        //공격횟수 계산
-        int attackCount = 0;
-        if (spd < 5) attackCount = 1;
-        else if (spd < 8) attackCount = 2;
-        else if (spd < 10) attackCount = 3;
-        else attackCount = 4;
-        
-        enemy.Attacked(damage,attackCount);
     }
 
     public void Attacked(int damage, int attackCount)
@@ -172,6 +183,26 @@ public class Unit : MonoBehaviour
         }
         GameManager.Instance.UpdateBattleState(BattleState.Next);// 공격 완료 후 Next로 전환
     }
-    
-    
+
+    private List<Unit> CheckEnemyOnHeatArea(Vector3Int currPos,Vector3Int targetPos)
+    {
+        List<Vector3Int> heatArea = heatAreaRule.HeatAreaRuleFunc(currPos, targetPos);
+
+        print(heatArea);
+        List<Unit> attackedUnits = new List<Unit>();
+        if (heatArea.Count > 0)
+        {
+            foreach (Vector3Int heatPos in heatArea)
+            {
+                foreach (Unit u in UnitManager.Instance.spdSortUnits)
+                {
+                    if (heatPos == u.cellPosition) attackedUnits.Add(u);
+                }
+            }
+            
+            if(attackedUnits.Count > 0) return attackedUnits;
+        }
+        Debug.LogWarning("HeatArea에 감지된 유닛이 없습니다.");
+        return attackedUnits;
+    }
 }

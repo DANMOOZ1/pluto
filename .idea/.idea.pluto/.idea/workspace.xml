@@ -6,32 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Arts/chracter/sd/Luna_SD_ combined .png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Arts/chracter/sd/Luna_SD_ combined .png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Arts/chracter/sd/Roshu_SD_ combined .png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Arts/chracter/sd/Roshu_SD_ combined .png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Big Bar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Big Bar.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Small Bar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Small Bar.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RunaAttackRule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RunaAttackRule.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RunaMovementRule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RunaMovementRule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/StageData/StageData1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StageData/StageData1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/AttackRules/RunaAttackRule.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/AttackRules/RunaAttackRule.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/MovementRules/RunaMovementRule.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/MovementRules/RunaMovementRule.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Roshu.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Roshu.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Runa.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Runa.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Unit.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/Unit.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Luna.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Luna.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Roshu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Roshu.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +28,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/EnemyAI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/HeatAreaRules/LunaHeatAreaRule1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/HeatAreaRules/RoshuHeatAreaRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Unit/StageData.cs" root0="FORCE_HIGHLIGHTING" />
@@ -151,6 +137,7 @@
       <workItem from="1768917633185" duration="4428000" />
       <workItem from="1768991246904" duration="739000" />
       <workItem from="1769066247723" duration="3760000" />
+      <workItem from="1769086852805" duration="5492000" />
     </task>
     <servers />
   </component>

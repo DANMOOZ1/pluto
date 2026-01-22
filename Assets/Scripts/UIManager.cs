@@ -379,7 +379,7 @@ public class UIManager : Singleton<UIManager>
         // 지금 차례인 애 index 가져오기
         int num = UnitManager.Instance.selectedUnitIndex;
 
-        Debug.Log(num);
+        //Debug.Log(num);
 
         for (int i = num; i < allUnits.Count; i++)
         {

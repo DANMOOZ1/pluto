@@ -19,5 +19,6 @@ public class UnitSO : ScriptableObject
     public Sprite portrait;
     public TileCheckRule movementRule;
     public TileCheckRule atkRule;
+    public HeatAreaRule heatAreaRule;
 }
 
