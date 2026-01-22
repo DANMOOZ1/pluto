@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StageData/StageData1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StageData/StageData1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Luna.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Luna.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Roshu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Roshu.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/HeatAreaRules/LunaHeatAreaRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/HeatAreaRules/LunaHeatAreaRule.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +128,7 @@
       <workItem from="1768991246904" duration="739000" />
       <workItem from="1769066247723" duration="3760000" />
       <workItem from="1769086852805" duration="5492000" />
+      <workItem from="1769094854614" duration="418000" />
     </task>
     <servers />
   </component>
