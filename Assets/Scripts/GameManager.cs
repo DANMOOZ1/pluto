@@ -5,7 +5,6 @@ public class GameManager : Singleton<GameManager>
 {
     public GameState gameState;
     public BattleState  battleState;
-    public CombatState combatState;
 
     public event Action OnGameStateChange;
     public event Action OnBattleStateChange;
@@ -90,10 +89,4 @@ public enum BattleState
     Combat,
     Next,
     Info
-}
-
-public enum CombatState
-{
-    EnemySelecting,
-    Attack
 }

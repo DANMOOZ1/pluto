@@ -18,13 +18,13 @@ public class Unit : MonoBehaviour
     public Sprite movImage;
     public Sprite rng;
     public Sprite hta;
-    public Sprite sprite;
     public int mov;
     public int level;
     public bool isAlly;
     public Sprite portrait;
     public TileCheckRule movementRule;
     public TileCheckRule atkRule;
+    public UnitSO unitSO;
     
     //인게임 유닛 테이터
     public Vector3Int cellPosition; // cell 좌표임

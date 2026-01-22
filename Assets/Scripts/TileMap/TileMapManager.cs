@@ -28,7 +28,7 @@ public class TileMapManager : Singleton<TileMapManager>
         int x = cellPos.x;
         int y = cellPos.y;
         int z = cellPos.z;
-        return new Vector3(x - y , x/2f + y/2f + 0.7f + z,0);
+        return new Vector3(x - y , x/2f + y/2f + 0.5f + z,0);
     }
 
     public Dictionary<Vector3Int, TileType> dataOnTiles; // key : cell pos , value : TileType

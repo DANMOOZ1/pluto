@@ -9,8 +9,7 @@ using System.IO;
 public class UnitManager : Singleton<UnitManager>
 {
     //등록된 유닛 프리팹
-    public SerializedDictionary<string, UnitSO> units;
-    
+    public SerializedDictionary<string, GameObject> units;
     public Unit selectedUnit;// 아군 적군
     public int selectedUnitIndex = 0;
     public List<Unit> allyUnits = new List<Unit>();//아군
@@ -55,15 +54,14 @@ public class UnitManager : Singleton<UnitManager>
         StageData unitData = new StageData();
         
         //예시
-        unitData.UnitsInStage.Add(new UnitEntry(new int[] { -10, 4, 0 }, "Runa", true));
+        unitData.UnitsInStage.Add(new UnitEntry(new int[] { -10, 4, 0 }, "Luna", true));
         unitData.UnitsInStage.Add(new UnitEntry(new int[]{-2,3,1}, "Roshu", false));
         
         string path  = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
         string data = JsonUtility.ToJson(unitData);
         
-        print(path);
+        print("저장 경로: " + path);
         File.WriteAllText(path, data);
-        print(path);
     }
     
     private StageData LoadStageData()
@@ -91,7 +89,7 @@ public class UnitManager : Singleton<UnitManager>
                 else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
                 
             }
-            else print("해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
+            else Debug.LogWarning("해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
         }
     }
 
@@ -131,7 +129,7 @@ public class UnitManager : Singleton<UnitManager>
             selectedUnit = spdSortUnits[0];
             selectedUnitIndex = 0;
             
-            foreach (Unit u in spdSortUnits) print(u.unitName);
+            //foreach (Unit u in spdSortUnits) print(u.unitName);
             
             GameManager.Instance.UpdateBattleState(BattleState.Move);
         }
@@ -297,39 +295,16 @@ public class UnitManager : Singleton<UnitManager>
         return false;
     }
     
-    public GameObject unitPrefab;
-    public Unit UnitCreater(UnitSO unitData, Vector3Int unitCellPos, bool isAlly)
+    public Unit UnitCreater(GameObject unitPrefab, Vector3Int unitCellPos, bool isAlly)
     {
         GameObject unitObject = Instantiate(unitPrefab,TileMapManager.Instance.CellCoordToWorldCoord(unitCellPos),Quaternion.identity);
         
         // 유닛 오브젝트에 컴포넌트 추가
-        Unit unit = unitObject.GetComponent<Unit>();
-        SpriteRenderer renderer = unitObject.GetComponent<SpriteRenderer>();
-
-        //컴포넌트에 데이터 삽입
-        unit.hp = unitData.hp;
-        unit.atk = unitData.atk;
-        unit.def = unitData.def;
-        unit.spd = unitData.spd;
-        unit.foc = unitData.foc;
-        unit.movImage = unitData.movImage;
-        unit.rng = unitData.rng;
-        unit.hta = unitData.hta;
-        unit.race = unitData.race;
-        unit.unitName = unitData.unitName;
-        unit.sprite = unitData.sprite;
-        unit.mov = unitData.mov;
-        unit.level = unitData.level;
-        unit.isAlly = isAlly;
-        unit.portrait = unitData.portrait;
+        Unit unit = unitObject.GetComponent<Unit>(); // 가변값
+        
+        UnitDataReset(unit);
         unit.cellPosition = unitCellPos;
-        unit.movementRule =  unitData.movementRule;
-        unit.atkRule = unitData.atkRule;
-        
-        renderer.sprite = unit.sprite;
-        renderer.sortingOrder = 10;
-        
-        unitObject.name = unit.unitName;
+        unit.isAlly = isAlly;
         
         // 사용가능한 유닛리스트에 만든 유닛 저장
         return unit;
@@ -345,5 +320,28 @@ public class UnitManager : Singleton<UnitManager>
         spdSortUnits.Remove(unit);
 
         Destroy(unit.gameObject);
+    }
+
+    //유닛의 실제 데이터를 SO에서 불러와 초기화 시킴
+    private void UnitDataReset(Unit unit)
+    {
+        UnitSO unitData = unit.unitSO; //초기값
+        
+        //컴포넌트에 데이터 삽입
+        unit.hp = unitData.hp;
+        unit.atk = unitData.atk;
+        unit.def = unitData.def;
+        unit.spd = unitData.spd;
+        unit.foc = unitData.foc;
+        unit.movImage = unitData.movImage;
+        unit.rng = unitData.rng;
+        unit.hta = unitData.hta;
+        unit.race = unitData.race;
+        unit.unitName = unitData.unitName;
+        unit.mov = unitData.mov;
+        unit.level = unitData.level;
+        unit.portrait = unitData.portrait;
+        unit.movementRule =  unitData.movementRule;
+        unit.atkRule = unitData.atkRule;
     }
 }

@@ -35,7 +35,7 @@ public class InputHandler : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        else if(GameManager.Instance.gameState == GameState.Debug) print(MousePosToCellPos());
+        else if(GameManager.Instance.gameState == GameState.Debug) Debug.Log(MousePosToCellPos());
     }
     
     //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력

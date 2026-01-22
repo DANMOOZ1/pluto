@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RunaMovementRule", menuName = "MovementRuleSO/RunaMovementRule")]
-public class RunaMovementRule : TileCheckRule
+[CreateAssetMenu(fileName = "LunaMovementRule", menuName = "MovementRuleSO/LunaMovementRule")]
+public class LunaMovementRule : TileCheckRule
 {
     public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
     {

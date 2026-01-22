@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7469130622301206962}
   - component: {fileID: -2336904663452575696}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: Luna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,14 +82,14 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -8193053222758867116, guid: 8cc553d22b929f0449a1310baac6fb37, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0421319, y: 1.0001724}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -131,9 +131,9 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    pivot: {x: 0.5704387, y: 0.05618765}
+    oldSize: {x: 1.0421319, y: 1.0001724}
+    newSize: {x: 1.0421319, y: 1.0001724}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -159,15 +159,16 @@ MonoBehaviour:
   def: 0
   spd: 0
   foc: 0
-  rng: 0
-  hta: 0
-  sprite: {fileID: 0}
+  movImage: {fileID: 0}
+  rng: {fileID: 0}
+  hta: {fileID: 0}
   mov: 0
   level: 0
   isAlly: 0
   portrait: {fileID: 0}
   movementRule: {fileID: 0}
   atkRule: {fileID: 0}
+  unitSO: {fileID: 11400000, guid: 01d2653d43eafb840b4806cbdf1544b7, type: 2}
   cellPosition: {x: 0, y: 0, z: 0}
   accessibleTiles: []
   attackableTiles: []
@@ -185,3 +186,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cab650ac17715649a6aaec1e98090f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  detectionRange: 7
+  target: {fileID: 0}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5a93ae9b28635748b2bc24b59cccf35, type: 3}
-  m_Name: Runa
+  m_Name: Luna
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
   unitName: Runa
   race: Human
