@@ -19,8 +19,8 @@ public class MainCameraController : MonoBehaviour
 
     private void Start()
     {
-        player = UnitManager.Instance.allyUnits[0].gameObject.transform;
-
+        //player = UnitManager.Instance.allyUnits[0].gameObject.transform;
+         
     }
 
     void OnDebugMod()
@@ -30,7 +30,6 @@ public class MainCameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (GameManager.Instance.gameState == GameState.Battle && !DebugMode)
         {
             Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
@@ -39,8 +38,7 @@ public class MainCameraController : MonoBehaviour
             targetPos.y = Mathf.Clamp(targetPos.y, minCameraBoundary.y, maxCameraBoundary.y);
 
             transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
-        }
-        else if (DebugMode)
+        }else if (DebugMode)
         {
             transform.position += moveDirection * moveSpeed;
         }
