@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a93ae9b28635748b2bc24b59cccf35, type: 3}
+  m_Name: Pawn
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSO
+  unitName: Pawn
+  race: human
+  hp: 2
+  atk: 2
+  def: 1
+  spd: 1
+  foc: 1
+  movImage: {fileID: -4693211652331192390, guid: 1587c8904a4ac5249b1a14a7d93353d0, type: 3}
+  rng: {fileID: 5683960647201584129, guid: 9b5f4163e695cf947bd06eda5c6785c1, type: 3}
+  hta: {fileID: -7390416357525048247, guid: 8d9d227f13b2ac04885d4907896cb431, type: 3}
+  mov: 0
+  level: 0
+  portrait: {fileID: 8743510549986041138, guid: e84ca145be9dde241b28c75fcb077194, type: 3}
+  movementRule: {fileID: 11400000, guid: a75bed233b710304c838b4aac2fc1807, type: 2}
+  atkRule: {fileID: 11400000, guid: 0a020a86c5dd26b48a96fa1f2ae96556, type: 2}
+  heatAreaRule: {fileID: 11400000, guid: 09cf1d9a9fa35354f994d48259772f17, type: 2}

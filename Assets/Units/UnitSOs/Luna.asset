@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a93ae9b28635748b2bc24b59cccf35, type: 3}
   m_Name: Luna
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  unitName: Runa
+  unitName: Luna
   race: Human
   hp: 4
   atk: 3
@@ -24,7 +24,7 @@ MonoBehaviour:
   hta: {fileID: 6245215943514085673, guid: 74b7b3536121f414a9c2dbd97d7b406f, type: 3}
   mov: 3
   level: 2
-  portrait: {fileID: 1711330224600143194, guid: fbfaf627f46b016499058d1ac4dd39f4, type: 3}
+  portrait: {fileID: -2412892936227306251, guid: c14cd9030ed485b4d8396701c04a356f, type: 3}
   movementRule: {fileID: 11400000, guid: bd65ce12301c38d45a5e77f692550868, type: 2}
   atkRule: {fileID: 11400000, guid: 7302f7d1c8689c74d8d500225e24cc93, type: 2}
   heatAreaRule: {fileID: 11400000, guid: 1783bfb12bc59a2489254331d56229a1, type: 2}

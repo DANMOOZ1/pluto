@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
-[RequireComponent(typeof(PolygonCollider2D))]
+//[RequireComponent(typeof(PolygonCollider2D))]
 public class Unit : MonoBehaviour
 {
     //유닛 데이터 

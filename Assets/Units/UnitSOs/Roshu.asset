@@ -24,7 +24,7 @@ MonoBehaviour:
   hta: {fileID: 7184467698807056556, guid: 85236933e52f00c4ebc00404cac82b02, type: 3}
   mov: 3
   level: 3
-  portrait: {fileID: 5471811457362665388, guid: 63161f42d559b544fafc7cf0e86035fc, type: 3}
+  portrait: {fileID: -874650781766054070, guid: c3248e26fd6518143b0a6e5338d69860, type: 3}
   movementRule: {fileID: 11400000, guid: 497c5eba4cc7c3542914c3cbf4966621, type: 2}
   atkRule: {fileID: 11400000, guid: 99543e7ed8dcef041b2fa682dcf76d71, type: 2}
   heatAreaRule: {fileID: 11400000, guid: 861089e14bd9c074da275319ce1c8e5b, type: 2}

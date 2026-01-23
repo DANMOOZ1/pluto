@@ -194,6 +194,7 @@ public class TileMapManager : Singleton<TileMapManager>
                 }
                 
                 float alt = dist[u] + CostToEnterTile(toPos);
+                if (Mathf.Abs(fromPos.x - toPos.x) + Mathf.Abs(fromPos.y - toPos.y) >= 2) alt += 0.000001f;
                 if(alt < dist[v])
                 {
                     dist[v] = alt;

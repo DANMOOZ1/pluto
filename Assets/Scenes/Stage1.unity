@@ -6010,7 +6010,7 @@ Transform:
   m_GameObject: {fileID: 678306101}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.168169, y: -13.21209, z: 0}
+  m_LocalPosition: {x: -23.18, y: -19.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11839,7 +11839,7 @@ Transform:
   m_GameObject: {fileID: 1303001594}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.30183, y: 12.10791, z: 0}
+  m_LocalPosition: {x: 24.18, y: 19.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11876,6 +11876,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   units:
     _serializedList:
+    - Key: Pawn
+      Value: {fileID: 1584436410610593183, guid: 1c70a59dcf5a6cb48a6d74325f9b2ab9, type: 3}
+    - Key: Rook
+      Value: {fileID: 1584436410610593183, guid: 5b2b743d01e5526448dcce6429d54b4b, type: 3}
     - Key: Luna
       Value: {fileID: 1584436410610593183, guid: 4c4072e75220e9a4bbceb75593c5cd92, type: 3}
     - Key: Roshu
@@ -15917,25 +15921,25 @@ MonoBehaviour:
       Value:
         cellPosition: {x: 0, y: 0, z: 0}
         name: Temple_TowerMiddle
-        movementCost: 1
+        movementCost: 1e+11
         escalator: 0
     - Key: Temple_TowerMiddle
       Value:
         cellPosition: {x: 0, y: 0, z: 0}
         name: Temple_TowerMiddle
-        movementCost: 1
+        movementCost: 1e+14
         escalator: 0
     - Key: Temple_TowerBottomBroken
       Value:
         cellPosition: {x: 0, y: 0, z: 0}
         name: Temple_TowerBottomBroken
-        movementCost: 1
+        movementCost: 1e+9
         escalator: 0
     - Key: Temple_TowerBottom
       Value:
         cellPosition: {x: 0, y: 0, z: 0}
         name: Temple_TowerBottom
-        movementCost: 1
+        movementCost: 1e+11
         escalator: 0
     - Key: Temple_GrayWPattern
       Value:

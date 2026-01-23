@@ -1,1 +1,6 @@
-{"UnitsInStage":[{"position":[-10,4,0],"unitName":"Luna","isAlly":true},{"position":[-2,3,1],"unitName":"Roshu","isAlly":false},{"position":[-2,2,1],"unitName":"Roshu","isAlly":false}]}
+{"UnitsInStage":[
+  {"position":[-10,4,0],"unitName":"Luna","isAlly":true},
+  {"position":[-2,3,1],"unitName":"Roshu","isAlly":false},
+  {"position":[-2,2,1],"unitName":"Pawn","isAlly":false},
+  {"position":[-2,1,1],"unitName":"Rook","isAlly":false}
+]}
