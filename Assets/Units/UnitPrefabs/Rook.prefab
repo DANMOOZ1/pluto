@@ -116,14 +116,13 @@ MonoBehaviour:
   movImage: {fileID: 0}
   rng: {fileID: 0}
   hta: {fileID: 0}
-  mov: 0
   level: 0
   isAlly: 0
   portrait: {fileID: 0}
   movementRule: {fileID: 0}
   atkRule: {fileID: 0}
   heatAreaRule: {fileID: 0}
-  unitSO: {fileID: 11400000, guid: b7dfdd7b94d9bee49a59f74b7cef9322, type: 2}
+  unitSO: {fileID: 11400000, guid: 3ad7d6b28fe837940b3a8e85dcdc0540, type: 2}
   cellPosition: {x: 0, y: 0, z: 0}
   accessibleTiles: []
   attackableTiles: []
@@ -143,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   detectionRange: 5
   target: {fileID: 0}
+  canAttack: 0
 --- !u!60 &-8722328441779375123
 PolygonCollider2D:
   m_ObjectHideFlags: 0

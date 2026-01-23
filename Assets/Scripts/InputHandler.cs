@@ -35,9 +35,32 @@ public class InputHandler : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        else if(GameManager.Instance.gameState == GameState.Debug) Debug.Log(MousePosToCellPos());
     }
-    
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        if(!context.started) return;
+
+        if (GameManager.Instance.gameState == GameState.Debug)
+        {
+            Vector3Int? mousePos = MousePosToCellPos();
+
+
+            if (mousePos.HasValue)
+            {
+                DataManager.Instance.AddUnit(mousePos.Value);
+            }
+        }
+    }
+
+    public void PressSKey(InputAction.CallbackContext context)
+    {
+        if(!context.started) return;
+
+        if (GameManager.Instance.gameState == GameState.Debug)
+        {
+            DataManager.Instance.SaveStageData();
+        }
+    }
     //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력
     public Vector3Int? MousePosToCellPos()
     {

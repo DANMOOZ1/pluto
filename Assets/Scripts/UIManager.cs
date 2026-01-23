@@ -545,7 +545,7 @@ public void LeftUI()
             Button Button = Obj.AddComponent<Button>();
 
             Image.sprite = portrait;
-
+            
             Button.onClick.AddListener(() =>
             {
                 DataManager.Instance.selectedunit = unitName;

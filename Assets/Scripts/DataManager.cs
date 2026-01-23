@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -32,7 +33,7 @@ public class DataManager : Singleton<DataManager>
         return null;
     }
     
-    private void SaveStageData()
+    public void SaveStageData()
     {
         string path  = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
         string data = JsonUtility.ToJson(StageData);
@@ -42,7 +43,7 @@ public class DataManager : Singleton<DataManager>
     }
     
     // 안전한 방식으로 추가
-    void AddWaveData(int waveIndex, Vector3Int pos, string unitName, bool isAlly)
+   private void AddWaveData(int waveIndex, Vector3Int pos, string unitName, bool isAlly)
     {
         if (StageData.WavesInStage[waveIndex] == null)
             StageData.WavesInStage[waveIndex] = new List<UnitEntry>();
@@ -51,5 +52,10 @@ public class DataManager : Singleton<DataManager>
         StageData.WavesInStage[waveIndex].Add(new UnitEntry(new int[]{pos.x,pos.y,pos.z}, unitName, isAlly));
         
         Debug.Log(unitName+"을 "+pos.ToString()+"에 추가함.");
+    }
+
+    public void AddUnit(Vector3Int pos)
+    {
+        AddWaveData(0,pos,selectedunit,isAlly);
     }
 }

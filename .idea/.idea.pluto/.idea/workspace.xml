@@ -6,13 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Small Bar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Small Bar.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/PawnAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/PawnAttackRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/EnemyAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/EnemyAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/PawnMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/PawnMovementRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/StageData/StageData1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StageData/StageData1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Rook.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Units/UnitPrefabs/Rook.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/input/PlayerInput.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/input/PlayerInput.inputactions" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +142,7 @@
       <workItem from="1769169330345" duration="5754000" />
       <workItem from="1769175949228" duration="77000" />
       <workItem from="1769176060399" duration="4957000" />
-      <workItem from="1769181524438" duration="5588000" />
+      <workItem from="1769181524438" duration="7331000" />
     </task>
     <servers />
   </component>

@@ -23,6 +23,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Debug Click",
+                    "type": "Button",
+                    "id": "810d2308-e177-4fd7-b416-586ba6d93f89",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SKey",
+                    "type": "Button",
+                    "id": "8f953ce2-a7a5-4708-9933-1eeff9af7582",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -91,6 +109,28 @@
                     "action": "Keyoard",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d3bfa28c-20f7-430c-ae23-bd9c3e3b5ac9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Debug Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de5b3489-06da-43a0-99f3-4b9b7372b86d",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
