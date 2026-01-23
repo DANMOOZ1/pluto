@@ -205,4 +205,9 @@ public class Unit : MonoBehaviour
         Debug.LogWarning("HeatArea에 감지된 유닛이 없습니다.");
         return attackedUnits;
     }
+
+    public void DrawBar ()
+    {
+
+    }
 }

@@ -1443,6 +1443,7 @@ GameObject:
   - component: {fileID: 112672885}
   - component: {fileID: 112672886}
   - component: {fileID: 112672884}
+  - component: {fileID: 112672887}
   m_Layer: 5
   m_Name: iUI_DEF
   m_TagString: Untagged
@@ -1533,6 +1534,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &112672887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112672881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 2
+  barType: 1
 --- !u!1 &128527186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,6 +1977,7 @@ GameObject:
   - component: {fileID: 155703326}
   - component: {fileID: 155703328}
   - component: {fileID: 155703325}
+  - component: {fileID: 155703329}
   m_Layer: 5
   m_Name: eUI_allyHP
   m_TagString: Untagged
@@ -2052,6 +2068,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &155703329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155703323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 0
+  barType: 0
 --- !u!1 &158867320
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,6 +3344,7 @@ GameObject:
   - component: {fileID: 447394006}
   - component: {fileID: 447394007}
   - component: {fileID: 447394005}
+  - component: {fileID: 447394008}
   m_Layer: 5
   m_Name: iUI_ATK
   m_TagString: Untagged
@@ -3404,6 +3435,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &447394008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447394002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 1
+  barType: 1
 --- !u!1 &464497284
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +6055,7 @@ GameObject:
   - component: {fileID: 728767652}
   - component: {fileID: 728767654}
   - component: {fileID: 728767651}
+  - component: {fileID: 728767655}
   m_Layer: 5
   m_Name: eUI_allyATK
   m_TagString: Untagged
@@ -6100,6 +6146,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &728767655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728767649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 1
+  barType: 0
 --- !u!1 &764359086
 GameObject:
   m_ObjectHideFlags: 0
@@ -6683,6 +6743,7 @@ GameObject:
   - component: {fileID: 873106863}
   - component: {fileID: 873106865}
   - component: {fileID: 873106862}
+  - component: {fileID: 873106866}
   m_Layer: 5
   m_Name: eUI_allyFOC
   m_TagString: Untagged
@@ -6773,6 +6834,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &873106866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873106860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 4
+  barType: 0
 --- !u!1 &909733568
 GameObject:
   m_ObjectHideFlags: 0
@@ -7468,6 +7543,7 @@ GameObject:
   - component: {fileID: 926274882}
   - component: {fileID: 926274881}
   - component: {fileID: 926274883}
+  - component: {fileID: 926274884}
   m_Layer: 5
   m_Name: lUI_HP
   m_TagString: Untagged
@@ -7558,6 +7634,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &926274884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926274879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 0
+  barType: 1
 --- !u!1 &953936210
 GameObject:
   m_ObjectHideFlags: 0
@@ -8102,6 +8192,7 @@ GameObject:
   - component: {fileID: 1014684463}
   - component: {fileID: 1014684465}
   - component: {fileID: 1014684462}
+  - component: {fileID: 1014684466}
   m_Layer: 5
   m_Name: eUI_enemyFOC
   m_TagString: Untagged
@@ -8192,6 +8283,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1014684466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014684460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 4
+  barType: 0
 --- !u!1 &1027615393
 GameObject:
   m_ObjectHideFlags: 0
@@ -10568,6 +10673,7 @@ GameObject:
   - component: {fileID: 1298894417}
   - component: {fileID: 1298894418}
   - component: {fileID: 1298894416}
+  - component: {fileID: 1298894419}
   m_Layer: 5
   m_Name: iUI_HP
   m_TagString: Untagged
@@ -10658,6 +10764,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1298894419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298894413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 0
+  barType: 1
 --- !u!1 &1303001594
 GameObject:
   m_ObjectHideFlags: 0
@@ -10978,6 +11098,7 @@ GameObject:
   - component: {fileID: 1380300017}
   - component: {fileID: 1380300019}
   - component: {fileID: 1380300016}
+  - component: {fileID: 1380300020}
   m_Layer: 5
   m_Name: eUI_enemyHP
   m_TagString: Untagged
@@ -11068,6 +11189,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1380300020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380300014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 0
+  barType: 0
 --- !u!1 &1409790920
 GameObject:
   m_ObjectHideFlags: 0
@@ -11601,6 +11736,7 @@ GameObject:
   - component: {fileID: 1486571846}
   - component: {fileID: 1486571847}
   - component: {fileID: 1486571845}
+  - component: {fileID: 1486571848}
   m_Layer: 5
   m_Name: iUI_FOC
   m_TagString: Untagged
@@ -11691,6 +11827,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1486571848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486571842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 4
+  barType: 1
 --- !u!1 &1531730917
 GameObject:
   m_ObjectHideFlags: 0
@@ -11703,6 +11853,7 @@ GameObject:
   - component: {fileID: 1531730920}
   - component: {fileID: 1531730922}
   - component: {fileID: 1531730919}
+  - component: {fileID: 1531730923}
   m_Layer: 5
   m_Name: eUI_allySPD
   m_TagString: Untagged
@@ -11793,6 +11944,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1531730923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531730917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 3
+  barType: 0
 --- !u!1 &1543708637
 GameObject:
   m_ObjectHideFlags: 0
@@ -11805,6 +11970,7 @@ GameObject:
   - component: {fileID: 1543708640}
   - component: {fileID: 1543708642}
   - component: {fileID: 1543708639}
+  - component: {fileID: 1543708643}
   m_Layer: 5
   m_Name: eUI_enemySPD
   m_TagString: Untagged
@@ -11895,6 +12061,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1543708643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543708637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 3
+  barType: 0
 --- !u!1 &1588323275
 GameObject:
   m_ObjectHideFlags: 0
@@ -12013,6 +12193,7 @@ GameObject:
   - component: {fileID: 1605397217}
   - component: {fileID: 1605397218}
   - component: {fileID: 1605397216}
+  - component: {fileID: 1605397219}
   m_Layer: 5
   m_Name: iUI_SPD
   m_TagString: Untagged
@@ -12103,6 +12284,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1605397219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605397213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 3
+  barType: 1
 --- !u!1 &1667225032
 GameObject:
   m_ObjectHideFlags: 0
@@ -12115,6 +12310,7 @@ GameObject:
   - component: {fileID: 1667225036}
   - component: {fileID: 1667225035}
   - component: {fileID: 1667225034}
+  - component: {fileID: 1667225037}
   m_Layer: 5
   m_Name: rUI_HP
   m_TagString: Untagged
@@ -12205,6 +12401,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667225032}
   m_CullTransparentMesh: 1
+--- !u!114 &1667225037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667225032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 0
+  barType: 1
 --- !u!1 &1671677123
 GameObject:
   m_ObjectHideFlags: 0
@@ -14248,6 +14458,7 @@ GameObject:
   - component: {fileID: 1886430692}
   - component: {fileID: 1886430694}
   - component: {fileID: 1886430691}
+  - component: {fileID: 1886430695}
   m_Layer: 5
   m_Name: eUI_enemyDEF
   m_TagString: Untagged
@@ -14338,6 +14549,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1886430695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886430689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 2
+  barType: 0
 --- !u!1 &1902177151
 GameObject:
   m_ObjectHideFlags: 0

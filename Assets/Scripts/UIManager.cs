@@ -199,6 +199,7 @@ public class UIManager : Singleton<UIManager>
 
     public void UINext()
     {
+        battleButtons.SetActive(false);
 
     }
 
@@ -214,11 +215,11 @@ public class UIManager : Singleton<UIManager>
         iUI_UnitName.text = currentUnit.unitName;
         iUI_Level.text = "Lv." + currentUnit.level;
 
-        DrawBar(bigBar, Color.blue, currentUnit.hp, iUI_HP);
-        DrawBar(bigBar, Color.blue, currentUnit.atk, iUI_ATK);
-        DrawBar(bigBar, Color.blue, currentUnit.def, iUI_DEF);
-        DrawBar(bigBar, Color.blue, currentUnit.foc, iUI_FOC);
-        DrawBar(bigBar, Color.blue, currentUnit.spd, iUI_SPD);
+        DrawBar(iUI_HP, currentUnit, Color.blue);
+        DrawBar(iUI_ATK, currentUnit, Color.blue);
+        DrawBar(iUI_DEF, currentUnit, Color.blue);
+        DrawBar(iUI_FOC, currentUnit, Color.blue);
+        DrawBar(iUI_SPD, currentUnit, Color.blue);
 
         iUI_MOV.sprite = currentUnit.movImage;
         iUI_RNG.sprite = currentUnit.rng;
@@ -235,15 +236,15 @@ public class UIManager : Singleton<UIManager>
         // 비교창
         selectedEnemy = UnitManager.Instance.selectedEnemy.GetComponent<Unit>();
         eUI_allyPortrait.sprite = currentUnit.portrait;
-        DrawBar(smallBar, Color.blue, currentUnit.hp, eUI_allyHP);
-        DrawBar(smallBar, Color.blue, currentUnit.atk, eUI_allyATK);
-        DrawBar(smallBar, Color.blue, currentUnit.foc, eUI_allyFOC);
-        DrawBar(smallBar, Color.blue, currentUnit.spd, eUI_allySPD);
+        DrawBar(eUI_allyHP, currentUnit, Color.blue);
+        DrawBar(eUI_allyATK, currentUnit, Color.blue);
+        DrawBar(eUI_allyFOC, currentUnit, Color.blue);
+        DrawBar(eUI_allySPD, currentUnit, Color.blue);
         eUI_enemyPortrait.sprite= selectedEnemy.portrait;
-        DrawBar(smallBar, Color.red, selectedEnemy.hp, eUI_enemyHP);
-        DrawBar(smallBar, Color.red, selectedEnemy.def, eUI_enemyDEF);
-        DrawBar(smallBar, Color.red, selectedEnemy.foc, eUI_enemyFOC);
-        DrawBar(smallBar, Color.red, selectedEnemy.spd, eUI_enemySPD);
+        DrawBar(eUI_enemyHP, selectedEnemy, Color.red);
+        DrawBar(eUI_enemyDEF, selectedEnemy, Color.red);
+        DrawBar(eUI_enemyFOC, selectedEnemy, Color.red);
+        DrawBar(eUI_enemySPD, selectedEnemy, Color.red);
 
         enemySelectedUI.SetActive(true);
 
@@ -252,45 +253,99 @@ public class UIManager : Singleton<UIManager>
     }
 
     // stat바 그리는 함수
-    public void DrawBar(GameObject barImage, Color color, int num, GameObject stat)
-    {
-        
-        HorizontalLayoutGroup stratch = stat.GetComponent<HorizontalLayoutGroup>();
-        
-        float parentLength = stat.GetComponent<RectTransform>().rect.width;
-        RectTransform childSize = barImage.GetComponent<RectTransform>();
 
-        childSize.sizeDelta = new Vector2(parentLength/5, childSize.rect.height);
+    public void DrawBar(GameObject frame, Unit unit, Color color)
+    {
+        int maxStat = 0;
+        int currentStat = 0;
+        GameObject barImage = null;
+
+        switch (frame.GetComponent<StatFrame>().statType)
+        {
+            case StatType.HP:
+                maxStat = unit.unitSO.hp;
+                currentStat = unit.hp;
+                break;
+            case StatType.ATK:
+                maxStat = unit.unitSO.atk;
+                currentStat = unit.atk;
+                break;
+            case StatType.DEF:
+                maxStat = unit.unitSO.def;
+                currentStat = unit.def;
+                break;
+            case StatType.FOC:
+                maxStat = unit.unitSO.foc;
+                currentStat = unit.foc;
+                break;
+            case StatType.SPD:
+                maxStat = unit.unitSO.spd;
+                currentStat = unit.spd;
+                break;
+        }
+
+        switch (frame.GetComponent<StatFrame>().barType)
+        {
+            case BarType.big:
+                barImage = bigBar;
+                break;
+            case BarType.small:
+                barImage = smallBar;
+                break;
+
+        }
+
+        HorizontalLayoutGroup stratch = frame.GetComponent<HorizontalLayoutGroup>();
+
+        float frameLength = frame.GetComponent<RectTransform>().rect.width;
+        RectTransform blockSize = barImage.GetComponent<RectTransform>();
+
+        blockSize.sizeDelta = new Vector2(frameLength / 5, blockSize.rect.height);
 
         stratch.childControlWidth = false;
         stratch.childForceExpandWidth = false;
 
-        if(num > 5)
+        if (Mathf.Max(maxStat, currentStat) > 5)
         {
             stratch.childControlWidth = true;
             stratch.childForceExpandWidth = true;
         }
 
-        foreach (Transform child in stat.transform)
+        foreach (Transform child in frame.transform)
         {
             Destroy(child.gameObject);
         }
 
-        smallBar.GetComponent<Image>().color = color;
+        barImage.GetComponent<Image>().color = color;
 
-        for (int i = 0; i < num; i++)
+
+        int totalBars = Mathf.Max(currentStat, maxStat);
+
+        foreach (Transform child in frame.transform) Destroy(child.gameObject);
+
+        for (int i = 0; i < totalBars; i++)
         {
-            Instantiate(barImage, stat.transform);
+            GameObject bar = Instantiate(barImage, frame.transform);
+            Image img = bar.GetComponent<Image>();
+
+            if (i < maxStat && i < currentStat)
+                img.color = color;
+            else if (i >= currentStat)
+                img.color = Color.gray;
+            else
+                img.color = Color.white;
         }
+
     }
 
-    // 좌하단 UI
-    public void LeftUI()
+
+// 좌하단 UI
+public void LeftUI()
     {
         lUI_UnitName.text = selectedAlly.unitName;
         lUI_Level.text = "Lv." + selectedAlly.level;
         lUI_Portrait.sprite = selectedAlly.portrait;
-        DrawBar(bigBar, Color.green, selectedAlly.hp, lUI_HP);
+        DrawBar(lUI_HP, selectedAlly, Color.green);
 
         leftUI.SetActive(true);
     }
@@ -300,7 +355,7 @@ public class UIManager : Singleton<UIManager>
         rUI_UnitName.text = selectedEnemy.unitName;
         rUI_Level.text = "Lv." + selectedEnemy.level;
         rUI_Portrait.sprite = selectedEnemy.portrait;
-        DrawBar(bigBar, Color.green, selectedEnemy.hp, rUI_HP);
+        DrawBar(rUI_HP, selectedEnemy, Color.green);
 
         rightUI.SetActive(true);
     }
@@ -311,7 +366,7 @@ public class UIManager : Singleton<UIManager>
 
         foreach (Transform child in parentUnit.transform)
         {
-            if (child.name == "BattleButtons")
+            if (child.name == "BattleButtons" && child.gameObject.activeSelf)
             {
                 return;
             }
@@ -348,22 +403,26 @@ public class UIManager : Singleton<UIManager>
 
         if (portrait != null && hp != null && stat != null)
         {
-            DrawBar(smallBar, Color.green, parentUnit.hp, hp);
+            DrawBar(hp, parentUnit, Color.green);
 
             bool isAttacker = (isPlayerTurn && parentUnit.isAlly) || (!isPlayerTurn && !parentUnit.isAlly);
 
             if (isAttacker)
             {
                 // 공격: 빨간색 ATK
-                DrawBar(smallBar, Color.red, parentUnit.atk, stat);
+                stat.GetComponent<StatFrame>().statType = StatType.ATK;
+                DrawBar(stat, parentUnit, Color.red);
             }
             else
             {
                 // 방어: 파란색 DEF
-                DrawBar(smallBar, Color.blue, parentUnit.def, stat);
+                stat.GetComponent<StatFrame>().statType = StatType.DEF;
+                DrawBar(stat, parentUnit, Color.blue);
             }
         }
     }
+
+
 
     // 순서 UI
     public void UIturn(List<Unit> allUnits)
@@ -378,8 +437,7 @@ public class UIManager : Singleton<UIManager>
 
         // 지금 차례인 애 index 가져오기
         int num = UnitManager.Instance.selectedUnitIndex;
-
-        //Debug.Log(num);
+ 
 
         for (int i = num; i < allUnits.Count; i++)
         {
@@ -390,12 +448,21 @@ public class UIManager : Singleton<UIManager>
         for (int i = 0; i < num; i++)
         {
             Createportrait(allUnits[i]);
-
         }
     }
 
     public void Createportrait(Unit unit)
     {
+        if(!unit.isAlly)
+        {
+            Unit target = unit.GetComponent<EnemyAI>().FindNearestTarget();
+            if (target == null)
+            {
+                return;
+            }
+
+        }
+        
         GameObject portrait = new GameObject("portrait");
         portrait.transform.SetParent(turnUI.transform, false);
         Image image = portrait.AddComponent<Image>();
@@ -404,5 +471,6 @@ public class UIManager : Singleton<UIManager>
         AspectRatioFitter size = portrait.AddComponent<AspectRatioFitter>();
         size.aspectMode = AspectRatioFitter.AspectMode.WidthControlsHeight;
     }
+
 
 }

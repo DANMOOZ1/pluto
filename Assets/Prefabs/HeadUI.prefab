@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6711261711848250367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 5012657263010774612}
   - component: {fileID: 5378543614671355164}
   - component: {fileID: 7525983237428227644}
+  - component: {fileID: 1565878332751215761}
   m_Layer: 5
   m_Name: hp
   m_TagString: Untagged
@@ -206,6 +207,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1565878332751215761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3942094316394421659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 1
+  barType: 0
 --- !u!1 &4628058054392139100
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +308,7 @@ GameObject:
   - component: {fileID: 2587993232939972688}
   - component: {fileID: 3570179245871109218}
   - component: {fileID: 3754848506983935405}
+  - component: {fileID: 6524824329861687221}
   m_Layer: 5
   m_Name: atk/def
   m_TagString: Untagged
@@ -383,3 +399,17 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6524824329861687221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6052013524001227262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a986dad0193efcf4db7c25eae4b4be5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatFrame
+  statType: 1
+  barType: 0

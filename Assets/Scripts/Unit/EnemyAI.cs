@@ -78,7 +78,7 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
 
-    private Unit FindNearestTarget()
+    public Unit FindNearestTarget()
     {
         List<Unit> enemyUnits = UnitManager.Instance.allyUnits;
         if (enemyUnits == null || enemyUnits.Count == 0)
