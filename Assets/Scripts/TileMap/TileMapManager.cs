@@ -188,7 +188,7 @@ public class TileMapManager : Singleton<TileMapManager>
                 Vector3Int toPos = new Vector3Int(v.x, v.y, v.z);
                 
                 // 행마법 체크: 이 이동이 허용되는지 확인
-                if (!movementRule.TileCheckRuleFunc(fromPos, toPos))
+                if (!movementRule.TileCheckRuleFunc(fromPos, toPos) || UnitManager.Instance.UnitOnTile(toPos))
                 {
                     continue; // 행마법에 맞지 않으면 스킵
                 }

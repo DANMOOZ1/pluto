@@ -8,7 +8,7 @@ public class EnemyAI : MonoBehaviour
     
     private Unit mySelf;
     public Unit target;
-    private List<Vector3Int> attackableTiles;
+    public bool canAttack;
     
     private void Awake()
     {
@@ -17,6 +17,9 @@ public class EnemyAI : MonoBehaviour
 
     public void Move()
     {
+        print(mySelf.unitName+"------------------------------");
+        
+        canAttack = false;
         target = FindNearestTarget();
         
         if (target == null)
@@ -26,11 +29,10 @@ public class EnemyAI : MonoBehaviour
         }
 
         Debug.Log("타겟 찾음: " + target.name);
-        attackableTiles = FindAttackableTilesAfterMove(target.cellPosition);
-
+        
         if (TryAttackFromCurrentPosition())
             return;
-
+        
         if (TryMoveAndAttack())
             return;
 
@@ -42,6 +44,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (CanAttackFrom(mySelf.cellPosition, target.cellPosition))
         {
+            canAttack = true;
             GameManager.Instance.UpdateBattleState(BattleState.Combat);
             return true;
         }
@@ -50,31 +53,24 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryMoveAndAttack()
     {
+        //적 위치를 공격할 수 있는 모든 타일 라스트(도달 가능한)
+        List<Vector3Int> attackableTiles = FindAttackableTilesAfterMove(target.cellPosition);
+        
+        //적을 공격할 수 있는 타일이 도달 가능한 경우
         if (attackableTiles.Count > 0)
         {
             Vector3Int bestTile = FindBestAttackPosition(attackableTiles);
+
+            List<Node> path =
+                TileMapManager.Instance.GeneratePathTo(mySelf.cellPosition, bestTile, mySelf.movementRule);
+            //이동 후 바로 공격이 가능한 경우
+            if(path.Count == 1) canAttack = true;
+            //아닌 경우엔 bestTile로 가는 path를 따라감
+            else bestTile = new Vector3Int(path[0].x, path[0].y, path[0].z);
+            
             mySelf.StartMoving(bestTile);
             return true;
         }
-
-        // 이동 범위 밖에서 공격 가능한 위치 탐색
-        Vector3Int reachableAttackTile = FindReachableAttackPosition();
-        if (reachableAttackTile != Vector3Int.zero)
-        {
-            List<Node> path = TileMapManager.Instance.GeneratePathTo(
-                mySelf.cellPosition, 
-                reachableAttackTile, 
-                mySelf.movementRule
-            );
-
-            if (path != null && path.Count > 0)
-            {
-                mySelf.StartMoving(new Vector3Int(path[0].x, path[0].y, path[0].z));
-                target = null; // 이동 후 공격 방지
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -104,97 +100,40 @@ public class EnemyAI : MonoBehaviour
     private List<Vector3Int> FindAttackableTilesAfterMove(Vector3Int targetPos)
     {
         List<Vector3Int> result = new List<Vector3Int>();
-        Vector3Int myPos = mySelf.cellPosition;
-
-        // 현재 위치에서 공격 가능한지 먼저 확인
-        if (CanAttackFrom(myPos, targetPos))
+        Vector3Int selfPos = mySelf.cellPosition;
+        
+        // 적을 공격 가능한 타일을 찾기
+        List<Vector3Int> atkTiles = new List<Vector3Int>();
+        foreach (Vector3Int tilePos in TileMapManager.Instance.dataOnTiles.Keys)
         {
-            result.Add(myPos);
-            return result;
+            if (mySelf.atkRule.TileCheckRuleFunc(tilePos, targetPos)) atkTiles.Add(tilePos);
         }
 
-        // 이동 가능한 타일 중 공격 가능한 위치 찾기
-        List<Vector3Int> movableTiles = GetMovableTiles(myPos, targetPos);
-        
-        foreach (Vector3Int tile in movableTiles)
+        foreach (Vector3Int atkPos in atkTiles)
         {
-            if (CanAttackFrom(tile, targetPos))
-            {
-                result.Add(tile);
-            }
+            if(TileMapManager.Instance.GeneratePathTo(selfPos,atkPos,mySelf.movementRule) != null) result.Add(atkPos);
         }
 
         return result;
     }
 
-    private Vector3Int FindReachableAttackPosition()
-    {
-        List<Vector3Int> allAttackPositions = GetAllAttackPositions(target.cellPosition);
-        Vector3Int myPos = mySelf.cellPosition;
-        
-        // 거리 순으로 정렬하여 가장 가까운 위치부터 시도
-        var sortedPositions = allAttackPositions
-            .OrderBy(pos => Vector3Int.Distance(pos, myPos))
-            .ToList();
-
-        foreach (Vector3Int attackPos in sortedPositions)
-        {
-            List<Node> path = TileMapManager.Instance.GeneratePathTo(
-                myPos, 
-                attackPos, 
-                mySelf.movementRule
-            );
-
-            if (path != null && path.Count > 0)
-            {
-                return attackPos;
-            }
-        }
-
-        return Vector3Int.zero;
-    }
-
-    private List<Vector3Int> GetMovableTiles(Vector3Int fromPos, Vector3Int excludePos)
-    {
-        List<Vector3Int> allTiles = TileMapManager.Instance.dataOnTiles.Keys.ToList();
-        List<Vector3Int> movableTiles = new List<Vector3Int>();
-
-        foreach (Vector3Int tile in allTiles)
-        {
-            if (tile == excludePos) continue;
-            
-            if (mySelf.movementRule.TileCheckRuleFunc(fromPos, tile))
-            {
-                movableTiles.Add(tile);
-            }
-        }
-
-        return movableTiles;
-    }
-
-    private List<Vector3Int> GetAllAttackPositions(Vector3Int targetPos)
-    {
-        List<Vector3Int> allTiles = TileMapManager.Instance.dataOnTiles.Keys.ToList();
-        List<Vector3Int> attackPositions = new List<Vector3Int>();
-
-        foreach (Vector3Int tile in allTiles)
-        {
-            if (tile == targetPos) continue;
-            
-            if (CanAttackFrom(tile, targetPos))
-            {
-                attackPositions.Add(tile);
-            }
-        }
-
-        return attackPositions;
-    }
-
     private Vector3Int FindBestAttackPosition(List<Vector3Int> candidates)
     {
-        // 현재는 첫 번째 타일 반환, 필요시 우선순위 로직 추가 가능
-        // 예: 가장 안전한 위치, 다른 적과의 거리 등 고려
-        return candidates[0];
+        float minDistance = float.MaxValue;
+        Vector3Int myPos = mySelf.cellPosition;
+        Vector3Int bestPos = new Vector3Int();
+        
+        foreach (Vector3Int v in candidates)
+        {
+            float distance = Vector3Int.Distance(v, myPos);
+            if (distance < minDistance)
+            {
+                bestPos = v;
+                minDistance = distance;
+            }
+        }
+
+        return bestPos;
     }
 
     private bool CanAttackFrom(Vector3Int fromPos, Vector3Int targetPos)

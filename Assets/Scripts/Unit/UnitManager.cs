@@ -243,8 +243,8 @@ public class UnitManager : Singleton<UnitManager>
                 {
                     Unit targetUnit = selectedUnit.gameObject.GetComponent<EnemyAI>().target;
                     
-                    //타겟이 존재 x : 공격 불가능 일시 넘어감
-                    if(targetUnit != null) unit.Attack(targetUnit);
+                    //공격이 불가능하면 넘어감
+                    if(selectedUnit.gameObject.GetComponent<EnemyAI>().canAttack) unit.Attack(targetUnit);
                     else GameManager.Instance.UpdateBattleState(BattleState.Next);
                 }
                 break;

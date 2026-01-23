@@ -8,6 +8,7 @@ public class PawnAttackRule : TileCheckRule
         int dx = Mathf.Abs(to.x - from.x);
         int dy = Mathf.Abs(to.y - from.y);
         
-        return (dx == 1 && dy == 0)||(dx == 0 && dy == 1);
+        
+        return (dx <= 1 && dy <= 1)&&!(dx == 0 && dy == 0);
     }
 }
