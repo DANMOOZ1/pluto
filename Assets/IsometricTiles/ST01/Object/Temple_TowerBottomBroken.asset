@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Temple_TowerBottomBroken
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: -4065819718693296409, guid: 911fae2b82caa4fb189531e09ba78223, type: 3}
+  m_Sprite: {fileID: 3123853520693845034, guid: 37b33940966ec4b18948bb3e3c34c4df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
