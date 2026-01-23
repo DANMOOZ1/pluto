@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 911fae2b82caa4fb189531e09ba78223
+guid: 3c8b9544f7e16485a97a00be8b5e22f9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4065819718693296409
-    second: Object_Temple_TowerBottomBroken_V02_0
+      213: -3425666214912909370
+    second: Object_Temple_TowerMiddle_V04_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Object_Temple_TowerBottomBroken_V02_0
+      name: Object_Temple_TowerMiddle_V04_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e6e18ae18e4397c0800000000000000
-      internalID: -4065819718693296409
+      spriteID: 6cf1f0d3ab69570d0800000000000000
+      internalID: -3425666214912909370
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7afd709be746e4510810c7fd38f88290
+    spriteID: 7fb076e28bed64c2bb1bcaa80afe3987
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Object_Temple_TowerBottomBroken_V02_0: -4065819718693296409
+      Object_Temple_TowerMiddle_V04_0: -3425666214912909370
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

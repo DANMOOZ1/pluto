@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 364e17015f8a9420c9c32331c67dee8a
+guid: 64fde3634bcc340499b2becdf9ac2289
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1620024762366698893
-    second: Object_Temple_TowerBottom_V03_0
+      213: 8139703222829967074
+    second: Object_Temple_TowerBottom_V04_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Object_Temple_TowerBottom_V03_0
+      name: Object_Temple_TowerBottom_V04_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d85243820fb7b7610800000000000000
-      internalID: 1620024762366698893
+      spriteID: 2e6e1e584f806f070800000000000000
+      internalID: 8139703222829967074
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a153e0ec5b0914b1ca0cfbe6f8ff133a
+    spriteID: fb88cd97db04f42a9951710f124efa6d
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Object_Temple_TowerBottom_V03_0: 1620024762366698893
+      Object_Temple_TowerBottom_V04_0: 8139703222829967074
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
