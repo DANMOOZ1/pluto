@@ -68,7 +68,19 @@ public class UnitManager : Singleton<UnitManager>
         {
             //승패 판정
             if (allyUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Defeat);
-            else if (enemyUnits.Count == 0) GameManager.Instance.UpdateGameState(GameState.Victory);
+            else if (enemyUnits.Count == 0)
+            {
+                int currWaveIndex = DataManager.Instance.waveIndex;
+                
+                //남은 웨이브가 있는 경우 해당 웨이브의 유닛을 소환
+                if (DataManager.Instance.StageData.WavesInStage.ContainsKey(currWaveIndex + 1))
+                {
+                    GenerateUnits(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
+                    print(currWaveIndex + 1+"번쨰 웨이브 소환");
+                    DataManager.Instance.waveIndex = currWaveIndex + 1;
+                    
+                } else GameManager.Instance.UpdateGameState(GameState.Victory);//남아 있는 웨이브가 없는 경우 Victory로 전환
+            }
             else
             {
                 if(selectedUnitIndex < spdSortUnits.Count-1) selectedUnitIndex++;

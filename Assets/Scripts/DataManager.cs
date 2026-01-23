@@ -1,23 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Unity.VisualScripting;
+
 public class DataManager : Singleton<DataManager>
 {
     public int waveIndex;
     public StageData StageData = new StageData();
+    public string selectedunit;
     
     private void Awake()
     {
-        SaveStageData();
-        waveIndex = 0;
-        
         StageData = LoadStageData("StageData1");
         if (StageData == null) Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
-    }
-
-    public void NextWave()
-    {
-        
     }
     
     private StageData LoadStageData(string fileName)
@@ -27,6 +22,8 @@ public class DataManager : Singleton<DataManager>
         {
             string jsonData = File.ReadAllText(path);
             StageData stageData = JsonUtility.FromJson<StageData>(jsonData);
+            waveIndex = 0;
+            
             return  stageData;
         }
         
