@@ -6,7 +6,7 @@ using System;
 [Serializable]
 public class StageData
 {
-    public List<UnitEntry> UnitsInStage = new List<UnitEntry>();
+    public SerializedDictionary<int, List<UnitEntry>> WavesInStage = new SerializedDictionary<int, List<UnitEntry>>();
 }
 
 [Serializable]

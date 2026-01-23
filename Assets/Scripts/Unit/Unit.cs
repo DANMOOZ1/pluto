@@ -18,7 +18,6 @@ public class Unit : MonoBehaviour
     public Sprite movImage;
     public Sprite rng;
     public Sprite hta;
-    public int mov;
     public int level;
     public bool isAlly;
     public Sprite portrait;

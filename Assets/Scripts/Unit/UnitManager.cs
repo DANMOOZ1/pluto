@@ -23,12 +23,8 @@ public class UnitManager : Singleton<UnitManager>
     
     void Awake()
     { 
-        StageData sd = LoadStageData();
-        if (sd != null)
-        {
-           GenerateUnits(sd.UnitsInStage);
-        }
-        else Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
+        GenerateUnits(DataManager.Instance.StageData.WavesInStage[0]);
+        
         
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
@@ -48,35 +44,7 @@ public class UnitManager : Singleton<UnitManager>
             GameManager.Instance.OnBattleStateChange -= NextUnit;
         }
     }
-
-    private void SaveStageData()
-    {
-        StageData unitData = new StageData();
-        
-        //예시
-        unitData.UnitsInStage.Add(new UnitEntry(new int[] { -10, 4, 0 }, "Luna", true));
-        unitData.UnitsInStage.Add(new UnitEntry(new int[]{-2,3,1}, "Roshu", false));
-        
-        string path  = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
-        string data = JsonUtility.ToJson(unitData);
-        
-        print("저장 경로: " + path);
-        File.WriteAllText(path, data);
-    }
     
-    private StageData LoadStageData()
-    {
-        string path = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
-        if (File.Exists(path))
-        {
-            string jsonData = File.ReadAllText(path);
-            StageData stageData = JsonUtility.FromJson<StageData>(jsonData);
-            return  stageData;
-        }
-        
-        return null;
-    }
-
     private void GenerateUnits(List<UnitEntry> unitEntryList)
     {
         foreach (UnitEntry unitEntry in unitEntryList)
@@ -230,11 +198,10 @@ public class UnitManager : Singleton<UnitManager>
                 {
                     //아군 유닛인 경우
                     Vector3Int pos = unit.cellPosition;
-                    int mov = unit.mov;
                     TileCheckRule movementRule = unit.movementRule;
                     
                     //유닛이 갈 수 있는 타일을 변수에 저장 및 sublayer tilemap에 표시 
-                    unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, mov, movementRule);
+                    unit.accessibleTiles = TileMapManager.Instance.ReachableTile(pos, movementRule);
                 }
                 else
                 {
@@ -338,7 +305,6 @@ public class UnitManager : Singleton<UnitManager>
         unit.hta = unitData.hta;
         unit.race = unitData.race;
         unit.unitName = unitData.unitName;
-        unit.mov = unitData.mov;
         unit.level = unitData.level;
         unit.portrait = unitData.portrait;
         unit.movementRule =  unitData.movementRule;

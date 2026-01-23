@@ -14,7 +14,6 @@ public class UnitSO : ScriptableObject
     public Sprite movImage;
     public Sprite rng;
     public Sprite hta;
-    public int mov;
     public int level;
     public Sprite portrait;
     public TileCheckRule movementRule;

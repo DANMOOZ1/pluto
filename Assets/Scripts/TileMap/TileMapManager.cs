@@ -220,13 +220,19 @@ public class TileMapManager : Singleton<TileMapManager>
     public TileBase ReachableTilePrefab;
     public TileBase ReachableTilePrefab2;
     // 이동 가능한 타일을 RTPrefab으로 표현하고 이동가능한 타일의 셀좌표 keycollection을 반환함
-    public List<Vector3Int> ReachableTile(Vector3Int pos, int mov, TileCheckRule movementRule)
+    public List<Vector3Int> ReachableTile(Vector3Int pos, TileCheckRule movementRule)
     {
         List<Vector3Int> dist = ReturnInteractiveTiles(pos, movementRule);
-
-        DrawTile(ReachableTilePrefab,ReachableTilePrefab2,dist);
+        List<Vector3Int> returnDist = new List<Vector3Int>();
         
-        return dist;
+        foreach (Vector3Int v in dist)
+        {
+            if (GeneratePathTo(pos, v,movementRule) != null) returnDist.Add(v);
+        }
+
+        DrawTile(ReachableTilePrefab,ReachableTilePrefab2,returnDist);
+        
+        return returnDist;
         
     }
     
