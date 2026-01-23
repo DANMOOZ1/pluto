@@ -71,7 +71,6 @@ public class UIManager : Singleton<UIManager>
     private Unit currentUnit;
     private Unit selectedAlly;
     private Unit selectedEnemy;
-    //private List<Unit> allUnits;
 
     // 유닛 턴인가요?
     private bool isPlayerTurn;
@@ -127,6 +126,8 @@ public class UIManager : Singleton<UIManager>
             // 현재 차례인 유닛 가져오기
             currentUnit = UnitManager.Instance.selectedUnit;
 
+
+
             // 플레이어 턴
             if (UnitManager.Instance.selectedUnit.isAlly)
             {
@@ -174,9 +175,10 @@ public class UIManager : Singleton<UIManager>
             }
         }
 
-        // 머리 위 UI 띄우기
-        List<Unit> allUnits = UnitManager.Instance.spdSortUnits; // 쓸 때 가져오기
+        // 모든 유닛 가져오기
+        List<Unit> allUnits = UnitManager.Instance.spdSortUnits;
 
+        // 머리 위 UI 띄우기
         foreach (Unit unit in allUnits)
         {
             HeadUI(unit, isPlayerTurn);
@@ -188,6 +190,7 @@ public class UIManager : Singleton<UIManager>
 
     public void UIChoice()
     {
+
         if (UnitManager.Instance.UnitCanAttack())
         {
             combatButton.GetComponent<Button>().interactable = true;
@@ -198,12 +201,12 @@ public class UIManager : Singleton<UIManager>
 
         // 버튼 띄우기
         foreach (Transform child in currentUnit.transform)
-        {
-            if (child.name == "HeadUI")
             {
-                Destroy(child.gameObject);
+                if (child.name == "HeadUI")
+                {
+                    Destroy(child.gameObject);
+                }
             }
-        }
         battleButtons.transform.SetParent(currentUnit.transform, false);
         battleButtons.SetActive(true);
 
@@ -220,6 +223,20 @@ public class UIManager : Singleton<UIManager>
 
         // 버튼?
         battleButtons.SetActive(false);
+
+        //foreach (Unit unit in UnitManager.Instance.spdSortUnits)
+        //{
+        //    Debug.Log(unit.cellPosition);
+
+        //    Vector3Int diff = unit.cellPosition - selectedAlly.cellPosition;
+        //    if (diff.x >= 0 && diff.x <= 1 && diff.y >= 0 && diff.y <= 1 && diff != Vector3Int.zero && unit != selectedEnemy)
+        //    {
+
+        //    } else
+        //    {
+
+        //    }
+        //}
 
         // 적 선택 시 비교창
         if (UnitManager.Instance.selectedEnemy != null)
