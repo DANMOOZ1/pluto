@@ -8,6 +8,7 @@ public class DataManager : Singleton<DataManager>
     public int waveIndex;
     public StageData StageData = new StageData();
     public string selectedunit;
+    public bool isAlly;
     
     private void Awake()
     {

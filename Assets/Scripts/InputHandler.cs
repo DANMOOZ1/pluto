@@ -177,4 +177,19 @@ public class InputHandler : MonoBehaviour
         GameManager.Instance.UpdateBattleState(BattleState.Default);
 
     }
+
+    public void IsAllyToggle(bool isOn)
+    {
+        if (isOn)
+        {
+            DataManager.Instance.isAlly = true;
+            Debug.Log("ally");
+        }
+        else
+        {
+            DataManager.Instance.isAlly = false;
+            Debug.Log("enemy");
+
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -63,6 +64,9 @@ public class UIManager : Singleton<UIManager>
     [Header("turnUI")]
     public GameObject turnUI;
 
+    [Header("debugMode")]
+    public GameObject IsAllyToggle;
+
     // 가져올 unit turn 만들기
     private Unit currentUnit;
     private Unit selectedAlly;
@@ -74,8 +78,36 @@ public class UIManager : Singleton<UIManager>
 
     public void Start()
     {
+
         // 구독
+        GameManager.Instance.OnGameStateChange += GameStateUI;
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
+    }
+    public void GameStateUI()
+    {
+        IsAllyToggle.SetActive(false);
+        turnUI.SetActive(true);
+
+
+        switch (GameManager.Instance.gameState)
+        {
+            case GameState.Menu:
+                break;
+            case GameState.Battle:
+                break;
+            case GameState.PositionSetUp:
+                break;
+            case GameState.UnitSetUp:
+                break;
+            case GameState.Victory:
+                break;
+            case GameState.Defeat:
+                break;
+            case GameState.Debug:
+                UIDebug();
+                break;
+
+        }
     }
 
 
@@ -129,6 +161,7 @@ public class UIManager : Singleton<UIManager>
                     case BattleState.Info:
                         UIInfo();
                         break;
+  
                 }
 
             }
@@ -486,5 +519,43 @@ public void LeftUI()
         size.aspectMode = AspectRatioFitter.AspectMode.WidthControlsHeight;
     }
 
+    // 디버그 모드
+    public void UIDebug()
+    {
+        // 오른쪽 리스트
+        foreach (Transform child in turnUI.transform)
+        {
 
+            Destroy(child.gameObject);
+
+        }
+
+        foreach (GameObject obj in UnitManager.Instance.units.Values)
+        {
+
+
+            Sprite portrait = obj.GetComponent<Unit>().unitSO.portrait;
+            string unitName = obj.GetComponent<Unit>().unitSO.unitName;
+
+            GameObject Obj = new GameObject("Unit");
+            Obj.transform.SetParent(turnUI.transform,false);
+
+
+            Image Image = Obj.AddComponent<Image>();
+            Button Button = Obj.AddComponent<Button>();
+
+            Image.sprite = portrait;
+
+            Button.onClick.AddListener(() =>
+            {
+                DataManager.Instance.selectedunit = unitName;
+                Debug.Log(DataManager.Instance.selectedunit);
+
+            });
+        }
+
+        // 토글
+        IsAllyToggle.SetActive(true);
+
+    }
 }
