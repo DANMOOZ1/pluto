@@ -23,8 +23,6 @@ public class UnitManager : Singleton<UnitManager>
     
     void Awake()
     { 
-        GenerateUnits(DataManager.Instance.StageData.WavesInStage[0]);
-        
         
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
@@ -45,7 +43,7 @@ public class UnitManager : Singleton<UnitManager>
         }
     }
     
-    private void GenerateUnits(List<UnitEntry> unitEntryList)
+    public void GenerateUnits(List<UnitEntry> unitEntryList)
     {
         foreach (UnitEntry unitEntry in unitEntryList)
         {

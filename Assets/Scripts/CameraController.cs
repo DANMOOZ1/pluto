@@ -1,4 +1,5 @@
 using System;
+using Unity.IntegerTime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,7 +28,6 @@ public class MainCameraController : MonoBehaviour
     private void Start()
     {
         player = UnitManager.Instance.allyUnits[0].gameObject.transform;
-
     }
 
     void OnDebugMod()

@@ -13,6 +13,7 @@ public class DataManager : Singleton<DataManager>
     {
         StageData = LoadStageData("StageData1");
         if (StageData == null) Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
+        UnitManager.Instance.GenerateUnits(StageData.WavesInStage[waveIndex]);
     }
     
     private StageData LoadStageData(string fileName)
