@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 8cc553d22b929f0449a1310baac6fb37
+guid: 63161f42d559b544fafc7cf0e86035fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8193053222758867116
-    second: Luna_SD_ combined _0
+      213: 5471811457362665388
+    second: Roshu_SD_ combined_0
+  - first:
+      213: -8146476219425486834
+    second: Roshu_SD_ combined_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1970
+  spritePixelsToUnits: 2092
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,10 +75,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,23 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luna_SD_ combined _0
+      name: Roshu_SD_ combined_0
       rect:
         serializedVersion: 2
-        x: 52
-        y: 38
-        width: 2053
-        height: 1970
-      alignment: 9
-      pivot: {x: 0.5704387, y: 0.05618765}
+        x: 0
+        y: 0
+        width: 2661
+        height: 2092
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45f9697a08d6c4e80800000000000000
-      internalID: -8193053222758867116
+      spriteID: caf93029787cfeb40800000000000000
+      internalID: 5471811457362665388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Roshu_SD_ combined_1
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 21
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e080af15a07e1fe80800000000000000
+      internalID: -8146476219425486834
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2ec221afc1a2fb940b37478e1b430aa1
+    spriteID: a2489f68a77436540a18c8e9b6c38f8f
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Luna_SD_ combined _0: -8193053222758867116
+      Roshu_SD_ combined_0: 5471811457362665388
+      Roshu_SD_ combined_1: -8146476219425486834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // 추가해야 할 것
-// 1. HP의 경우 전체 HP랑 남은 HP 구분하기
-// 2. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
+// 1. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
 
 public class UIManager : Singleton<UIManager>
 {
@@ -91,6 +90,8 @@ public class UIManager : Singleton<UIManager>
             leftUI.SetActive(false);
             rightUI.SetActive(false);
 
+            turnUI.SetActive(true);
+
             // 현재 차례인 유닛 가져오기
             currentUnit = UnitManager.Instance.selectedUnit;
 
@@ -147,7 +148,6 @@ public class UIManager : Singleton<UIManager>
         {
             HeadUI(unit, isPlayerTurn);
         }
-        turnUI.SetActive(true);
 
         // 순서 띄우기
         UIturn(allUnits);
@@ -173,6 +173,12 @@ public class UIManager : Singleton<UIManager>
         }
         battleButtons.transform.SetParent(currentUnit.transform, false);
         battleButtons.SetActive(true);
+
+        // 적 선택 시 비교창
+        if (UnitManager.Instance.selectedEnemy != null)
+        {
+            UIEnemySelected();
+        }
 
     }
 
@@ -212,6 +218,8 @@ public class UIManager : Singleton<UIManager>
         turnUI.SetActive(false);
 
         iUI_Portrait.sprite = currentUnit.portrait;
+        iUI_Portrait.preserveAspect = true;
+
         iUI_UnitName.text = currentUnit.unitName;
         iUI_Level.text = "Lv." + currentUnit.level;
 
@@ -236,11 +244,13 @@ public class UIManager : Singleton<UIManager>
         // 비교창
         selectedEnemy = UnitManager.Instance.selectedEnemy.GetComponent<Unit>();
         eUI_allyPortrait.sprite = currentUnit.portrait;
+        eUI_allyPortrait.preserveAspect = true;
         DrawBar(eUI_allyHP, currentUnit, Color.blue);
         DrawBar(eUI_allyATK, currentUnit, Color.blue);
         DrawBar(eUI_allyFOC, currentUnit, Color.blue);
         DrawBar(eUI_allySPD, currentUnit, Color.blue);
         eUI_enemyPortrait.sprite= selectedEnemy.portrait;
+        eUI_enemyPortrait.preserveAspect = true;
         DrawBar(eUI_enemyHP, selectedEnemy, Color.red);
         DrawBar(eUI_enemyDEF, selectedEnemy, Color.red);
         DrawBar(eUI_enemyFOC, selectedEnemy, Color.red);
@@ -345,6 +355,7 @@ public void LeftUI()
         lUI_UnitName.text = selectedAlly.unitName;
         lUI_Level.text = "Lv." + selectedAlly.level;
         lUI_Portrait.sprite = selectedAlly.portrait;
+        iUI_Portrait.preserveAspect = true;
         DrawBar(lUI_HP, selectedAlly, Color.green);
 
         leftUI.SetActive(true);
@@ -355,6 +366,7 @@ public void LeftUI()
         rUI_UnitName.text = selectedEnemy.unitName;
         rUI_Level.text = "Lv." + selectedEnemy.level;
         rUI_Portrait.sprite = selectedEnemy.portrait;
+        rUI_Portrait.preserveAspect = true;
         DrawBar(rUI_HP, selectedEnemy, Color.green);
 
         rightUI.SetActive(true);
@@ -400,6 +412,8 @@ public void LeftUI()
         }
 
         portrait.GetComponent<Image>().sprite = parentUnit.portrait;
+        portrait.GetComponent<Image>().preserveAspect = true;
+
 
         if (portrait != null && hp != null && stat != null)
         {
