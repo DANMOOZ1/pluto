@@ -205,8 +205,4 @@ public class Unit : MonoBehaviour
         return attackedUnits;
     }
 
-    public void DrawBar ()
-    {
-
-    }
 }
