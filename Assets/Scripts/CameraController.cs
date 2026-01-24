@@ -27,7 +27,8 @@ public class MainCameraController : MonoBehaviour
 
     private void Start()
     {
-        player = UnitManager.Instance.allyUnits[0].gameObject.transform;
+        if(GameManager.Instance.gameState == GameState.Battle)
+            player = UnitManager.Instance.allyUnits[0].gameObject.transform;
     }
 
     void OnDebugMod()

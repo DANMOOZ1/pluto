@@ -302,10 +302,6 @@ MonoBehaviour:
     m_ActionId: c97ff679-adaf-4f07-a8ac-d80286d03144
     m_ActionName: 'GamePlay/CLICK[/Mouse/leftButton]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d317ec67-2b3f-42e5-bbdb-2c3e5999c5e7
-    m_ActionName: 'GamePlay/Keyoard[/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/upArrow,/Keyboard/downArrow]'
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 29863105}
         m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
@@ -319,8 +315,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 810d2308-e177-4fd7-b416-586ba6d93f89
-    m_ActionName: 'GamePlay/Debug Click[/Mouse/rightButton]'
+    m_ActionId: a777fdfa-91dc-4163-b61b-b6fa8b6cdf8c
+    m_ActionName: 'DebugMod/CreateUnit[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 29863105}
@@ -335,8 +331,44 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 8f953ce2-a7a5-4708-9933-1eeff9af7582
-    m_ActionName: 'GamePlay/SKey[/Keyboard/s]'
+    m_ActionId: 3f660c32-f921-41cb-ad22-b5df0943be12
+    m_ActionName: 'DebugMod/Save[/Keyboard/s]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
+        m_MethodName: PressDeleteKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 713aed2d-89ea-4a2f-8bbb-1f939fbf666a
+    m_ActionName: 'DebugMod/Delete[/Keyboard/delete]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78967b6e-5bdc-4d72-b4ef-e75e210baf89
+    m_ActionName: 'DebugMod/CameraMove[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 29863105}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
+        m_MethodName: ControlWaveIndex
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 53ea2e75-6026-4456-af7b-73003622d17d
+    m_ActionName: 'DebugMod/ControlWaveIndex[/Keyboard/pageDown,/Keyboard/pageUp]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: GamePlay
@@ -5391,6 +5423,18 @@ MonoBehaviour:
     m_ActionId: c97ff679-adaf-4f07-a8ac-d80286d03144
     m_ActionName: 'GamePlay/CLICK[/Mouse/leftButton]'
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a777fdfa-91dc-4163-b61b-b6fa8b6cdf8c
+    m_ActionName: 'DebugMod/CreateUnit[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f660c32-f921-41cb-ad22-b5df0943be12
+    m_ActionName: 'DebugMod/Save[/Keyboard/s]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 713aed2d-89ea-4a2f-8bbb-1f939fbf666a
+    m_ActionName: 'DebugMod/Delete[/Keyboard/delete]'
+  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420034}
         m_TargetAssemblyTypeName: MainCameraController, Assembly-CSharp
@@ -5404,11 +5448,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: d317ec67-2b3f-42e5-bbdb-2c3e5999c5e7
-    m_ActionName: 'GamePlay/Keyoard[/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/upArrow,/Keyboard/downArrow]'
+    m_ActionId: 78967b6e-5bdc-4d72-b4ef-e75e210baf89
+    m_ActionName: 'DebugMod/CameraMove[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: GamePlay
+  m_DefaultActionMap: f7121ab2-73c7-49ab-9681-3a07915bd666
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &539101621

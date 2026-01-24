@@ -566,7 +566,7 @@ public void LeftUI()
             Button.onClick.AddListener(() =>
             {
                 DataManager.Instance.selectedunit = unitName;
-                Debug.Log(DataManager.Instance.selectedunit);
+                Debug.Log(unitName+"이(가) 선택됨");
 
             });
         }

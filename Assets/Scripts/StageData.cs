@@ -23,4 +23,21 @@ public class UnitEntry
         isAlly = isAy;
         
     }
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+            return false;
+            
+        UnitEntry other = (UnitEntry)obj;
+        return position[0] == other.position[0] &&
+               position[1] == other.position[1] &&
+               position[2] == other.position[2] &&
+               unitName == other.unitName &&
+               isAlly == other.isAlly;
+    }
+    
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(position[0], position[1], position[2], unitName, isAlly);
+    }
 }

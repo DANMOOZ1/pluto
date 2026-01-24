@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Battle);
+        UpdateGameState(GameState.Debug);
         
     }
 

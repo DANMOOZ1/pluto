@@ -14,33 +14,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Keyoard",
-                    "type": "Value",
-                    "id": "d317ec67-2b3f-42e5-bbdb-2c3e5999c5e7",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Debug Click",
-                    "type": "Button",
-                    "id": "810d2308-e177-4fd7-b416-586ba6d93f89",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SKey",
-                    "type": "Button",
-                    "id": "8f953ce2-a7a5-4708-9933-1eeff9af7582",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -54,83 +27,180 @@
                     "action": "CLICK",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DebugMod",
+            "id": "f7121ab2-73c7-49ab-9681-3a07915bd666",
+            "actions": [
+                {
+                    "name": "CreateUnit",
+                    "type": "Button",
+                    "id": "a777fdfa-91dc-4163-b61b-b6fa8b6cdf8c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Save",
+                    "type": "Button",
+                    "id": "3f660c32-f921-41cb-ad22-b5df0943be12",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Delete",
+                    "type": "Button",
+                    "id": "713aed2d-89ea-4a2f-8bbb-1f939fbf666a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraMove",
+                    "type": "Value",
+                    "id": "78967b6e-5bdc-4d72-b4ef-e75e210baf89",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ControlWaveIndex",
+                    "type": "Value",
+                    "id": "53ea2e75-6026-4456-af7b-73003622d17d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d4598836-b89c-43d8-957e-0d20864d5987",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CreateUnit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6c6c89a-228f-437f-8c76-e28fb0a891fc",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Save",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b256211d-d840-4524-8166-b3a0951d8d19",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "2D Vector",
-                    "id": "3c1927ca-fb02-4b3b-9cda-11963763eef7",
+                    "id": "2b4933a3-1122-4bec-9e21-95246118cd6e",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Keyoard",
+                    "action": "CameraMove",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "up",
-                    "id": "10ae5943-3c14-436d-95e4-5be04cf574ff",
+                    "id": "51a98bb6-a5ce-4693-a653-0783c370dcb7",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Keyoard",
+                    "action": "CameraMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "4dd0140c-6e90-4d06-b5f2-4b621884d159",
+                    "id": "45a074e7-645a-473d-936c-1ef3c386c605",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Keyoard",
+                    "action": "CameraMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "ea719bb2-a149-4368-a663-93f1497a8f02",
+                    "id": "ee0490ee-c77d-43ee-8cb7-10b100367a26",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Keyoard",
+                    "action": "CameraMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "3cf18c30-5697-4c80-870c-7fd1bf5d75e4",
+                    "id": "0a03af2b-d13f-4b50-83f6-7dad616b1f15",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Keyoard",
+                    "action": "CameraMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "d3bfa28c-20f7-430c-ae23-bd9c3e3b5ac9",
-                    "path": "<Mouse>/rightButton",
+                    "name": "1D Axis",
+                    "id": "70ee345d-4ddb-45a1-be94-a087d447a589",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Debug Click",
-                    "isComposite": false,
+                    "action": "ControlWaveIndex",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "de5b3489-06da-43a0-99f3-4b9b7372b86d",
-                    "path": "<Keyboard>/s",
+                    "name": "negative",
+                    "id": "59caff56-c015-45f4-b6c5-c4161e2558d9",
+                    "path": "<Keyboard>/pageDown",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SKey",
+                    "action": "ControlWaveIndex",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "b334d5c0-c77a-4add-bdf8-f429dce87b2b",
+                    "path": "<Keyboard>/pageUp",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ControlWaveIndex",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

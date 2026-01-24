@@ -44,20 +44,25 @@ public class UnitManager : Singleton<UnitManager>
         }
     }
     
-    public void GenerateUnits(List<UnitEntry> unitEntryList)
+    public void GenerateUnitsByEntryList(List<UnitEntry> unitEntryList)
     {
         foreach (UnitEntry unitEntry in unitEntryList)
         {
-            if (units.ContainsKey(unitEntry.unitName))
-            {
-                Vector3Int pos = new Vector3Int(unitEntry.position[0], unitEntry.position[1], unitEntry.position[2]);
-                
-                if (unitEntry.isAlly) allyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
-                else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
-                
-            }
-            else Debug.LogWarning("해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
+            GenerateUnit(unitEntry);
         }
+    }
+
+    public void GenerateUnit(UnitEntry unitEntry)
+    {
+        if (units.ContainsKey(unitEntry.unitName))
+        {
+            Vector3Int pos = new Vector3Int(unitEntry.position[0], unitEntry.position[1], unitEntry.position[2]);
+                
+            if (unitEntry.isAlly) allyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
+            else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
+                
+        }
+        else Debug.LogWarning(unitEntry+": 해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
     }
 
     //다음 유닛으로 이동 혹은 승패 여부를 결정
@@ -74,7 +79,10 @@ public class UnitManager : Singleton<UnitManager>
                 //남은 웨이브가 있는 경우 해당 웨이브의 유닛을 소환
                 if (DataManager.Instance.StageData.WavesInStage.ContainsKey(currWaveIndex + 1))
                 {
-                    GenerateUnits(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
+                    //빈 웨이브의 경우 return
+                    if (DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1].Count == 0) return;
+                        
+                    GenerateUnitsByEntryList(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
                     print(currWaveIndex + 1+"번쨰 웨이브 소환");
                     DataManager.Instance.waveIndex = currWaveIndex + 1;
                     

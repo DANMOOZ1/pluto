@@ -36,6 +36,7 @@ public class InputHandler : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
     }
+    // 마우스 위치에 선택된 유닛을 소환함
     public void OnRightClick(InputAction.CallbackContext context)
     {
         if(!context.started) return;
@@ -52,6 +53,7 @@ public class InputHandler : MonoBehaviour
         }
     }
 
+    //Debug 모드에서 StageData를 json에 저장시킴
     public void PressSKey(InputAction.CallbackContext context)
     {
         if(!context.started) return;
@@ -61,6 +63,28 @@ public class InputHandler : MonoBehaviour
             DataManager.Instance.SaveStageData();
         }
     }
+
+    //StageData에서 감지된 유닛을 제거하고 씬에서 감지된 오브젝트를 제거함
+    public void PressDeleteKey(InputAction.CallbackContext context)
+    {
+        if(!context.started) return;
+
+        if (GameManager.Instance.gameState == GameState.Debug)
+        {
+            GameObject obj = selectCollider();
+            
+            if (obj != null) DataManager.Instance.DeleteUnit(obj);
+            else Debug.Log("마우스 위치에 유닛이 존재하지 않습니다.");
+        }
+    }
+
+    public void ControlWaveIndex(InputAction.CallbackContext context)
+    {
+        if(!context.started) return;
+        DataManager.Instance.ChangeWaveIndex((int)context.ReadValue<float>());
+    }
+    //------------------------------------------------------<Input 이외 함수>---------------------------------------------------------
+    
     //마우스 위치에 해당하는 cellpos를 출력, 해당하는 타일이 없으면 null 출력
     public Vector3Int? MousePosToCellPos()
     {
