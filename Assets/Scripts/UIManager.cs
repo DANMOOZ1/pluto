@@ -175,17 +175,14 @@ public class UIManager : Singleton<UIManager>
             }
         }
 
-        // 모든 유닛 가져오기
-        List<Unit> allUnits = UnitManager.Instance.spdSortUnits;
-
         // 머리 위 UI 띄우기
-        foreach (Unit unit in allUnits)
+        foreach (Unit unit in UnitManager.Instance.spdSortUnits)
         {
             HeadUI(unit, isPlayerTurn);
         }
 
         // 순서 띄우기
-        UIturn(allUnits);
+        UIturn(UnitManager.Instance.spdSortUnits);
     }
 
     public void UIChoice()
@@ -426,6 +423,11 @@ public void LeftUI()
     public void HeadUI(Unit parentUnit, bool isPlayerTurn)
     {
 
+        GameObject UI = null;
+        GameObject portrait = null;
+        GameObject hp = null;
+        GameObject stat = null;
+
         foreach (Transform child in parentUnit.transform)
         {
             if (child.name == "BattleButtons" && child.gameObject.activeSelf)
@@ -434,19 +436,11 @@ public void LeftUI()
             }
             else if (child.name == "HeadUI")
             {
-                Destroy(child.gameObject);
+                UI = child.gameObject;
             }
         }
 
-        GameObject clonedHeadUI = Instantiate(headUI, parentUnit.transform);
-        clonedHeadUI.name = "HeadUI";
-
-        GameObject portrait = null;
-        GameObject hp = null;
-        GameObject stat = null;
-
-
-        foreach (Transform child in clonedHeadUI.transform)
+        foreach (Transform child in UI.transform)
         {
             if (child.name == "portrait")
             {

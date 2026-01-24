@@ -298,10 +298,6 @@ public class UnitManager : Singleton<UnitManager>
         unit.cellPosition = unitCellPos;
         unit.isAlly = isAlly;
 
-        // UI에서 필요해서 넣었는데 필요 없어지면 뺄게요 얘가 자식 오브젝트들의 순서를 잘 정리해주기를 바라고 있습니다..
-        var sg = unitObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
-        sg.sortingOrder = 10;
-
         // 사용가능한 유닛리스트에 만든 유닛 저장
         return unit;
     }

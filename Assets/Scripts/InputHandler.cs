@@ -15,8 +15,25 @@ public class InputHandler : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context){
         if(!context.started) return;
-        
-        if(GameManager.Instance.gameState == GameState.Battle && UnitManager.Instance.selectedUnit.isAlly)
+
+        // 이거 여기에 넣어도 괜찮을까요?? 다른 방법도 있어서 안 괜찮으면 말씀해주세용 (위치를 옮겼어요)
+        UnitManager.Instance.selectedAlly = null;
+        UnitManager.Instance.selectedEnemy = null;
+
+        // Button이랑 겹칠 때 둘 다 눌려서 위에 UI가 있으면 안 눌리게 했는데 혹시 이게 문제를 일으킨다면 알려주세요...
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Mouse.current.position.ReadValue();
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (var result in results)
+        {
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return; // UI를 눌렀으니 유닛 로직 실행 안 함!
+            }
+        }
+
+        if (GameManager.Instance.gameState == GameState.Battle && UnitManager.Instance.selectedUnit.isAlly)
             switch (GameManager.Instance.battleState)
             {
                 case BattleState.Default:
@@ -129,10 +146,7 @@ public class InputHandler : MonoBehaviour
     public void InputAnalyze()
     {
         GameObject obj = selectCollider();
-        // 이거 여기에 넣어도 괜찮을까요?? 다른 방법도 있어서 안 괜찮으면 말씀해주세용
-        UnitManager.Instance.selectedAlly = null;
-        UnitManager.Instance.selectedEnemy = null;
-        
+
         // 선택된 오브젝트가 없으면 이동
         if (obj == null)
         {
