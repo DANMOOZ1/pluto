@@ -10,14 +10,13 @@ public class GameManager : Singleton<GameManager>
     public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Debug);
-        
+        UpdateGameState(GameState.Battle);
     }
 
     public void UpdateGameState(GameState newGameState)
     {
         gameState = newGameState;
-        
+        print(gameState);
         switch (gameState)
         {
             case GameState.Menu:
@@ -45,7 +44,7 @@ public class GameManager : Singleton<GameManager>
     public void UpdateBattleState(BattleState newBattleState)
     {
         battleState = newBattleState;
-        print(battleState);
+
         switch (battleState)
         {
             case BattleState.Setting:

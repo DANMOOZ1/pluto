@@ -18,6 +18,8 @@ public class MainCameraController : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.OnGameStateChange += OnDebugMod;
+        GameManager.Instance.OnGameStateChange += ResetCameraSetting;
+        GameManager.Instance.OnBattleStateChange += ChangeSubject;
         
         minCameraBoundary = minCameraBoundaryObject.transform.position;
         maxCameraBoundary = maxCameraBoundaryObject.transform.position;
@@ -25,12 +27,27 @@ public class MainCameraController : MonoBehaviour
         maxCameraBoundaryObject.SetActive(false);
     }
 
-    private void Start()
+    private void OnDestroy()
+    {
+        if (GameManager.HasInstance)
+        {
+            GameManager.Instance.OnGameStateChange -= OnDebugMod;
+            GameManager.Instance.OnGameStateChange -= ResetCameraSetting;
+            GameManager.Instance.OnBattleStateChange -= ChangeSubject;
+        }
+    }
+
+    private void ResetCameraSetting()
     {
         if(GameManager.Instance.gameState == GameState.Battle)
             player = UnitManager.Instance.allyUnits[0].gameObject.transform;
     }
 
+    private void ChangeSubject()
+    {
+        if(GameManager.Instance.battleState == BattleState.Move && UnitManager.Instance.selectedUnit.isAlly)
+            player = UnitManager.Instance.selectedUnit.gameObject.transform;
+    }
     void OnDebugMod()
     {
         if (GameManager.Instance.gameState == GameState.Debug) DebugMode = true;

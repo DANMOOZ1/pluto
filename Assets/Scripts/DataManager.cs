@@ -58,7 +58,8 @@ public class DataManager : Singleton<DataManager>
 
     public void AddUnit(Vector3Int pos)
     {
-        AddWaveData(waveIndex,pos,selectedunit,isAlly);
+        if (selectedunit != null)
+            AddWaveData(waveIndex,pos,selectedunit,isAlly);
     }
 
     //게임 오브젝트를 씬과 StageData에서 삭제함

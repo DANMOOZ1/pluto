@@ -62,7 +62,7 @@ public class UnitManager : Singleton<UnitManager>
             else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
                 
         }
-        else Debug.LogWarning(unitEntry+": 해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
+        else Debug.LogWarning(unitEntry.unitName+": 해당 이름을 지닌 유닛이 딕셔너리에 존재하지 않습니다.");
     }
 
     //다음 유닛으로 이동 혹은 승패 여부를 결정
@@ -85,6 +85,7 @@ public class UnitManager : Singleton<UnitManager>
                     GenerateUnitsByEntryList(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
                     print(currWaveIndex + 1+"번쨰 웨이브 소환");
                     DataManager.Instance.waveIndex = currWaveIndex + 1;
+                    TurnSetting(); // 버그 가능성 높음
                     
                 } else GameManager.Instance.UpdateGameState(GameState.Victory);//남아 있는 웨이브가 없는 경우 Victory로 전환
             }
