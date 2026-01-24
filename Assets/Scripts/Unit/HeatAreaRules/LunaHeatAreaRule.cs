@@ -9,8 +9,17 @@ public class LunaHeatAreaRule : HeatAreaRule
         int dx = to.x - from.x;
         int dy = to.y - from.y;
 
-        if(dy == 0) return new List<Vector3Int>() { from + new Vector3Int(dx/Mathf.Abs(dx), 0, 0), from + new Vector3Int(2*(dx/Mathf.Abs(dx)), 0, 0)};
-        if (dx == 0) return new List<Vector3Int>() { from + new Vector3Int(0, dy/Mathf.Abs(dy) , 0), from + new Vector3Int(0, 2*(dy/Mathf.Abs(dy)) , 0)};
+        if (dy == 0)
+        {
+            if(dx == 1) return new List<Vector3Int>() { to, to + new Vector3Int((dx/Mathf.Abs(dx)), 0, 0)};
+            return new List<Vector3Int>() { to, to - new Vector3Int((dx/Mathf.Abs(dx)), 0, 0)};
+        }
+
+        if (dx == 0)
+        {
+            if(dy == 1) return new List<Vector3Int>() { to, to + new Vector3Int(0, (dy/Mathf.Abs(dy)) , 0)};
+            return new List<Vector3Int>() { to, to - new Vector3Int(0, (dy/Mathf.Abs(dy)) , 0)};
+        }
         
         Debug.LogWarning("HeatArea 계산 오류 발생");
         return new List<Vector3Int>() { to };

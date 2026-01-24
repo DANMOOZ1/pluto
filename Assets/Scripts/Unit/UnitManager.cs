@@ -50,6 +50,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             GenerateUnit(unitEntry);
         }
+        print("현재 "+allyUnits.Count+"개의 아군 유닛과 "+ enemyUnits.Count+"개의 적군 유닛이 존재합니다.");
     }
 
     public void GenerateUnit(UnitEntry unitEntry)
@@ -57,7 +58,7 @@ public class UnitManager : Singleton<UnitManager>
         if (units.ContainsKey(unitEntry.unitName))
         {
             Vector3Int pos = new Vector3Int(unitEntry.position[0], unitEntry.position[1], unitEntry.position[2]);
-                
+            print(unitEntry.unitName + pos.ToString()+"에 배치됨");
             if (unitEntry.isAlly) allyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
             else enemyUnits.Add(UnitCreater(units[unitEntry.unitName], pos, unitEntry.isAlly));
                 
@@ -80,12 +81,16 @@ public class UnitManager : Singleton<UnitManager>
                 if (DataManager.Instance.StageData.WavesInStage.ContainsKey(currWaveIndex + 1))
                 {
                     //빈 웨이브의 경우 return
-                    if (DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1].Count == 0) return;
+                    if (DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1].Count == 0)
+                    {
+                        print("빈 Wave 가 존재합니다.");
+                        return;
+                    }
                         
                     GenerateUnitsByEntryList(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
                     print(currWaveIndex + 1+"번쨰 웨이브 소환");
                     DataManager.Instance.waveIndex = currWaveIndex + 1;
-                    TurnSetting(); // 버그 가능성 높음
+                    GameManager.Instance.UpdateBattleState(BattleState.Setting);
                     
                 } else GameManager.Instance.UpdateGameState(GameState.Victory);//남아 있는 웨이브가 없는 경우 Victory로 전환
             }
@@ -307,7 +312,7 @@ public class UnitManager : Singleton<UnitManager>
         if (spdSortUnits.IndexOf(unit) < selectedUnitIndex) selectedUnitIndex -= 1;
         //리스트에서 Unit 제거    
         if (unit.isAlly) allyUnits.Remove(unit);
-        else enemyUnits.Add(unit);
+        else enemyUnits.Remove(unit);
         spdSortUnits.Remove(unit);
 
         Destroy(unit.gameObject);

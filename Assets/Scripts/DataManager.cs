@@ -15,8 +15,13 @@ public class DataManager : Singleton<DataManager>
     private void Awake()
     {
         StageData = LoadStageData("StageData1");
-        if (StageData == null) Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
-        UnitManager.Instance.GenerateUnitsByEntryList(StageData.WavesInStage[waveIndex]);
+        if (StageData == null)
+        {
+            Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
+            StageData = new StageData();
+            return;
+        }
+        UnitManager.Instance.GenerateUnitsByEntryList(StageData.WavesInStage[0]);
     }
     
     private StageData LoadStageData(string fileName)
@@ -46,7 +51,7 @@ public class DataManager : Singleton<DataManager>
     //입력 받은 유닛을 Stage Data에 기록하고 생성함
    private void AddWaveData(int waveIndex, Vector3Int pos, string unitName, bool isally)
     {
-        if (StageData.WavesInStage[waveIndex] == null)
+        if (!StageData.WavesInStage.ContainsKey(waveIndex))
             StageData.WavesInStage[waveIndex] = new List<UnitEntry>();
 
         UnitEntry unitEntry = new UnitEntry(new int[] { pos.x, pos.y, pos.z }, unitName, isally);

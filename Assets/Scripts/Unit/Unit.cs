@@ -147,8 +147,7 @@ public class Unit : MonoBehaviour
             if (!RandomFunc(accuracy))
             {
                 print("빗나감 ㅅㄱ");
-                GameManager.Instance.UpdateBattleState(BattleState.Next); // 공격 완료 후 Next로 전환
-                return;
+                continue;
             }
         
             //치명타 계산
@@ -165,6 +164,9 @@ public class Unit : MonoBehaviour
             enem.Attacked(damage,attackCount);
         }
         
+        
+        GameManager.Instance.UpdateBattleState(BattleState.Next);// 공격 완료 후 Next로 전환 -> 코루틴 적용 필요함!!!!!!!!!
+        
     }
 
     public void Attacked(int damage, int attackCount)
@@ -180,14 +182,17 @@ public class Unit : MonoBehaviour
                 break;
             }
         }
-        GameManager.Instance.UpdateBattleState(BattleState.Next);// 공격 완료 후 Next로 전환
     }
 
     private List<Unit> CheckEnemyOnHeatArea(Vector3Int currPos,Vector3Int targetPos)
     {
         List<Vector3Int> heatArea = heatAreaRule.HeatAreaRuleFunc(currPos, targetPos);
 
-        print(heatArea);
+        print(targetPos);
+        print("----");
+        foreach(Vector3Int heat in heatArea)
+            print(heat);
+        print("----");
         List<Unit> attackedUnits = new List<Unit>();
         if (heatArea.Count > 0)
         {
