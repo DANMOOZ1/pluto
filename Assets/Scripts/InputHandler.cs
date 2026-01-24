@@ -228,18 +228,4 @@ public class InputHandler : MonoBehaviour
 
     }
 
-    public void IsAllyToggle(bool isOn)
-    {
-        if (isOn)
-        {
-            DataManager.Instance.isAlly = true;
-            Debug.Log("ally");
-        }
-        else
-        {
-            DataManager.Instance.isAlly = false;
-            Debug.Log("enemy");
-
-        }
-    }
 }

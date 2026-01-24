@@ -574,5 +574,24 @@ public void LeftUI()
         // 토글
         IsAllyToggle.SetActive(true);
 
+        ToggleIsAlly(IsAllyToggle.GetComponent<Toggle>().isOn);
+
+    }
+
+    public void ToggleIsAlly(bool isOn)
+    {
+        if (isOn)
+        {
+            DataManager.Instance.isAlly = true;
+            Debug.Log(DataManager.Instance.isAlly);
+        }
+        else
+        {
+            DataManager.Instance.isAlly = false;
+            Debug.Log(DataManager.Instance.isAlly);
+
+        }
     }
 }
+
+
