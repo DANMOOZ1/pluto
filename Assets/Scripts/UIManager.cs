@@ -201,7 +201,7 @@ public class UIManager : Singleton<UIManager>
             {
                 if (child.name == "HeadUI")
                 {
-                    Destroy(child.gameObject);
+                    child.gameObject.SetActive(false);
                 }
             }
         battleButtons.transform.SetParent(currentUnit.transform, false);
@@ -439,6 +439,14 @@ public void LeftUI()
                 UI = child.gameObject;
             }
         }
+
+        //if (UI == null)
+        //{
+        //    UI = Instantiate(headUI, parentUnit.transform);
+        //    UI.name = "HeadUI";
+        //}
+
+        UI.SetActive(true);
 
         foreach (Transform child in UI.transform)
         {
