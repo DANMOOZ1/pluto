@@ -140,7 +140,7 @@ public class Unit : MonoBehaviour
         List <Unit> enemies = CheckEnemyOnHeatArea(cellPosition, enemy.cellPosition);
         foreach (Unit enem in enemies)
         {
-            int damage = atk;
+            int damage = atk - enem.def;
         
             // 명중률 계산
             int accuracy = 85 + 4 * (foc - enem.foc) -3*((int)Mathf.Round(Vector3.Distance(cellPosition,enem.cellPosition)) - 2);
