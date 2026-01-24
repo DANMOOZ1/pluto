@@ -78,10 +78,13 @@ public class InputHandler : MonoBehaviour
         }
     }
 
+    //Page Down, Page Up으로 waveIndex를 조절함
     public void ControlWaveIndex(InputAction.CallbackContext context)
     {
         if(!context.started) return;
-        DataManager.Instance.ChangeWaveIndex((int)context.ReadValue<float>());
+        
+        if (GameManager.Instance.gameState == GameState.Debug)
+            DataManager.Instance.ChangeWaveIndex((int)context.ReadValue<float>());
     }
     //------------------------------------------------------<Input 이외 함수>---------------------------------------------------------
     
