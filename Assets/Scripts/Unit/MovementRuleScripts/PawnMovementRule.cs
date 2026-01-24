@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PawnMovementRule", menuName = "MovementRuleSO/PawnMovementRule")]
 public class PawnMovementRule : TileCheckRule
 {
+    public PawnMovementRule()
+    {
+        teleportTypeMovement = false;
+    }
     public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
     {
         int dx = Mathf.Abs(to.x - from.x);

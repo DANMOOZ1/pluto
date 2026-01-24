@@ -11,13 +11,13 @@ public class LunaHeatAreaRule : HeatAreaRule
 
         if (dy == 0)
         {
-            if(dx == 1) return new List<Vector3Int>() { to, to + new Vector3Int((dx/Mathf.Abs(dx)), 0, 0)};
+            if(Mathf.Abs(dx) == 1) return new List<Vector3Int>() { to, to + new Vector3Int((dx/Mathf.Abs(dx)), 0, 0)};
             return new List<Vector3Int>() { to, to - new Vector3Int((dx/Mathf.Abs(dx)), 0, 0)};
         }
 
         if (dx == 0)
         {
-            if(dy == 1) return new List<Vector3Int>() { to, to + new Vector3Int(0, (dy/Mathf.Abs(dy)) , 0)};
+            if(Mathf.Abs(dy) == 1) return new List<Vector3Int>() { to, to + new Vector3Int(0, (dy/Mathf.Abs(dy)) , 0)};
             return new List<Vector3Int>() { to, to - new Vector3Int(0, (dy/Mathf.Abs(dy)) , 0)};
         }
         

@@ -44,7 +44,7 @@ public class GameManager : Singleton<GameManager>
     public void UpdateBattleState(BattleState newBattleState)
     {
         battleState = newBattleState;
-
+        print(battleState);
         switch (battleState)
         {
             case BattleState.Setting:

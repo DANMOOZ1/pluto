@@ -178,6 +178,7 @@ public class Unit : MonoBehaviour
             if (hp <= 0)
             {
                 hp = 0;
+                print("death");
                 UnitManager.Instance.UnitEliminate(this);
                 break;
             }

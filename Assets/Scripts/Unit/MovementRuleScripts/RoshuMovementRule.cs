@@ -4,6 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RoshuMovementRule", menuName = "MovementRuleSO/RoshuMovementRule")]
 public class RoshuMovementRule : TileCheckRule
 {
+    public RoshuMovementRule()
+    {
+        teleportTypeMovement = false;
+    }
     public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
     {
         int dx = Mathf.Abs(to.x - from.x);

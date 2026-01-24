@@ -222,12 +222,37 @@ public class TileMapManager : Singleton<TileMapManager>
     // 이동 가능한 타일을 RTPrefab으로 표현하고 이동가능한 타일의 셀좌표 keycollection을 반환함
     public List<Vector3Int> ReachableTile(Vector3Int pos, TileCheckRule movementRule)
     {
+        //RNG에 해당하는 z좌표를 고려하지 않은 이동가능한 타일을 가져옴
         List<Vector3Int> dist = ReturnInteractiveTiles(pos, movementRule);
         List<Vector3Int> returnDist = new List<Vector3Int>();
         
         foreach (Vector3Int v in dist)
         {
-            if (GeneratePathTo(pos, v,movementRule) != null) returnDist.Add(v);
+            List<Node> path = GeneratePathTo(pos, v, movementRule);
+            if (path != null)
+            {
+                if (movementRule.teleportTypeMovement) // 나이트 처럼 텔레포팅하면서 움직이는 경우
+                {
+                    returnDist.Add(v);
+                    continue;
+                }
+                
+                //RNG안에서 걸어서 이동하는 경우
+                bool isPathValid = true;
+                foreach (Node n in path)
+                {
+                    if (!dist.Contains(new Vector3Int(n.x, n.y, n.z)))
+                    {
+                        isPathValid = false;
+                        break;
+                    }
+                }
+
+                if (isPathValid)
+                {
+                    returnDist.Add(v);
+                }
+            }
         }
 
         DrawTile(ReachableTilePrefab,ReachableTilePrefab2,returnDist);
