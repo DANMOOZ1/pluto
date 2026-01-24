@@ -16,13 +16,12 @@ MonoBehaviour:
   race: Human
   hp: 4
   atk: 3
-  def: 0
+  def: 1
   spd: 3
   foc: 3
   movImage: {fileID: -7839028212826638627, guid: 19248b4ec461f164187725489016aa6a, type: 3}
   rng: {fileID: -2669106496597084543, guid: bdecfcf5d318ebd44aeb311951c184b4, type: 3}
   hta: {fileID: 6245215943514085673, guid: 74b7b3536121f414a9c2dbd97d7b406f, type: 3}
-  mov: 3
   level: 2
   portrait: {fileID: -2412892936227306251, guid: c14cd9030ed485b4d8396701c04a356f, type: 3}
   movementRule: {fileID: 11400000, guid: bd65ce12301c38d45a5e77f692550868, type: 2}
