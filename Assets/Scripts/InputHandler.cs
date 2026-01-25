@@ -220,26 +220,6 @@ public class InputHandler : MonoBehaviour
         return null;
     }
     
-    // 버튼에 들어갈 함수
-    public void CombatButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Combat);
-    }
 
-    public void NextButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Next);
-    }
-
-    public void InfoButton()
-    {
-        GameManager.Instance.UpdateBattleState(BattleState.Info);
-    }
-
-    public void DefaultButton()
-    {
-        TileMapManager.Instance.ClearTileMap(UnitManager.Instance.selectedUnit.accessibleTiles); 
-        GameManager.Instance.UpdateBattleState(BattleState.Default);
-    }
 
 }

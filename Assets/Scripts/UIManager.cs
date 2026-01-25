@@ -1,9 +1,14 @@
+using GLTFast.Schema;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
+using Button = UnityEngine.UI.Button;
+using Toggle = UnityEngine.UI.Toggle;
 
 // 추가해야 할 것
 // 1. 무식하게 매번 바를 그리는 방식인데, 다소 비효율적이라 미리 그려놓고 켜고 끄는 걸로 바꿔야 할 것 같아요 지금 당장은 제가 시간이 없어서 + 굴러가긴 해서 월~화 새벽에 바꿀 것 같습니다
@@ -11,6 +16,7 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [Header("leftUI")]
+    public GameObject leftUIP;
     public GameObject leftUI;
     public TextMeshProUGUI lUI_UnitName;
     public TextMeshProUGUI lUI_Level;
@@ -18,6 +24,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject lUI_HP;
 
     [Header("infoUI")]
+    public GameObject infoUIP;
     public GameObject infoUI;
     public Image iUI_Portrait;
     public TextMeshProUGUI iUI_UnitName;
@@ -30,8 +37,10 @@ public class UIManager : Singleton<UIManager>
     public Image iUI_MOV;
     public Image iUI_RNG;
     public Image iUI_HTA;
+    public GameObject iUI_Button;
 
     [Header("enemySelectedUI")]
+    public GameObject enemySelectedUIP;
     public GameObject enemySelectedUI;
     public Image eUI_allyPortrait;
     public GameObject eUI_allyHP;
@@ -45,6 +54,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject eUI_enemySPD;
 
     [Header("righttUI")]
+    public GameObject rightUIP;
     public GameObject rightUI;
     public TextMeshProUGUI rUI_UnitName;
     public TextMeshProUGUI rUI_Level;
@@ -52,10 +62,14 @@ public class UIManager : Singleton<UIManager>
     public GameObject rUI_HP;
 
     [Header("battleButtons")]
+    public GameObject battleButtonsP;
     public GameObject battleButtons;
     public GameObject combatButton;
+    public GameObject nextButton;
+    public GameObject infoButton;
 
     [Header("StayButton")]
+    public GameObject StayButtonP;
     public GameObject StayButton;
 
     [Header("HeadUI")]
@@ -66,6 +80,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject smallBar;
 
     [Header("turnUI")]
+    public GameObject turnUIP;
     public GameObject turnUI;
 
     [Header("debugMode")]
@@ -84,19 +99,17 @@ public class UIManager : Singleton<UIManager>
         // 구독
         GameManager.Instance.OnGameStateChange += GameStateUI;
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
+
     }
 
     public void GameStateUI()
     {
-        IsAllyToggle.SetActive(false);
-        turnUI.SetActive(true);
-
-
         switch (GameManager.Instance.gameState)
         {
             case GameState.Menu:
                 break;
             case GameState.Battle:
+                create();
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -124,6 +137,7 @@ public class UIManager : Singleton<UIManager>
             enemySelectedUI.SetActive(false);
             leftUI.SetActive(false);
             rightUI.SetActive(false);
+            IsAllyToggle.SetActive(false);
 
             turnUI.SetActive(true);
 
@@ -613,6 +627,131 @@ public void LeftUI()
 
     }
 
+    public void create()
+    {
+        // 1. Canvas 존재 여부 확인 (가장 빈번한 원인)
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas == null)
+        {
+            Debug.LogError("UIManager: 씬에서 'Canvas'를 찾을 수 없습니다! 이름을 확인하세요.");
+            return;
+        }
+
+        // 2. 프리팹 연결 여부 확인 (인스펙터 할당 실수 방지)
+        if (leftUIP == null || rightUIP == null || infoUIP == null)
+        {
+            Debug.LogError("UIManager: 인스펙터에 프리팹(P)이 연결되지 않았습니다!");
+            return;
+        }
+
+        foreach(Transform child in canvas.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        leftUI = null; rightUI = null; infoUI = null; battleButtons = null; enemySelectedUI = null; StayButton = null; turnUI = null;
+
+
+        battleButtons = Instantiate(battleButtonsP);
+        combatButton = battleButtons.transform.Find("CombatButton").gameObject;
+        if (combatButton.GetComponent<Button>() != null )
+        {
+            combatButton.GetComponent<Button>().onClick.RemoveAllListeners(); // 중복 연결 방지
+            combatButton.GetComponent<Button>().onClick.AddListener(CombatButton); // 함수 연결
+        }
+        nextButton = battleButtons.transform.Find("NextButton").gameObject;
+        if (nextButton.GetComponent<Button>() != null)
+        {
+            nextButton.GetComponent<Button>().onClick.RemoveAllListeners(); // 중복 연결 방지
+            nextButton.GetComponent<Button>().onClick.AddListener(NextButton); // 함수 연결
+        }
+        infoButton = battleButtons.transform.Find("InfoButton").gameObject;
+        if (infoButton.GetComponent<Button>() != null)
+        {
+            infoButton.GetComponent<Button>().onClick.RemoveAllListeners(); // 중복 연결 방지
+            infoButton.GetComponent<Button>().onClick.AddListener(InfoButton); // 함수 연결
+        }
+
+
+        leftUI = Instantiate(leftUIP, canvas.transform);
+        lUI_UnitName = leftUI.transform.Find("profile/lUI_UnitName").gameObject.GetComponent<TextMeshProUGUI>();
+        lUI_Level = leftUI.transform.Find("profile/lUI_Level").gameObject.GetComponent<TextMeshProUGUI>();
+        lUI_Portrait = leftUI.transform.Find("lUI_Portrait").gameObject.GetComponent<Image>();
+        lUI_HP = leftUI.transform.Find("lUI_HP").gameObject;
+
+        rightUI = Instantiate(rightUIP, canvas.transform);
+        rUI_UnitName = rightUI.transform.Find("profile/rUI_UnitName").gameObject.GetComponent<TextMeshProUGUI>();
+        rUI_Level = rightUI.transform.Find("profile/rUI_Level").gameObject.GetComponent<TextMeshProUGUI>();
+        rUI_Portrait = rightUI.transform.Find("rUI_Portrait").gameObject.GetComponent<Image>();
+        rUI_HP = rightUI.transform.Find("rUI_HP").gameObject;
+
+        turnUI = Instantiate(turnUIP, canvas.transform);
+
+        infoUI = Instantiate(infoUIP, canvas.transform);
+        iUI_Portrait = infoUI.transform.Find("Image/profile/iUI_Portrait").gameObject.GetComponent<Image>();
+        iUI_UnitName = infoUI.transform.Find("Image/profile/profile_text/iUI_UnitName").gameObject.GetComponent<TextMeshProUGUI>();
+        iUI_Level = infoUI.transform.Find("Image/profile/profile_text/iUI_Level").gameObject.GetComponent <TextMeshProUGUI>();
+        iUI_HP = infoUI.transform.Find("Image/HP/iUI_HP").gameObject;
+        iUI_ATK = infoUI.transform.Find("Image/ATK/iUI_ATK").gameObject;
+        iUI_DEF = infoUI.transform.Find("Image/DEF/iUI_DEF").gameObject;
+        iUI_FOC = infoUI.transform.Find("Image/FOC/iUI_FOC").gameObject;
+        iUI_SPD = infoUI.transform.Find("Image/SPD/iUI_SPD").gameObject;
+        iUI_MOV = infoUI.transform.Find("Image/Image/MOV/iUI_A").gameObject.GetComponent<Image>();
+        iUI_RNG = infoUI.transform.Find("Image/Image/RNG/iUI_B").gameObject.GetComponent<Image>();
+        iUI_HTA = infoUI.transform.Find("Image/Image/HTA/iUI_C").gameObject.GetComponent<Image>();
+        iUI_Button = infoUI.transform.Find("Button").gameObject;
+        if (iUI_Button.GetComponent<Button>() != null)
+        {
+            iUI_Button.GetComponent<Button>().onClick.RemoveAllListeners(); // 중복 연결 방지
+            iUI_Button.GetComponent<Button>().onClick.AddListener(DefaultButton); // 함수 연결
+        }
+
+        enemySelectedUI = Instantiate(enemySelectedUIP, canvas.transform);
+        eUI_allyPortrait = enemySelectedUI.transform.Find("Portrait/Ally/eUI_allyPortrait").GetComponent<UnityEngine.UI.Image>();
+        eUI_enemyPortrait = enemySelectedUI.transform.Find("Portrait/Enemy/eUI_enemyPortrait").GetComponent<UnityEngine.UI.Image>();
+        eUI_allyHP = enemySelectedUI.transform.Find("SPD/Allay/eUI_allyHP").gameObject;
+        eUI_allyATK = enemySelectedUI.transform.Find("SPD/Allay/eUI_allyATK").gameObject;
+        eUI_allyFOC = enemySelectedUI.transform.Find("SPD/Allay/eUI_allyFOC").gameObject;
+        eUI_allySPD = enemySelectedUI.transform.Find("SPD/Allay/eUI_allySPD").gameObject;
+        eUI_enemyHP = enemySelectedUI.transform.Find("SPD/Enemy/eUI_enemyHP").gameObject;
+        eUI_enemyDEF = enemySelectedUI.transform.Find("SPD/Enemy/eUI_enemyDEF").gameObject;
+        eUI_enemyFOC = enemySelectedUI.transform.Find("SPD/Enemy/eUI_enemyFOC").gameObject;
+        eUI_enemySPD = enemySelectedUI.transform.Find("SPD/Enemy/eUI_enemySPD").gameObject;
+
+        StayButton = Instantiate(StayButtonP, canvas.transform);
+        if (StayButton.GetComponent<Button>() != null)
+        {
+            StayButton.GetComponent<Button>().onClick.RemoveAllListeners(); // 중복 연결 방지
+            StayButton.GetComponent<Button>().onClick.AddListener(DefaultButton); // 함수 연결
+        }
+    }
+
+    // 버튼에 들어갈 함수
+    public void CombatButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Combat);
+    }
+
+    public void NextButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Next);
+    }
+
+    public void InfoButton()
+    {
+        GameManager.Instance.UpdateBattleState(BattleState.Info);
+    }
+
+    public void DefaultButton()
+    {
+        TileMapManager.Instance.ClearTileMap(UnitManager.Instance.selectedUnit.accessibleTiles);
+        GameManager.Instance.UpdateBattleState(BattleState.Default);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnGameStateChange -= GameStateUI;
+        GameManager.Instance.OnBattleStateChange -= BattleStateUI;
+    }
 }
 
 
