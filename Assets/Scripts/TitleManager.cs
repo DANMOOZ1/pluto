@@ -32,6 +32,8 @@ public class TitleManager : MonoBehaviour
             
             // 6. 이제 씬에 타일맵이 존재하므로 안전하게 배틀 상태로 전환합니다.
             GameManager.Instance.UpdateGameState(GameState.Battle);
+            
+            GameManager.Instance.UpdateBattleState(BattleState.Move);
 
             // 7. 이벤트가 계속 남아있으면 다음 씬 로드 시 또 호출되므로 등록을 해제합니다.
             SceneManager.sceneLoaded -= OnSceneLoaded;

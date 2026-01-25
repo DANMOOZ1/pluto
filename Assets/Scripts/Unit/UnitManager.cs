@@ -88,19 +88,15 @@ public class UnitManager : Singleton<UnitManager>
                     print(currWaveIndex + 1+"번쨰 웨이브 소환");
                     DataManager.Instance.waveIndex = currWaveIndex + 1;
                     TurnSetting();
+                    GameManager.Instance.UpdateBattleState(BattleState.Move);
 
                 } else GameManager.Instance.UpdateGameState(GameState.Victory);//남아 있는 웨이브가 없는 경우 Victory로 전환
             }
             else
             {
-                
+                // 다음 유닛으로 전환
                 if(selectedUnitIndex < spdSortUnits.Count-1) selectedUnitIndex++;
-                else
-                {
-                    // 한 사이클이 지나면 spdsort를 다시 함
-                    TurnSetting();
-                    return;
-                }
+                else TurnSetting(); // 한 사이클이 지나면 spdsort를 다시 함
                 
                 selectedUnit = spdSortUnits[selectedUnitIndex];
                 
@@ -130,7 +126,6 @@ public class UnitManager : Singleton<UnitManager>
         {
             print(unit.unitName +":"+unit.cellPosition.ToString() );
         }
-        GameManager.Instance.UpdateBattleState(BattleState.Move);
     }
 
     private List<Unit> MergeSort(List<Unit> list)
