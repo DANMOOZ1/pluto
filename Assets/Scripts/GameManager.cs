@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : SingletonPersistence<GameManager>
 {
     public GameState gameState;
     public BattleState  battleState;
@@ -11,39 +11,30 @@ public class GameManager : Singleton<GameManager>
     public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Battle);
+        UpdateGameState(GameState.Menu);
     }
 
     public void UpdateGameState(GameState newGameState)
     {
         gameState = newGameState;
-        print(gameState);
-
-        GameObject managers = GameObject.Find("Managers");
 
         switch (gameState)
         {
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                UpdateBattleState(BattleState.Setting);
+                TileMapManager.Instance.GenerateTileData(); //tilemap을 읽고 graph를 생성
+                DataManager.Instance.LoadUnits(); //stagedata(json)을 읽고 유닛을 생성(wave 1)
+                UpdateBattleState(BattleState.Setting); //unitmanager의 Turnsetting으로 이어짐-> 게임 시작
                 break;
             case GameState.PositionSetUp:
                 break;
             case GameState.UnitSetUp:
                 break;
             case GameState.Victory:
-                if (managers != null)
-                {
-                    Destroy(managers);
-                }
                 SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Defeat:
-                if (managers != null)
-                {
-                    Destroy(managers);
-                }
                 SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Debug:
@@ -58,25 +49,6 @@ public class GameManager : Singleton<GameManager>
     public void UpdateBattleState(BattleState newBattleState)
     {
         battleState = newBattleState;
-        print(battleState);
-        switch (battleState)
-        {
-            case BattleState.Setting:
-                break;
-            case BattleState.Move:
-                break;
-            case BattleState.Default:
-                break;
-            case BattleState.Combat:
-                break;
-            case BattleState.Next:
-                break;
-            case BattleState.Info:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-        
         OnBattleStateChange?.Invoke();
     }
 
