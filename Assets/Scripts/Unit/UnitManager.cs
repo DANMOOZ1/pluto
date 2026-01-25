@@ -24,7 +24,6 @@ public class UnitManager : Singleton<UnitManager>
     
     void Awake()
     { 
-        
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
         GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;

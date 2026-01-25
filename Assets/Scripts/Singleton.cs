@@ -21,7 +21,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return _instance;
         }
     }
+    
+    public static bool HasInstance => _instance != null;
+}
 
+public class SingletonPersistence<T> : Singleton<T> where T : MonoBehaviour
+{
     private void Awake()
     {
         if (transform.parent != null && transform.root != null)
@@ -33,7 +38,4 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
-    //오류나서 gemini한테 물어보니까 추가하라고 해서 자아 없이 추가했습니다.. 문제 있음 알려주세용..
-    public static bool HasInstance => _instance != null;
 }
