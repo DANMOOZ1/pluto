@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class InputHandler : MonoBehaviour
 {
@@ -77,7 +77,7 @@ public class InputHandler : MonoBehaviour
 
         if (GameManager.Instance.gameState == GameState.Debug)
         {
-            DataManager.Instance.SaveStageData();
+            DataManager.Instance.SaveStageData(SceneManager.GetActiveScene().name);
         }
     }
 
