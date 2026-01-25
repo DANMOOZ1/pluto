@@ -152,7 +152,12 @@ public class Unit : MonoBehaviour
         
             //치명타 계산
             int crit = 10 + 5 * foc;
-            if(RandomFunc(crit)) damage += 2;
+            if(RandomFunc(crit)) 
+            {
+                damage += 2;
+                print("크리티컬!");
+            }
+
         
             //공격횟수 계산
             int attackCount = 0;
