@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : SingletonPersistence<GameManager>
 {
@@ -11,7 +12,7 @@ public class GameManager : SingletonPersistence<GameManager>
     public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Battle);
+        UpdateGameState(GameState.Menu);
     }
 
     public void UpdateGameState(GameState newGameState)
@@ -51,7 +52,6 @@ public class GameManager : SingletonPersistence<GameManager>
         battleState = newBattleState;
         OnBattleStateChange?.Invoke();
     }
-
 }
 
 public enum GameState

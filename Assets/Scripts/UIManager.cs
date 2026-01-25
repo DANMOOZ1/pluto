@@ -103,10 +103,8 @@ public class UIManager : Singleton<UIManager>
             case GameState.UnitSetUp:
                 break;
             case GameState.Victory:
-                //BackToTitle();
                 break;
             case GameState.Defeat:
-                //BackToTitle();
                 break;
             case GameState.Debug:
                 UIDebug();
@@ -611,10 +609,11 @@ public void LeftUI()
         }
     }
 
-    //public void BackToTitle()
-    //{
-    //    SceneManager.LoadScene("Scenes/TitleScene");
-    //}
+    public void AccuracyText(Unit unit)
+    {
+
+    }
+
 }
 
 
