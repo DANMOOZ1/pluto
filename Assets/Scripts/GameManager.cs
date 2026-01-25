@@ -24,9 +24,7 @@ public class GameManager : SingletonPersistence<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
-                TileMapManager.Instance.GenerateTileData(); //tilemap을 읽고 graph를 생성
-                DataManager.Instance.LoadUnits(); //stagedata(json)을 읽고 유닛을 생성(wave 1)
-                UpdateBattleState(BattleState.Setting); //unitmanager의 Turnsetting으로 이어짐-> 게임 시작
+                StageSetUp();
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -51,6 +49,13 @@ public class GameManager : SingletonPersistence<GameManager>
     {
         battleState = newBattleState;
         OnBattleStateChange?.Invoke();
+    }
+
+    private void StageSetUp()
+    {
+        TileMapManager.Instance.GenerateTileData(); //tilemap을 읽고 graph를 생성
+        DataManager.Instance.LoadUnits(); //stagedata(json)을 읽고 유닛을 생성(wave 1)
+        UpdateBattleState(BattleState.Setting); //unitmanager의 Turnsetting으로 이어짐-> 게임 시작(Move)
     }
 }
 

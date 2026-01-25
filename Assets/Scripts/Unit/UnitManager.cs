@@ -95,10 +95,11 @@ public class UnitManager : Singleton<UnitManager>
             }
             else
             {
-                // 한 사이클이 지나면 spdsort를 다시 함
+                
                 if(selectedUnitIndex < spdSortUnits.Count-1) selectedUnitIndex++;
                 else
                 {
+                    // 한 사이클이 지나면 spdsort를 다시 함
                     GameManager.Instance.UpdateBattleState(BattleState.Setting);
                     return;
                 }
@@ -128,9 +129,11 @@ public class UnitManager : Singleton<UnitManager>
     
             selectedUnit = spdSortUnits[0];
             selectedUnitIndex = 0;
-            
-            //foreach (Unit u in spdSortUnits) print(u.unitName);
-            
+
+            foreach (Unit unit in spdSortUnits)
+            {
+                print(unit.unitName +":"+unit.cellPosition.ToString() );
+            }
             GameManager.Instance.UpdateBattleState(BattleState.Move);
         }
     }
@@ -162,7 +165,6 @@ public class UnitManager : Singleton<UnitManager>
         // 두 리스트를 비교하며 병합
         while (i < left.Count && j < right.Count)
         {
-            // ShouldAddAllyUnit 대신 일반적인 비교 함수 사용
             if (ShouldAddFirst(left[i], right[j]))
             {
                 result.Add(left[i]);
@@ -193,52 +195,44 @@ public class UnitManager : Singleton<UnitManager>
 
     private bool ShouldAddFirst(Unit unit1, Unit unit2)
     {
-        // 속도가 다르면 속도가 빠른 것이 먼저
+        // 속도 비교
         if (unit1.spd != unit2.spd)
-        {
             return unit1.spd > unit2.spd;
-        }
 
-        // 속도가 같으면 레벨이 높은 것이 먼저
+        // 레벨 비교
         if (unit1.level != unit2.level)
-        {
             return unit1.level > unit2.level;
-        }
 
-        // 속도와 레벨이 모두 같으면 아군 우선
-        // unit1이 아군이고 unit2가 적이면 unit1을 먼저
-        // unit1이 적이고 unit2가 아군이면 unit2를 먼저 (false 반환)
+        // 아군/적군 상태가 다르면 아군 우선
         if (unit1.isAlly != unit2.isAlly)
-        {
             return unit1.isAlly;
+
+        // 둘 다 적인 경우: 타겟까지의 거리 비교
+        if (!unit1.isAlly)
+        {
+            int distance1 = GetDistanceToNearestAlly(unit1);
+            int distance2 = GetDistanceToNearestAlly(unit2);
+            return distance1 <= distance2;
         }
 
-        //둘 다 적이면 가까운 아군간의 거리가 가까운걸 우선으로 설정
-        if (unit1.isAlly == false && unit2.isAlly == false)
-        {
-            Unit target1 = unit1.gameObject.GetComponent<EnemyAI>().FindNearestTarget();
-            Unit target2 = unit2.gameObject.GetComponent<EnemyAI>().FindNearestTarget();
-            
-            //둘다 타겟을 못찾은 경우 unit1 먼저
-            if(target1 == null && target2 == null) return true;
-            if(target1 == null) return false;
-            if(target2 == null) return true;
-            
-            //둘다 타겟을 찾은 경우 
-            List<Node> path1 = TileMapManager.Instance.GeneratePathTo(unit1.cellPosition,target1.cellPosition,unit1.movementRule,true);
-            List<Node> path2 = TileMapManager.Instance.GeneratePathTo(unit2.cellPosition,target2.cellPosition,unit2.movementRule,true);
-            
-            if(path1 == null && path2 == null) return true;
-            if(path1 == null) return false;
-            if(path2 == null) return true;
-            
-            //거리가 가까운것을 우선으로 함, 동일할 시 unit1를 우선으로
-            if (path1.Count <= path2.Count) return true;
-            return false;
-        }
-        
-        //둘다 아군이면 unit1을 먼저
+        // 둘 다 아군이면 unit1 우선
         return true;
+    }
+
+    private int GetDistanceToNearestAlly(Unit enemy)
+    {
+        Unit target = enemy.GetComponent<EnemyAI>().FindNearestTarget();
+        if (target == null)
+            return int.MaxValue;
+
+        List<Node> path = TileMapManager.Instance.GeneratePathTo(
+            enemy.cellPosition, 
+            target.cellPosition, 
+            enemy.movementRule, 
+            true
+        );
+
+        return path?.Count ?? int.MaxValue;
     }
     
     //유
@@ -328,8 +322,7 @@ public class UnitManager : Singleton<UnitManager>
         UnitDataReset(unit);
         unit.cellPosition = unitCellPos;
         unit.isAlly = isAlly;
-
-        // 사용가능한 유닛리스트에 만든 유닛 저장
+        
         return unit;
     }
 

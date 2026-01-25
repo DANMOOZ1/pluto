@@ -227,7 +227,7 @@ public class UIManager : Singleton<UIManager>
     {
 
         // 버튼?
-        Debug.Log($"UIMove 호출! StayButton null? {StayButton == null}");
+        //Debug.Log($"UIMove 호출! StayButton null? {StayButton == null}");
         battleButtons.SetActive(false);
 
         //foreach (Unit unit in UnitManager.Instance.spdSortUnits)
@@ -535,8 +535,7 @@ public void LeftUI()
     {
         if(!unit.isAlly)
         {
-            Unit target = unit.GetComponent<EnemyAI>().FindNearestTarget();
-            if (target == null)
+            if (unit.GetComponent<EnemyAI>().target == null)
             {
                 return;
             }

@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +140,9 @@
       <workItem from="1769224722128" duration="7058000" />
       <workItem from="1769234601399" duration="89000" />
       <workItem from="1769245167536" duration="8576000" />
-      <workItem from="1769317300058" duration="15293000" />
+      <workItem from="1769317300058" duration="16663000" />
+      <workItem from="1769340340269" duration="4000" />
+      <workItem from="1769340474313" duration="1514000" />
     </task>
     <servers />
   </component>
