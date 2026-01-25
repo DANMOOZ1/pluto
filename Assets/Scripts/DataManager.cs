@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
+using UnityEngine.InputSystem;
 
-public class DataManager : SingletonPersistence<DataManager>
+public class DataManager : Singleton<DataManager>
 {
     public int waveIndex;
     public StageData StageData = new StageData();
     public string selectedunit;
     public bool isAlly;
-
-    public void LoadUnits()
+    
+    private void Awake()
     {
-        StageData = LoadStageData(SceneManager.GetActiveScene().name);
+        StageData = LoadStageData("StageData1");
         if (StageData == null)
         {
             Debug.LogWarning("경로에 파일이 존재하지 않습니다.");
@@ -22,6 +23,7 @@ public class DataManager : SingletonPersistence<DataManager>
         }
         UnitManager.Instance.GenerateUnitsByEntryList(StageData.WavesInStage[0]);
     }
+    
     private StageData LoadStageData(string fileName)
     {
         string path = Path.Combine(Application.dataPath, "StageData/"+fileName+".json");
@@ -37,9 +39,9 @@ public class DataManager : SingletonPersistence<DataManager>
         return null;
     }
     
-    public void SaveStageData(string fileName)
+    public void SaveStageData()
     {
-        string path  = Path.Combine(Application.dataPath, "StageData/"+fileName+".json");
+        string path  = Path.Combine(Application.dataPath, "StageData/"+"StageData1.json");
         string data = JsonUtility.ToJson(StageData);
         
         print("저장 경로: " + path);

@@ -18,6 +18,11 @@ public class TileMapManager : Singleton<TileMapManager>
     //인스펙터에서 타일 종류를 다루기 위한 직렬화된 딕셔너리
     public SerializedDictionary<string, TileType> tileTypes;
     //현재 선택된 유닛(추후 개발)
+    
+    void Awake(){
+
+        GenerateTileData();
+    }
 
     public Vector3  CellCoordToWorldCoord(Vector3Int cellPos){
         int x = cellPos.x;
@@ -29,7 +34,7 @@ public class TileMapManager : Singleton<TileMapManager>
     public Dictionary<Vector3Int, TileType> dataOnTiles; // key : cell pos , value : TileType
     public Dictionary<Vector3Int, Node> cellPosGraph;// key : cell pos , value : Node
 
-    public void GenerateTileData(){
+    void GenerateTileData(){
         // 0단계 데이터 초기화
         dataOnTiles = new Dictionary<Vector3Int, TileType>();
         cellPosGraph = new Dictionary<Vector3Int, Node>();
