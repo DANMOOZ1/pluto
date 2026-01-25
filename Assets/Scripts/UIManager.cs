@@ -54,6 +54,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject battleButtons;
     public GameObject combatButton;
 
+    [Header("StayButton")]
+    public GameObject StayButton;
+
     [Header("HeadUI")]
     public GameObject headUI;
 
@@ -213,12 +216,16 @@ public class UIManager : Singleton<UIManager>
             UIEnemySelected();
         }
 
+        StayButton.SetActive(false);
+
+
     }
 
     public void UIMove()
     {
 
         // 버튼?
+        Debug.Log($"UIMove 호출! StayButton null? {StayButton == null}");
         battleButtons.SetActive(false);
 
         //foreach (Unit unit in UnitManager.Instance.spdSortUnits)
@@ -236,6 +243,9 @@ public class UIManager : Singleton<UIManager>
         //}
 
         // 적 선택 시 비교창
+
+        StayButton.SetActive(true);
+
         if (UnitManager.Instance.selectedEnemy != null)
         {
             UIEnemySelected();
@@ -247,19 +257,21 @@ public class UIManager : Singleton<UIManager>
     {
         // 버튼?
         battleButtons.SetActive(false);
+        StayButton.SetActive(false);
 
     }
 
     public void UINext()
     {
         battleButtons.SetActive(false);
-
+        StayButton.SetActive(false);
     }
 
     public void UIInfo()
     {
         // 버튼?
         battleButtons.SetActive(false);
+        StayButton.SetActive(false);
 
         // 순서 끄기
         turnUI.SetActive(false);
