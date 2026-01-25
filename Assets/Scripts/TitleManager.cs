@@ -24,13 +24,16 @@ public class TitleManager : MonoBehaviour
     // 3. 씬 전환이 완전히 완료된 직후 유니티가 이 함수를 호출합니다.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 4. 우리가 원하는 Stage1 씬인지 확인합니다.
+        // 4. 현재 Scene이 Stage인지 확인
         if (scene.name == "Stage1")
         {
-            // 5. 이제 씬에 타일맵이 존재하므로 안전하게 배틀 상태로 전환합니다.
+            // 5. 각종 데이터 (tileData, graph, unit, spdSortUnit..) 로드 
+            GameManager.Instance.StageSetUp();
+            
+            // 6. 이제 씬에 타일맵이 존재하므로 안전하게 배틀 상태로 전환합니다.
             GameManager.Instance.UpdateGameState(GameState.Battle);
 
-            // 6. 이벤트가 계속 남아있으면 다음 씬 로드 시 또 호출되므로 등록을 해제합니다.
+            // 7. 이벤트가 계속 남아있으면 다음 씬 로드 시 또 호출되므로 등록을 해제합니다.
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

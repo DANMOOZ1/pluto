@@ -27,7 +27,6 @@ public class UnitManager : Singleton<UnitManager>
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
         GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;
-        GameManager.Instance.OnBattleStateChange += TurnSetting;
         GameManager.Instance.OnBattleStateChange += NextUnit;
     }
 
@@ -38,7 +37,6 @@ public class UnitManager : Singleton<UnitManager>
             //구독 취소 : 램 누수 방지
             GameManager.Instance.OnBattleStateChange -= UnitMovePrepare;
             GameManager.Instance.OnBattleStateChange -= UnitAttackPrepare;
-            GameManager.Instance.OnBattleStateChange -= TurnSetting;
             GameManager.Instance.OnBattleStateChange -= NextUnit;
         }
     }
@@ -66,7 +64,7 @@ public class UnitManager : Singleton<UnitManager>
     }
 
     //다음 유닛으로 이동 혹은 승패 여부를 결정
-    public void NextUnit()
+    private void NextUnit()
     {
         if (GameManager.Instance.battleState == BattleState.Next)
         {
@@ -89,8 +87,8 @@ public class UnitManager : Singleton<UnitManager>
                     GenerateUnitsByEntryList(DataManager.Instance.StageData.WavesInStage[currWaveIndex + 1]);
                     print(currWaveIndex + 1+"번쨰 웨이브 소환");
                     DataManager.Instance.waveIndex = currWaveIndex + 1;
-                    GameManager.Instance.UpdateBattleState(BattleState.Setting);
-                    
+                    TurnSetting();
+
                 } else GameManager.Instance.UpdateGameState(GameState.Victory);//남아 있는 웨이브가 없는 경우 Victory로 전환
             }
             else
@@ -100,7 +98,7 @@ public class UnitManager : Singleton<UnitManager>
                 else
                 {
                     // 한 사이클이 지나면 spdsort를 다시 함
-                    GameManager.Instance.UpdateBattleState(BattleState.Setting);
+                    TurnSetting();
                     return;
                 }
                 
@@ -113,29 +111,26 @@ public class UnitManager : Singleton<UnitManager>
     }
     
     //유닛의 턴 순서 정하는 함수, BattleState : Setting
-    private void TurnSetting()
+    public void TurnSetting()
     {
-        if (GameManager.Instance.battleState == BattleState.Setting)
+        spdSortUnits.Clear();
+        
+        // 1. 두 리스트를 하나로 합치기
+        List<Unit> combinedList = new List<Unit>();
+        combinedList.AddRange(allyUnits);
+        combinedList.AddRange(enemyUnits);
+
+        // 2. 합병 정렬 수행
+        spdSortUnits = MergeSort(combinedList);
+
+        selectedUnit = spdSortUnits[0];
+        selectedUnitIndex = 0;
+
+        foreach (Unit unit in spdSortUnits)
         {
-            spdSortUnits.Clear();
-            
-            // 1. 두 리스트를 하나로 합치기
-            List<Unit> combinedList = new List<Unit>();
-            combinedList.AddRange(allyUnits);
-            combinedList.AddRange(enemyUnits);
-
-            // 2. 합병 정렬 수행
-            spdSortUnits = MergeSort(combinedList);
-    
-            selectedUnit = spdSortUnits[0];
-            selectedUnitIndex = 0;
-
-            foreach (Unit unit in spdSortUnits)
-            {
-                print(unit.unitName +":"+unit.cellPosition.ToString() );
-            }
-            GameManager.Instance.UpdateBattleState(BattleState.Move);
+            print(unit.unitName +":"+unit.cellPosition.ToString() );
         }
+        GameManager.Instance.UpdateBattleState(BattleState.Move);
     }
 
     private List<Unit> MergeSort(List<Unit> list)
