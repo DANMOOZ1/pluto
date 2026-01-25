@@ -131,7 +131,7 @@ public class InputHandler : MonoBehaviour
             worldPosTranslated = worldPosTranslated - new Vector3Int(5, 5, 0); // 왜인진 모르겠는데 isometric z as y 로 설정하면 x,y cell pos가 +5 됨
             worldPosTranslated.z = i;
         
-            if (TileMapManager.Instance.dataOnTiles.ContainsKey(worldPosTranslated))
+            if (TileMapManager.Instance.cellPosGraph.ContainsKey(worldPosTranslated))
             {
                 foundPos = worldPosTranslated;
                 // 계속 순회하면서 더 높은 z값을 가진 타일을 찾음

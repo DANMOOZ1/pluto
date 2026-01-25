@@ -67,8 +67,26 @@ public class TileMapManager : Singleton<TileMapManager>
         {
             cellPosGraph[v] = new Node { x = v[0], y = v[1], z = v[2] };
         }
-
-        // 3단계: 이웃 노드 연결
+        //3단계: cellPosGraph에서 타일위에 바로 타일이 있는 경우에는 해당 타일 제거
+        List<Vector3Int> blockedNodes = new List<Vector3Int>();
+    
+        foreach (Vector3Int v in cellPosGraph.Keys)
+        {
+            Vector3Int upperPos = new Vector3Int(v.x, v.y, v.z + 1);
+            if (dataOnTiles.ContainsKey(upperPos))
+            {
+                blockedNodes.Add(v);
+            }
+        }
+    
+        Debug.Log($"총 {blockedNodes.Count}개의 차단된 노드 제거");
+    
+        foreach (Vector3Int v in blockedNodes)
+        {
+            cellPosGraph.Remove(v);
+        }
+        
+        // 4단계: 이웃 노드 연결
         Vector3Int[] xyDirections = new Vector3Int[]
         {
             new Vector3Int(-1, 0, 0),
@@ -87,7 +105,8 @@ public class TileMapManager : Singleton<TileMapManager>
             new Vector3Int(0, 0, -1),
             new Vector3Int(0, 0, 0)
         };
-        foreach (Vector3Int v in dataOnTiles.Keys)
+        
+        foreach (Vector3Int v in cellPosGraph.Keys)
         {
             foreach (Vector3Int zDir in zDirections)
                 foreach (Vector3Int xyDir in xyDirections)
@@ -95,27 +114,20 @@ public class TileMapManager : Singleton<TileMapManager>
                     Vector3Int newV = v + xyDir + zDir;
                     if (cellPosGraph.ContainsKey(newV))
                     {
-                        if (zDir.z == 1)//올라갈때 도착 타일이 에스컬레이터 면
+                        // 에스컬레이터 체크
+                        if (zDir.z == 1)
                         {
                             if (dataOnTiles[newV].escalator == false) continue;
-                        }else if (zDir.z == -1)//내려갈때 출발 타일이 에스컬레이터 면
+                        }
+                        else if (zDir.z == -1)
                         {
                             if (dataOnTiles[v].escalator == false) continue;
                         }
+                    
                         cellPosGraph[v].neighbours.Add(cellPosGraph[newV]);
                     }
                 }
         }
-
-        // 모든 타일 보는 코드(디버깅 용)
-        /*foreach (Vector3Int v in cellPosGraph.Keys)
-        {
-            print("main node:"+v);
-            foreach (Node n in cellPosGraph[v].neighbours)
-            {
-                print(n.x+" "+n.y+" "+n.z);
-            }
-        }*/
     } 
 
     //입력 : cell 좌표계 기반으로 해당 타일의 이동 코스트를 출력
@@ -124,7 +136,7 @@ public class TileMapManager : Singleton<TileMapManager>
     }
 
     // cell 좌표를 입력 받아 해당 목적지까지의 경로를 작성함(unit 클래스 자체의 currentPath 에 접근하여 작성)
-    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos, TileCheckRule movementRule){
+    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos, TileCheckRule movementRule, bool ignoreUnit = false){
         if (!cellPosGraph.ContainsKey(targetPos)) {
             Debug.LogWarning($"목표 위치 {targetPos}에 타일이 없습니다.");
             return null;
@@ -188,10 +200,9 @@ public class TileMapManager : Singleton<TileMapManager>
                 Vector3Int toPos = new Vector3Int(v.x, v.y, v.z);
                 
                 // 행마법 체크: 이 이동이 허용되는지 확인
-                if (!movementRule.TileCheckRuleFunc(fromPos, toPos) || UnitManager.Instance.UnitOnTile(toPos))
-                {
-                    continue; // 행마법에 맞지 않으면 스킵
-                }
+                if (!movementRule.TileCheckRuleFunc(fromPos, toPos)) continue;
+                // 유닛이 해당 이동 경로에 존재하는 지 확인, ignoreUnit이 True면 확인 안함
+                if(!ignoreUnit && UnitManager.Instance.UnitOnTile(toPos)) continue;
                 
                 float alt = dist[u] + CostToEnterTile(toPos);
                 if (Mathf.Abs(fromPos.x - toPos.x) + Mathf.Abs(fromPos.y - toPos.y) >= 2) alt += 0.000001f;
@@ -277,7 +288,7 @@ public class TileMapManager : Singleton<TileMapManager>
     {
         List<Vector3Int> dist = new List<Vector3Int>();
 
-        foreach (Vector3Int v in dataOnTiles.Keys)
+        foreach (Vector3Int v in cellPosGraph.Keys)
         {
             if (Rule.TileCheckRuleFunc(v, pos)) dist.Add(v);
         }

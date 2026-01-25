@@ -96,8 +96,14 @@ public class UnitManager : Singleton<UnitManager>
             }
             else
             {
+                // 한 사이클이 지나면 spdsort를 다시 함
                 if(selectedUnitIndex < spdSortUnits.Count-1) selectedUnitIndex++;
-                else selectedUnitIndex = 0;
+                else
+                {
+                    GameManager.Instance.UpdateBattleState(BattleState.Setting);
+                    return;
+                }
+                
                 selectedUnit = spdSortUnits[selectedUnitIndex];
                 
                 GameManager.Instance.UpdateBattleState(BattleState.Move);
@@ -111,6 +117,8 @@ public class UnitManager : Singleton<UnitManager>
     {
         if (GameManager.Instance.battleState == BattleState.Setting)
         {
+            spdSortUnits.Clear();
+            
             // 1. 두 리스트를 하나로 합치기
             List<Unit> combinedList = new List<Unit>();
             combinedList.AddRange(allyUnits);
@@ -206,7 +214,31 @@ public class UnitManager : Singleton<UnitManager>
             return unit1.isAlly;
         }
 
-        // 둘 다 아군이거나 둘 다 적이면 순서 유지
+        //둘 다 적이면 가까운 아군간의 거리가 가까운걸 우선으로 설정
+        if (unit1.isAlly == false && unit2.isAlly == false)
+        {
+            Unit target1 = unit1.gameObject.GetComponent<EnemyAI>().FindNearestTarget();
+            Unit target2 = unit2.gameObject.GetComponent<EnemyAI>().FindNearestTarget();
+            
+            //둘다 타겟을 못찾은 경우 unit1 먼저
+            if(target1 == null && target2 == null) return true;
+            if(target1 == null) return false;
+            if(target2 == null) return true;
+            
+            //둘다 타겟을 찾은 경우 
+            List<Node> path1 = TileMapManager.Instance.GeneratePathTo(unit1.cellPosition,target1.cellPosition,unit1.movementRule,true);
+            List<Node> path2 = TileMapManager.Instance.GeneratePathTo(unit2.cellPosition,target2.cellPosition,unit2.movementRule,true);
+            
+            if(path1 == null && path2 == null) return true;
+            if(path1 == null) return false;
+            if(path2 == null) return true;
+            
+            //거리가 가까운것을 우선으로 함, 동일할 시 unit1를 우선으로
+            if (path1.Count <= path2.Count) return true;
+            return false;
+        }
+        
+        //둘다 아군이면 unit1을 먼저
         return true;
     }
     

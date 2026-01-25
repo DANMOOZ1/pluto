@@ -36,7 +36,11 @@ public class EnemyAI : MonoBehaviour
         if (TryMoveAndAttack())
             return;
 
-        Debug.Log("적 공격 불가");
+        if (TryMove())
+            return;
+        
+        
+        Debug.Log("이동 불가");
         TransitionToNextState();
     }
 
@@ -104,7 +108,7 @@ public class EnemyAI : MonoBehaviour
         
         // 적을 공격 가능한 타일을 찾기
         List<Vector3Int> atkTiles = new List<Vector3Int>();
-        foreach (Vector3Int tilePos in TileMapManager.Instance.dataOnTiles.Keys)
+        foreach (Vector3Int tilePos in TileMapManager.Instance.cellPosGraph.Keys)
         {
             if (mySelf.atkRule.TileCheckRuleFunc(tilePos, targetPos)) atkTiles.Add(tilePos);
         }
@@ -136,6 +140,52 @@ public class EnemyAI : MonoBehaviour
         return bestPos;
     }
 
+    
+    private bool TryMove()
+    {
+        Vector3Int myPos = mySelf.cellPosition;
+        List<Vector3Int> movementTiles = new List<Vector3Int>();
+        foreach (Vector3Int tilePos in TileMapManager.Instance.cellPosGraph.Keys)
+        {
+            if(mySelf.movementRule.TileCheckRuleFunc(myPos, tilePos)) movementTiles.Add(tilePos);
+        }
+
+        List<Vector3Int> moveableTiles = new List<Vector3Int>();
+        foreach (Vector3Int tilePos in movementTiles)
+        {
+            if(TileMapManager.Instance.GeneratePathTo(myPos,tilePos,mySelf.movementRule) != null) moveableTiles.Add(tilePos);
+        }
+
+        int minDistance = int.MaxValue;
+        Vector3Int? bestPos = null;
+        Vector3Int targetPos = target.cellPosition;
+        
+        foreach (Vector3Int movePos in moveableTiles)
+        {
+            List<Node> path = TileMapManager.Instance.GeneratePathTo(movePos, targetPos, mySelf.movementRule, true);
+            if (path == null) continue;
+
+            int distance = path.Count;
+            if (distance < minDistance)
+            {
+                bestPos = movePos;
+                minDistance = distance;
+            }
+        }
+
+        if (bestPos.HasValue)
+        {
+            mySelf.StartMoving(bestPos.Value);
+            print(bestPos.Value+"ㄱㄱ");
+            foreach (Node n in TileMapManager.Instance.GeneratePathTo(bestPos.Value, targetPos, mySelf.movementRule, true))
+            {
+                print(n.x + "," + n.y + "," + n.z);
+            }
+            return true;
+        }
+        
+        return false;
+    }
     private bool CanAttackFrom(Vector3Int fromPos, Vector3Int targetPos)
     {
         return mySelf.atkRule.TileCheckRuleFunc(fromPos, targetPos);
