@@ -22,8 +22,9 @@ public class UnitManager : Singleton<UnitManager>
     public Unit selectedEnemy;
     
     
-    void Awake()
+    protected override void Awake()
     { 
+        base.Awake();//싱글톤 Awake 실행
         //구독
         GameManager.Instance.OnBattleStateChange += UnitMovePrepare;
         GameManager.Instance.OnBattleStateChange += UnitAttackPrepare;

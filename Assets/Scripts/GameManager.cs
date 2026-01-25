@@ -30,9 +30,11 @@ public class GameManager : SingletonPersistence<GameManager>
             case GameState.UnitSetUp:
                 break;
             case GameState.Victory:
+                gameState = GameState.Menu;
                 SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Defeat:
+                gameState = GameState.Menu;
                 SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Debug:
