@@ -20,7 +20,7 @@ public class EnemyAI : MonoBehaviour
         print(mySelf.unitName+"------------------------------");
         
         canAttack = false;
-        target = FindNearestTarget();
+        target = FindNearestTargetInDetectionRange();
         
         if (target == null)
         {
@@ -78,7 +78,7 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
 
-    public Unit FindNearestTarget()
+    public Unit FindNearestTargetInDetectionRange()
     {
         List<Unit> enemyUnits = UnitManager.Instance.allyUnits;
         if (enemyUnits == null || enemyUnits.Count == 0)
@@ -99,6 +99,28 @@ public class EnemyAI : MonoBehaviour
         }
 
         return minDistance <= detectionRange ? nearestTarget : null;
+    }
+    public Unit FindNearestTarget()
+    {
+        List<Unit> enemyUnits = UnitManager.Instance.allyUnits;
+        if (enemyUnits == null || enemyUnits.Count == 0)
+            return null;
+
+        Unit nearestTarget = null;
+        float minDistance = float.MaxValue;
+        Vector3Int myPos = mySelf.cellPosition;
+
+        foreach (Unit enemy in enemyUnits)
+        {
+            float distance = Vector3Int.Distance(enemy.cellPosition, myPos);
+            if (distance < minDistance)
+            {
+                nearestTarget = enemy;
+                minDistance = distance;
+            }
+        }
+
+        return nearestTarget;
     }
 
     private List<Vector3Int> FindAttackableTilesAfterMove(Vector3Int targetPos)

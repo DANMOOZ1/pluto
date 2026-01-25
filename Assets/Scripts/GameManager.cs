@@ -72,7 +72,6 @@ public enum GameState
 
 public enum BattleState
 {
-    Setting,
     Default,
     Move,
     Combat,

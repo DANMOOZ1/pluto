@@ -238,8 +238,8 @@ public class InputHandler : MonoBehaviour
 
     public void DefaultButton()
     {
+        TileMapManager.Instance.ClearTileMap(UnitManager.Instance.selectedUnit.accessibleTiles); 
         GameManager.Instance.UpdateBattleState(BattleState.Default);
-
     }
 
 }

@@ -202,6 +202,7 @@ public class UnitManager : Singleton<UnitManager>
         {
             int distance1 = GetDistanceToNearestAlly(unit1);
             int distance2 = GetDistanceToNearestAlly(unit2);
+            print(unit1.cellPosition.ToString() + distance1.ToString() + unit2.cellPosition.ToString() + distance2.ToString());
             return distance1 <= distance2;
         }
 
