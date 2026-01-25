@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class TitleManager : MonoBehaviour
 {
@@ -27,16 +28,8 @@ public class TitleManager : MonoBehaviour
         // 4. 현재 Scene이 Stage인지 확인
         if (scene.name == "Stage1")
         {
-            // 5. 각종 데이터 (tileData, graph, unit, spdSortUnit..) 로드 
-            GameManager.Instance.StageSetUp();
-            
-            // 6. 이제 씬에 타일맵이 존재하므로 안전하게 배틀 상태로 전환합니다.
-            GameManager.Instance.UpdateGameState(GameState.Battle);
-            
-            GameManager.Instance.UpdateBattleState(BattleState.Move);
-
-            // 7. 이벤트가 계속 남아있으면 다음 씬 로드 시 또 호출되므로 등록을 해제합니다.
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded; // 중복 방지를 위해 먼저 해제
+            GameManager.Instance.StartCoroutine(GameManager.Instance.InitializeStageSequence());
         }
     }
 }
