@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonPersistence<GameManager>
 {
@@ -31,8 +32,18 @@ public class GameManager : SingletonPersistence<GameManager>
             case GameState.UnitSetUp:
                 break;
             case GameState.Victory:
+                if (managers != null)
+                {
+                    Destroy(managers);
+                }
+                SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Defeat:
+                if (managers != null)
+                {
+                    Destroy(managers);
+                }
+                SceneManager.LoadScene("Scenes/TitleScene");
                 break;
             case GameState.Debug:
                 break;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // 추가해야 할 것
@@ -80,11 +81,11 @@ public class UIManager : Singleton<UIManager>
 
     public void Start()
     {
-
         // 구독
         GameManager.Instance.OnGameStateChange += GameStateUI;
         GameManager.Instance.OnBattleStateChange += BattleStateUI;
     }
+
     public void GameStateUI()
     {
         IsAllyToggle.SetActive(false);
@@ -102,8 +103,10 @@ public class UIManager : Singleton<UIManager>
             case GameState.UnitSetUp:
                 break;
             case GameState.Victory:
+                //BackToTitle();
                 break;
             case GameState.Defeat:
+                //BackToTitle();
                 break;
             case GameState.Debug:
                 UIDebug();
@@ -176,6 +179,7 @@ public class UIManager : Singleton<UIManager>
                 // 우하단 UI 띄우기
                 RightUI();
             }
+
         }
 
         // 머리 위 UI 띄우기
@@ -606,6 +610,11 @@ public void LeftUI()
 
         }
     }
+
+    //public void BackToTitle()
+    //{
+    //    SceneManager.LoadScene("Scenes/TitleScene");
+    //}
 }
 
 
