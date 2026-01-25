@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Rendering.CameraUI;
 
 public class UnitManager : Singleton<UnitManager>
 {
