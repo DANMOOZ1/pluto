@@ -24,7 +24,7 @@ public class DataManager : SingletonPersistence<DataManager>
     }
     private StageData LoadStageData(string fileName)
     {
-        string path = Path.Combine(Application.dataPath, "StageData/"+fileName+".json");
+        string path = Path.Combine(Application.streamingAssetsPath, "StageData/"+fileName+".json");
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
@@ -39,7 +39,7 @@ public class DataManager : SingletonPersistence<DataManager>
     
     public void SaveStageData(string fileName)
     {
-        string path  = Path.Combine(Application.dataPath, "StageData/"+fileName+".json");
+        string path  = Path.Combine(Application.streamingAssetsPath, "StageData/"+fileName+".json");
         string data = JsonUtility.ToJson(StageData);
         
         print("저장 경로: " + path);

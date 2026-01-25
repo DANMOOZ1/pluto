@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/UnitManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StageData.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StageData/Stage1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StageData/Stage1.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +63,17 @@
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.2f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\Administrator\Documents\GitHub\pluto -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\Administrator\Documents\GitHub\pluto" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <method v="2" />
+    </configuration>
+    <configuration name="독립실행형 플레이어" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Build\My project (2).exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Administrator\Documents\GitHub\pluto\Build" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
@@ -139,7 +160,7 @@
       <workItem from="1769245167536" duration="8576000" />
       <workItem from="1769317300058" duration="16663000" />
       <workItem from="1769340340269" duration="4000" />
-      <workItem from="1769340474313" duration="6046000" />
+      <workItem from="1769340474313" duration="7656000" />
     </task>
     <servers />
   </component>

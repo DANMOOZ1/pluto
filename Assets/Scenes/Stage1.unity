@@ -12146,6 +12146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   units:
     _serializedList:
+    - Key: StupidPawn
+      Value: {fileID: 1584436410610593183, guid: 5becb922a2870e04a83ce276833f8cb5, type: 3}
     - Key: Pawn
       Value: {fileID: 1584436410610593183, guid: 1c70a59dcf5a6cb48a6d74325f9b2ab9, type: 3}
     - Key: Rook
