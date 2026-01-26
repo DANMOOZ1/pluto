@@ -26,7 +26,7 @@ public class TitleManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 4. 현재 Scene이 Stage인지 확인
-        if (scene.name == "Stage1")
+        if (scene.name.Contains("Stage"))
         {
             SceneManager.sceneLoaded -= OnSceneLoaded; // 중복 방지를 위해 먼저 해제
             GameManager.Instance.StartCoroutine(GameManager.Instance.InitializeStageSequence());

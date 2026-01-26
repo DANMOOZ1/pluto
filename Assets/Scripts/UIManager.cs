@@ -92,7 +92,7 @@ public class UIManager : Singleton<UIManager>
     // 유닛 턴인가요?
     private bool isPlayerTurn;
 
-    public void Start()
+    protected override void Awake()
     {
         // 구독
         GameManager.Instance.OnGameStateChange += GameStateUI;

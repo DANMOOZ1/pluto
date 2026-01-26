@@ -12,7 +12,13 @@ public class GameManager : SingletonPersistence<GameManager>
     public event Action OnBattleStateChange;
     private void Start()
     {
-        UpdateGameState(GameState.Menu);
+        if (SceneManager.GetActiveScene().name == "TitleScene")
+            gameState = GameState.Menu;
+        else if (SceneManager.GetActiveScene().name.Contains("Stage"))
+        {
+            StartCoroutine(StartDebugMod()); // Debug 모드 실행
+            //StartCoroutine(InitializeStageSequence()); // stage에서 바로 배틀 실행
+        }       
     }
 
     public void UpdateGameState(GameState newGameState)
@@ -24,6 +30,7 @@ public class GameManager : SingletonPersistence<GameManager>
             case GameState.Menu:
                 break;
             case GameState.Battle:
+                UpdateBattleState(BattleState.Move);
                 break;
             case GameState.PositionSetUp:
                 break;
@@ -52,13 +59,23 @@ public class GameManager : SingletonPersistence<GameManager>
         OnBattleStateChange?.Invoke();
     }
 
-    public void StageSetUp()
+    private void StageSetUp()
     {
         TileMapManager.Instance.GenerateTileData(); //tilemap을 읽고 graph를 생성
         DataManager.Instance.LoadUnits(); //stagedata(json)을 읽고 유닛을 생성(wave 1)
         UnitManager.Instance.TurnSetting(); //unitmanager의 Turnsetting으로 이어짐-> 게임 시작(Move)
     }
 
+    private IEnumerator StartDebugMod()
+    {
+        TileMapManager.Instance.GenerateTileData();
+        DataManager.Instance.LoadUnits();
+        
+        yield return null;
+        
+        UIManager.Instance.create();
+        UpdateGameState(GameState.Debug);//-> UIManager의 UIDebug로 이어짐
+    }
     public IEnumerator InitializeStageSequence()
     {
         // 1. 타일맵 및 유닛 생성 (데이터 안착)
@@ -71,7 +88,6 @@ public class GameManager : SingletonPersistence<GameManager>
 
         // 3. 상태 업데이트 및 UI 갱신
         UpdateGameState(GameState.Battle);
-        UpdateBattleState(BattleState.Move);
         UIManager.Instance.BattleStateUI();
     }
 }
