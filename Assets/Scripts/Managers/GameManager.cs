@@ -16,8 +16,10 @@ public class GameManager : SingletonPersistence<GameManager>
             gameState = GameState.Menu;
         else if (SceneManager.GetActiveScene().name.Contains("Stage"))
         {
-            StartCoroutine(StartDebugMod()); // Debug 모드 실행
-            //StartCoroutine(InitializeStageSequence()); // stage에서 바로 배틀 실행
+            //필요한 거 주석 벗기고 쓰시면 됩니다!(안쓰는거 주석 ㄱㄱ)
+            
+            //StartCoroutine(StartDebugMod()); // Debug 모드 실행
+            StartCoroutine(InitializeStageSequence()); // stage에서 바로 배틀 실행
         }       
     }
 

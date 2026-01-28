@@ -7,20 +7,14 @@ public class RoshuMovementRule : TileCheckRule
     public RoshuMovementRule()
     {
         teleportTypeMovement = false;
+        mov = 1;
     }
-    public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to)
+    public override bool TileCheckRuleFunc(Vector3Int from, Vector3Int to,List<Node> path = null)
     {
         int dx = Mathf.Abs(to.x - from.x);
         int dy = Mathf.Abs(to.y - from.y);
-        int dz = to.z - from.z;
-
-        if (dz != 0)
-        {
-            if(dz == 1 && TileMapManager.Instance.dataOnTiles[to].escalator) return dx == 1 && dy == 1;
-            if(dz == -1 && TileMapManager.Instance.dataOnTiles[from].escalator) return dx == 1 && dy == 1;
-            return false;
-        }
-        return (dx == 1 && dy == 1) || (dx == 0 && dy == 0);
+        
+        return (dx == 1 && dy == 1);
     }
 }
 

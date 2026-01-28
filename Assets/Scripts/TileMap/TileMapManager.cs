@@ -131,7 +131,7 @@ public class TileMapManager : Singleton<TileMapManager>
     }
 
     // cell 좌표를 입력 받아 해당 목적지까지의 경로를 작성함(unit 클래스 자체의 currentPath 에 접근하여 작성)
-    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos, TileCheckRule movementRule, bool ignoreUnit = false){
+    public List<Node> GeneratePathTo(Vector3Int currPos,Vector3Int targetPos, TileCheckRule movementRule = null, bool ignoreUnit = false){
         if (!cellPosGraph.ContainsKey(targetPos)) {
             Debug.LogWarning($"목표 위치 {targetPos}에 타일이 없습니다.");
             return null;
@@ -195,7 +195,8 @@ public class TileMapManager : Singleton<TileMapManager>
                 Vector3Int toPos = new Vector3Int(v.x, v.y, v.z);
                 
                 // 행마법 체크: 이 이동이 허용되는지 확인
-                if (!movementRule.TileCheckRuleFunc(fromPos, toPos)) continue;
+                if (movementRule != null)
+                    if (!movementRule.TileCheckRuleFunc(fromPos, toPos)) continue;
                 // 유닛이 해당 이동 경로에 존재하는 지 확인, ignoreUnit이 True면 확인 안함
                 if(!ignoreUnit && UnitManager.Instance.UnitOnTile(toPos)) continue;
                 
@@ -231,34 +232,30 @@ public class TileMapManager : Singleton<TileMapManager>
         //RNG에 해당하는 z좌표를 고려하지 않은 이동가능한 타일을 가져옴
         List<Vector3Int> dist = ReturnInteractiveTiles(pos, movementRule);
         List<Vector3Int> returnDist = new List<Vector3Int>();
+
+        //MovementRule이 해당 위치로 순간이동하는 경우 return
+        if (movementRule.teleportTypeMovement)
+        {
+            DrawTile(ReachableTilePrefab,ReachableTilePrefab2,dist);
+            return dist;
+        }
         
+        //그 외의 경우
         foreach (Vector3Int v in dist)
         {
-            List<Node> path = GeneratePathTo(pos, v, movementRule);
-            if (path != null)
-            {
-                if (movementRule.teleportTypeMovement) // 나이트 처럼 텔레포팅하면서 움직이는 경우
-                {
-                    returnDist.Add(v);
-                    continue;
-                }
-                
-                //RNG안에서 걸어서 이동하는 경우
-                bool isPathValid = true;
-                foreach (Node n in path)
-                {
-                    if (!dist.Contains(new Vector3Int(n.x, n.y, n.z)))
-                    {
-                        isPathValid = false;
-                        break;
-                    }
-                }
+            List<Node> path = GeneratePathTo(pos, v);
+            if (path == null) continue;
+            if (path.Count == 0) continue;
 
-                if (isPathValid)
+            int deltaSum = Mathf.Abs(path[0].x - pos.x) + Mathf.Abs(path[0].y - pos.y);
+            
+            if (path.Count > 1)
+                for(int i = 0; i < path.Count-1; i++)
                 {
-                    returnDist.Add(v);
+                    deltaSum += Mathf.Abs(path[i+1].x - path[i].x) + Mathf.Abs(path[i+1].y - path[i].y);
                 }
-            }
+            
+            if(deltaSum <= movementRule.mov) returnDist.Add(v);
         }
 
         DrawTile(ReachableTilePrefab,ReachableTilePrefab2,returnDist);

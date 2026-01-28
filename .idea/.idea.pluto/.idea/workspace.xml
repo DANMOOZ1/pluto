@@ -6,11 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="9ec369ce-6ef1-4f46-b97f-14c0b271e971" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pluto/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stage1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/StageData/Stage1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/StageData/Stage1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMap/TileMapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/LunaAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/LunaAttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/PawnAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/PawnAttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/AttackRuleScripts/RoshuAttackRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/LunaMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/PawnMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/PawnMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/MovementRuleScripts/RoshuMovementRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit/TileCheckRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit/TileCheckRule.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,6 +175,7 @@
       <workItem from="1769351586595" duration="12000" />
       <workItem from="1769351668164" duration="255000" />
       <workItem from="1769423032260" duration="1867000" />
+      <workItem from="1769593285480" duration="3216000" />
     </task>
     <servers />
   </component>
